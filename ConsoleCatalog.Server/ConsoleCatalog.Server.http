@@ -1,0 +1,6 @@
+@ConsoleCatalog.Server_HostAddress = http://localhost:5162
+
+GET {{ConsoleCatalog.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,72 @@
+.background {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+
+    .playstation-solo-background, .xbox-solo-background {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .xbox,
+    .playstation {
+        cursor: pointer;
+
+        .playstation-logo,
+        .xbox-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+}
+
+
+@media screen and (max-width: 1000px) {
+
+    .background {
+        flex-direction: column;
+
+        .xbox,
+        .playstation {
+            height: 50%;
+            width: 100%;
+            transition: height 1.5s ease-in-out;
+        }
+
+        .playstation:hover,
+        .xbox:hover {
+            height: 70% !important;
+        }
+
+        .playstation:hover+.xbox,
+        .playstation:has(+ .xbox:hover) {
+            height: 30% !important;
+        }
+    }
+}
+
+@media screen and (min-width: 1000px) {
+
+    .background {
+
+        .xbox,
+        .playstation {
+            height: 100%;
+            width: 50%;
+            transition: width 1.5s ease-in-out;
+        }
+
+        .playstation:hover,
+        .xbox:hover {
+            width: 70% !important;
+        }
+
+        .playstation:hover+.xbox,
+        .playstation:has(+ .xbox:hover) {
+            width: 30% !important;
+        }
+    }
+}
