@@ -4,7 +4,8 @@
     width: 100%;
     height: 100%;
 
-    .playstation-solo-background, .xbox-solo-background {
+    .playstation-solo-background,
+    .xbox-solo-background {
         width: 100%;
         height: 100%;
         object-fit: cover;
