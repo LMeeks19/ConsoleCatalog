@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 
-interface Forecast {
-    date: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
+interface User {
+    id: string;
+    username: string;
+    playstationGamertag: string;
+    xboxGamertag: string;
+    password: string;
 }
 
 function Forecast() {
-    const [forecasts, setForecasts] = useState<Forecast[]>();
+    const [forecasts, setForecasts] = useState<User[]>();
 
     useEffect(() => {
         populateWeatherData();
@@ -19,19 +20,22 @@ function Forecast() {
         : <table className="table table-striped" aria-labelledby="tabelLabel">
             <thead>
                 <tr>
-                    <th style={{'color':'black'}}>Date</th>
-                    <th style={{'color':'black'}}>Temp. (C)</th>
-                    <th style={{'color':'black'}}>Temp. (F)</th>
-                    <th style={{'color':'black'}}>Summary</th>
+                    <th>Id</th>
+                    <th>Username</th>
+                    <th>Playstation Gamertag</th>
+                    <th>Xbox Gamertag</th>
+                    <th>Password</th>
                 </tr>
             </thead>
             <tbody>
                 {forecasts.map(forecast =>
-                    <tr key={forecast.date}>
-                        <td style={{'color':'black'}}>{forecast.date}</td>
-                        <td style={{'color':'black'}}>{forecast.temperatureC}</td>
-                        <td style={{'color':'black'}}>{forecast.temperatureF}</td>
-                        <td style={{'color':'black'}}>{forecast.summary}</td>
+                    <tr key={forecast.id}>
+                        <td>{forecast.id}</td>
+                        <td>{forecast.username}</td>
+                        <td>{forecast.playstationGamertag}</td>
+                        <td>{forecast.xboxGamertag}</td>
+                        <td>{forecast.password}</td>
+
                     </tr>
                 )}
             </tbody>

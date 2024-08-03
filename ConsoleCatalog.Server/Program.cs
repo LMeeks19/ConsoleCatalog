@@ -1,3 +1,7 @@
+using ConsoleCatalog.Server.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +10,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<DatabaseContext>(options => 
+    options.UseSqlServer("Server=localhost;Database=ConsoleCatalogDB;Trusted_Connection=True;TrustServerCertificate=True;"));
 
 var app = builder.Build();
 

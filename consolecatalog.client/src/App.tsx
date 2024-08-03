@@ -1,12 +1,11 @@
-import Background from "./components/background";
+import { RouterProvider } from "react-router-dom";
 import "./App.css";
-import Login from "./components/login";
+import { router } from "./components/router";
 
 function App() {
   return (
     <div className="page">
-      <Background />
-      <Login />
+      <RouterProvider router={router} />
     </div>
   );
 }
