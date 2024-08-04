@@ -2,8 +2,11 @@
   "dependencies": {
     "bootstrap": "^5.3.3",
     "framer-motion": "^11.3.21",
+    "i": "^0.3.7",
+    "psn-api": "^2.10.1",
     "react-bootstrap": "^2.10.4",
     "react-router-dom": "^6.26.0",
+    "recoil": "^0.7.7",
     "vite": "^5.3.5"
   },
   "devDependencies": {

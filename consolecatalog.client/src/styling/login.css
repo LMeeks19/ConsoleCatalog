@@ -6,7 +6,6 @@
     box-shadow: 0 0 25px 0 black;
     border-radius: 25px;
     width: 800px;
-    z-index: 2;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -58,27 +57,37 @@
 
         .login-form-title {
             text-align: center;
-            margin: 20px 0 20px 0;
-        }
-
-        .register-form-title {
-            text-align: center;
             margin: 20px 0 0 0;
         }
 
         .help-text {
             text-align: center;
             font-size: large;
+
+            &.error {
+                color: red;
+            }
         }
 
         .login-form-content {
             display: flex;
             flex-direction: column;
 
-            label {
-                margin: 0 20px 10px 20px;
+            .text {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
                 font-size: large;
                 font-weight: 600;
+
+                label {
+                    margin: 0 20px 0 20px;
+                }
+
+                .error-text {
+                    margin: 0 20px 0 20px;
+                    color: red;
+                }
             }
 
             input[type=password],
