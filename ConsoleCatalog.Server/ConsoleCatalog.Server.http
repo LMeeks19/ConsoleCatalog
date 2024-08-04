@@ -1,6 +1,9 @@
 @ConsoleCatalog.Server_HostAddress = http://localhost:5162
 
-GET {{ConsoleCatalog.Server_HostAddress}}/weatherforecast/
+
+GET {{ConsoleCatalog.Server_HostAddress}}/user/
 Accept: application/json
 
-###
+POST {{ConsoleCatalog.Server_HostAddress}}/user/
+Accept: application/json
+
