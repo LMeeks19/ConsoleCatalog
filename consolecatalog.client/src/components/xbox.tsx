@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userState } from "../functions/state";
 
-function XboxSoloBackground() {
+function Xbox() {
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
 
@@ -22,4 +22,4 @@ function XboxSoloBackground() {
   );
 }
 
-export default XboxSoloBackground;
+export default Xbox;
