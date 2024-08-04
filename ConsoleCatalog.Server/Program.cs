@@ -14,6 +14,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DatabaseContext>(options => 
     options.UseSqlServer("Server=localhost;Database=ConsoleCatalogDB;Trusted_Connection=True;TrustServerCertificate=True;"));
 
+builder.Services.AddScoped<IJSRuntime>();
+
 var app = builder.Build();
 
 app.UseDefaultFiles();
