@@ -1,0 +1,125 @@
+.login-container {
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    box-shadow: 0 0 25px 0 black;
+    border-radius: 25px;
+    width: 800px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    .form-buttons {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+
+        .form-button {
+            width: 50%;
+            border-bottom: 1px solid black;
+            padding: 20px;
+            text-align: center;
+            font-size: large;
+            font-weight: 600;
+            cursor: pointer;
+
+            &.active {
+                cursor: default !important;
+                box-shadow: 0 0 25px 0 black;
+            }
+        }
+
+        .form-button:first-child {
+            border-right: 0.5px solid black;
+            border-top-left-radius: 25px;
+
+            &.active {
+                background: linear-gradient(140deg, #018800, #1e5ddb);
+            }
+        }
+
+        .form-button:last-child {
+            border-left: 0.5px solid black;
+            border-top-right-radius: 25px;
+
+            &.active {
+                background: linear-gradient(140deg, #1e5ddb, #018800);
+            }
+        }
+    }
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 20px;
+
+        .login-form-title {
+            text-align: center;
+            margin: 20px 0 0 0;
+        }
+
+        .help-text {
+            text-align: center;
+            font-size: large;
+
+            &.error {
+                color: red;
+            }
+        }
+
+        .login-form-content {
+            display: flex;
+            flex-direction: column;
+
+            .text {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                font-size: large;
+                font-weight: 600;
+
+                label {
+                    margin: 0 20px 0 20px;
+                }
+
+                .error-text {
+                    margin: 0 20px 0 20px;
+                    color: red;
+                }
+            }
+
+            input[type=password],
+            input[type=text] {
+                height: 40px;
+                margin: 5px 20px 20px 20px;
+                background-color: transparent;
+                border: 1px solid black;
+                border-radius: 10px;
+                box-shadow: 0 0 25px 0 black;
+                padding-left: 10px;
+            }
+
+            input:focus-visible {
+                outline: black solid 2px;
+            }
+
+            button {
+                font-size: large;
+                font-weight: 600;
+                background: linear-gradient(140deg, #018800, #1e5ddb);
+                border: 1px solid black;
+                border-radius: 10px;
+                box-shadow: 0 0 25px 0 black;
+                margin: 20px;
+                height: 50px;
+                cursor: pointer;
+            }
+
+            button:disabled {
+                pointer-events: none;
+            }
+        }
+    }
+}

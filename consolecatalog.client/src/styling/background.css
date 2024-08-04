@@ -4,7 +4,8 @@
     width: 100%;
     height: 100%;
 
-    .playstation-solo-background, .xbox-solo-background {
+    .playstation-solo-background,
+    .xbox-solo-background {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -19,6 +20,48 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+    }
+}
+
+.top-bar {
+    background-color: #242424;
+    width: 100%;
+    height: 60px;
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    border-bottom: 1px solid #343434;
+    display: flex;
+    justify-content: space-between;
+
+    .top-bar-title {
+        margin: auto 0 auto 0;
+        padding-left: 40px;
+        font-weight: 500;
+        font-size: larger;
+        cursor: pointer;
+    }
+
+    .top-bar-title:hover {
+        color: rgb(180, 180, 180);
+    }
+
+    .top-bar-logo {
+        padding-right: 40px;
+        display: flex;
+        align-items: center;
+
+        .top-bar-icon {
+            width: 40px;
+            height: 40px;
+            mix-blend-mode: color;
+        }
+
+        .top-bar-text {
+            font-weight: 500;
+            font-size: larger;
+            margin-right: 10px;
         }
     }
 }
