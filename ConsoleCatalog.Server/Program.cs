@@ -1,6 +1,7 @@
 using ConsoleCatalog.Server.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.JSInterop;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +15,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DatabaseContext>(options => 
     options.UseSqlServer("Server=localhost;Database=ConsoleCatalogDB;Trusted_Connection=True;TrustServerCertificate=True;"));
 
-builder.Services.AddScoped<IJSRuntime>();
-
 var app = builder.Build();
+
+app.UseCors(s => s.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseDefaultFiles();
 app.UseStaticFiles();

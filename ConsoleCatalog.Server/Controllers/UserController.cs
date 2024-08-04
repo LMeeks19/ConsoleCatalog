@@ -1,6 +1,8 @@
 using ConsoleCatalog.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.JSInterop;
+using System.Text.Encodings.Web;
 
 namespace ConsoleCatalog.Server.Controllers
 {
@@ -11,18 +13,16 @@ namespace ConsoleCatalog.Server.Controllers
 
         private readonly ILogger<UserController> _logger;
         private readonly DatabaseContext _databaseContext;
-        private readonly IJSRuntime _jsRuntime;
 
-        public UserController(ILogger<UserController> logger, DatabaseContext databaseContext, IJSRuntime jsRuntime)
+        public UserController(ILogger<UserController> logger, DatabaseContext databaseContext)
         {
             _logger = logger;
             _databaseContext = databaseContext;
-            _jsRuntime = jsRuntime;
         }
 
         [HttpGet(Name = "GetUser")]
         [Route("{username}")]
-        public User Get(string username)
+        public User GetAsync(string username)
         {
             var user = _databaseContext.Users.SingleOrDefault(user => user.Username == username);
 

@@ -4,10 +4,27 @@ import "../styling/playstation.css";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userState } from "../functions/state";
+import { useEffect } from "react";
 
 function PlaystationSoloBackground() {
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
+
+  useEffect(() => {
+    async function getPSNUser() {
+      await fetch("http://localhost:3000/users-list/1")
+        .then((response) => response.json())
+        .then((usersList) => {
+          console.log(usersList);
+          // Write an action that you want you want to perform with the response
+        })
+        .catch((error) => {
+          console.log(error);
+          // Handle the error in case the request is not successfull
+        });
+    }
+    getPSNUser();
+  }, []);
 
   return (
     <div className="top-bar">
