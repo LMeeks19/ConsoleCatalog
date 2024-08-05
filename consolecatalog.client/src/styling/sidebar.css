@@ -1,0 +1,94 @@
+.side-bar {
+    background-color: #181818;
+    width: 0px;
+    height: calc(100% - 60px);
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 60px;
+    transition: all 1.5s ease-in-out;
+    display: flex;
+    justify-content: space-between;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    &.active {
+        width: 450px;
+        border-width: 1px !important;
+
+        &.playstation,
+        &.xbox {
+            border-width: 1px !important;
+        }
+    }
+
+    &.playstation {
+        border-left: 0px solid #1e5ddb !important;
+    }
+
+    &.xbox {
+        border-left: 0px solid #018800 !important;
+    }
+
+    .side-bar-top,
+    .side-bar-bottom {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 35px 10px 35px;
+
+        .side-bar-item {
+            padding: 0px 20px 0 20px;
+            border-radius: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            cursor: pointer;
+            margin: 5px 0 5px 0;
+
+            &.active {
+                pointer-events: none;
+
+                &.playstation-item {
+                    background-color: #1e5ddb !important;
+                }
+
+                &.xbox-item {
+                    background-color: #018800 !important;
+                }
+            }
+
+            .side-bar-item-text {
+                font-weight: 500;
+                font-size: larger;
+            }
+
+            .side-bar-item-icon {
+                mix-blend-mode: lighten;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: 10px;
+
+                &.xbox-icon {
+                    width: 35px;
+                    height: 35px;
+                }
+    
+                &.playstation-icon {
+                    width: 40px;
+                    height: 40px;
+                }
+            }
+        }
+
+        .side-bar-item:hover {
+            background-color: #282828;
+        }
+    }
+}
