@@ -23,3 +23,8 @@ export interface LoginDetails {
     field: string;
     message: string;
   }
+
+  export interface BarProps {
+    page: string;
+    icon: string;
+  }
