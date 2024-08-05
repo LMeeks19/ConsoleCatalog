@@ -38,16 +38,16 @@
         align-items: center;
 
         .top-bar-icon {
-            mix-blend-mode: lighten;
-
             &.xbox {
                 width: 35px;
                 height: 35px;
+                mix-blend-mode: lighten;
             }
 
             &.playstation {
                 width: 40px;
                 height: 40px;
+                mix-blend-mode: color;
             }
         }
 

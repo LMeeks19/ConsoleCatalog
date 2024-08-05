@@ -69,7 +69,6 @@
             }
 
             .side-bar-item-icon {
-                mix-blend-mode: lighten;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -78,11 +77,13 @@
                 &.xbox-icon {
                     width: 35px;
                     height: 35px;
+                    mix-blend-mode: lighten;
                 }
-    
+
                 &.playstation-icon {
                     width: 40px;
                     height: 40px;
+                    mix-blend-mode: color;
                 }
             }
         }
