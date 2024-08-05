@@ -4,5 +4,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &.disabled {
+        pointer-events: none;
+        filter: blur(1px);
+    }
 }
 

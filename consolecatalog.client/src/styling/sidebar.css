@@ -10,7 +10,7 @@
     flex-direction: column;
     justify-content: space-between;
     margin-top: 60px;
-    transition: all 1.5s ease-in-out;
+    transition: all 1s ease-in-out;
     display: flex;
     justify-content: space-between;
     overflow-x: hidden;

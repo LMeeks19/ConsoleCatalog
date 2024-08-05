@@ -1,10 +1,16 @@
+import { useRecoilValue } from "recoil";
 import Xbox from "./xbox";
+import { sidebarState } from "../../functions/state";
 
 function XboxHome() {
+  const isSidebarActive = useRecoilValue(sidebarState);
+
   return (
     <>
       <Xbox />
-      <div className="content">Xbox Home</div>
+      <div className={`content ${isSidebarActive ? "disabled" : ""}`}>
+        Xbox Home
+      </div>
     </>
   );
 }
