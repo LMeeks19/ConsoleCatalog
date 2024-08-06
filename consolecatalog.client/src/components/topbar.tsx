@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { sidebarState } from "../functions/state";
 import { BarProps } from "../functions/interfaces";
+import { AutoTextSize } from "auto-text-size";
 
 function TopBar(props: BarProps) {
   const [isSidebarActive, setIsSidebarActive] = useRecoilState(sidebarState);
@@ -14,10 +15,12 @@ function TopBar(props: BarProps) {
         className={`top-bar-title ${props.page}`}
         onClick={() => navigate("/")}
       >
-        <div>CONSOLE CATALOG</div>
+        <AutoTextSize maxFontSizePx={24}>CONSOLE CATALOG</AutoTextSize>
       </div>
       <div className="top-bar-logo">
-        <span className="top-bar-text">{props.page.toUpperCase()}</span>
+        <div className="top-bar-text">
+          <AutoTextSize maxFontSizePx={24}>{props.page.toUpperCase()}</AutoTextSize>
+        </div>
         <img src={props.icon} className={`top-bar-icon ${props.page}`} />
         <div
           className="top-bar-menu"

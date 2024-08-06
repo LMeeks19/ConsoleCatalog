@@ -12,6 +12,7 @@ function SearchBar(props: SearchTermProps) {
           id="searchTerm"
           name="searchTerm"
           type="text"
+          placeholder="Search..."
           onChange={(event) => props.setSearchTerm(event.target.value)}
         />
         <i className="fa-solid fa-magnifying-glass fa-xl fa-flip-horizontal" />

@@ -1,0 +1,105 @@
+.default {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 131px);
+}
+
+.cards-container {
+    padding: 0 40px 40px 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-items: center;
+    justify-content: center;
+    row-gap: 20px;
+
+    .card {
+        width: 300px;
+        height: 350px;
+        background-color: #262626;
+        border-radius: 25px;
+        position: relative;
+
+        .card-rating {
+            position: absolute;
+            border-radius: 100%;
+            height: 50px;
+            width: 50px;
+            right: 10px;
+            top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 500;
+            font-size: large;
+
+            &.amazing {
+                background-color: #06803d;
+            }
+
+            &.good {
+                background-color: #00ce7a;
+            }
+
+            &.average {
+                background-color: #ffbd3f;
+            }
+
+            &.bad {
+                background-color: #ff6874;
+            }
+
+            &.awful {
+                background-color: #f11528;
+            }
+        }
+
+        .card-image {
+            width: 300px;
+            height: 250px;
+            border-top-left-radius: 25px;
+            border-top-right-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 150px;
+            border-bottom: 1px solid #161616;
+        }
+
+        .card-info {
+            width: 100%;
+            height: 100px;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            justify-content: space-evenly;
+            
+
+            .card-info-title {
+                font-weight: 500;
+                margin: 0px 20px 0 20px;
+            }
+
+            .card-info-platforms {
+                display: flex;
+                bottom: 0;
+                align-items: center;
+                padding: 10px;
+
+                .platform {
+                    background-color: #161616;
+                    border-radius: 15px;
+                    padding: 5px 15px 5px 15px;
+                    margin-right: 10px;
+                }
+
+                .platform:first-child {
+                    margin-left: 5px;
+                }
+            }
+
+        }
+    }
+}

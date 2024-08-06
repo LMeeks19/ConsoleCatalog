@@ -20,7 +20,6 @@
     .top-bar-title {
         margin: auto 0 auto 0;
         font-weight: 500;
-        font-size: larger;
         cursor: pointer;
         padding: 5px 10px 5px 10px;
         margin-left: 40px;
@@ -53,7 +52,6 @@
 
         .top-bar-text {
             font-weight: 500;
-            font-size: larger;
             margin-right: 10px;
         }
 
@@ -69,6 +67,36 @@
 
         .top-bar-menu:hover {
             background-color: #282828;
+        }
+    }
+}
+
+@media screen and (max-width: 490px) {
+    .top-bar {
+        .top-bar-title {
+            margin-left: 0 !important;
+            padding-left: 20px;
+        }
+
+        .top-bar-logo {
+            padding-right: 20px;
+
+            .top-bar-icon {
+                &.xbox {
+                    width: 25px;
+                    height: 25px;
+                }
+
+                &.playstation {
+                    width: 30px;
+                    height: 30px;
+                }
+            }
+
+            .top-bar-menu {
+                margin-left: 5px !important;
+                font-size: smaller;
+            }
         }
     }
 }

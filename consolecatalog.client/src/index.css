@@ -9,7 +9,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #202020;
+  background-color: #161616;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -18,18 +18,20 @@
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 7.5px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
   background: #181818; 
+
 }
  
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #fff;
   border-radius: 10px; 
+
 }
 
 /* Handle on hover */
