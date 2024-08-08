@@ -1,7 +1,7 @@
 .side-bar {
     background-color: #181818;
     width: 0px;
-    height: calc(100% - 60px);
+    height: calc(100% - 120px);
     z-index: 2;
     position: fixed;
     top: 0;
@@ -90,6 +90,14 @@
 
         .side-bar-item:hover {
             background-color: #282828;
+        }
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .side-bar {
+        &.active {
+            width: 100%;
         }
     }
 }

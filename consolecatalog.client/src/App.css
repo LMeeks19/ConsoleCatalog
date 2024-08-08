@@ -3,6 +3,8 @@
     width: 100vw;
     height: 100vh;
     position: fixed;
+    min-width: 375px;
+    min-height: 667px;
 }
 
 .background:has(+ .login-container) {

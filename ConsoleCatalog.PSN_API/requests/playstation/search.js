@@ -1,4 +1,4 @@
-import { call, buildRequestUrl, SEARCH_BASE_URL } from "../utils.js";
+import { call, buildRequestUrl, SEARCH_BASE_URL } from "./utils.js";
 
 export const makeUniversalSearch = async (
   authorization,
