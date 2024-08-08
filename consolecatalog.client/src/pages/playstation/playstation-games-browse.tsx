@@ -3,12 +3,15 @@ import "../../styling/playstation/playstation-games-browse.css";
 import SearchBar from "../../components/searchbar";
 import { useEffect, useState } from "react";
 import { GameSummary, SelectedDate } from "../../functions/interfaces";
-import { useRecoilValue } from "recoil";
-import { sidebarState } from "../../functions/state";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { sidebarState, gameSearchModalState } from "../../functions/state";
 import GameCard from "../../components/game-card";
-import { getTitles } from "../../components/game-search-modal";
+import GamesSearchModal, {
+  getTitles,
+} from "../../components/game-search-modal";
 import { AutoTextSize } from "auto-text-size";
 import { Month, Year } from "../../functions/enums";
+import GameCardBlank from "../../components/game-card-blank";
 
 function PlaystationGamesBrowse() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -29,15 +32,8 @@ function PlaystationGamesBrowse() {
   const [isLoadingUpcoming, setIsLoadingUpcoming] = useState<Boolean>(true);
   const [isLoadingRecent, setIsLoadingRecent] = useState<Boolean>(true);
 
-  useEffect(() => {
-    const timeout = setTimeout(async () => {
-      if (searchTerm !== "") {
-        await getTitles(searchTerm);
-      }
-    }, 500);
-
-    return () => clearTimeout(timeout);
-  }, [searchTerm]);
+  const [isGameSearchModalActive, setIsGameSearchModalActive] =
+    useRecoilState(gameSearchModalState);
 
   useEffect(() => {
     setIsLoadingUpcoming(true);
@@ -89,15 +85,40 @@ function PlaystationGamesBrowse() {
 
   return (
     <>
+      {isGameSearchModalActive ? (
+        <GamesSearchModal
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+        />
+      ) : (
+        <></>
+      )}
       <Playstation />
-      <div className={`content ${isSidebarActive ? "disabled" : ""}`}>
-        <SearchBar setSearchTerm={setSearchTerm} />
+      <div
+        className={`content ${
+          isSidebarActive || isGameSearchModalActive ? "disabled" : ""
+        }`}
+      >
+        <SearchBar
+          disabled={isGameSearchModalActive}
+          setSearchTerm={setSearchTerm}
+          setIsGamesSearchModalActive={setIsGameSearchModalActive}
+        />
 
         <div className="section-header">
-          <AutoTextSize maxFontSizePx={24} minFontSizePx={16} className="section-header-text">
-            UPCOMING RELEASES FOR {Month[selectedDate.month].toUpperCase()} {selectedDate.year.toString().toUpperCase()}
+          <AutoTextSize
+            maxFontSizePx={24}
+            minFontSizePx={16}
+            className="section-header-text"
+          >
+            UPCOMING RELEASES FOR {Month[selectedDate.month].toUpperCase()}{" "}
+            {selectedDate.year.toString().toUpperCase()}
           </AutoTextSize>
-          <div className="select-container">
+          <div
+            className={`select-container ${
+              isLoadingUpcoming ? "disabled" : ""
+            }`}
+          >
             <button
               onClick={() =>
                 setSelectedDate({
@@ -108,7 +129,11 @@ function PlaystationGamesBrowse() {
             >
               <i className="fa-solid fa-rotate-left"></i>
             </button>
-            <div className="custom-select month">
+            <div
+              className={`custom-select month ${
+                isLoadingUpcoming ? "disabled" : ""
+              }`}
+            >
               <select
                 value={selectedDate.month}
                 onChange={(e) =>
@@ -131,7 +156,11 @@ function PlaystationGamesBrowse() {
                   })}
               </select>
             </div>
-            <div className="custom-select year">
+            <div
+              className={`custom-select year ${
+                isLoadingUpcoming ? "disabled" : ""
+              }`}
+            >
               <select
                 value={selectedDate.year}
                 onChange={(e) =>
@@ -151,7 +180,12 @@ function PlaystationGamesBrowse() {
 
         <div className="cards-container">
           {isLoadingUpcoming ? (
-            <p>Loading...</p>
+            <>
+              <GameCardBlank />
+              <GameCardBlank />
+              <GameCardBlank />
+              <GameCardBlank />
+            </>
           ) : (
             <>
               {upcomingTitles.map((upcomingTitle) => {
@@ -168,12 +202,19 @@ function PlaystationGamesBrowse() {
         </div>
 
         <div className="section-header">
-          <AutoTextSize maxFontSizePx={24} minFontSizePx={16}>RECENTLY RELEASED</AutoTextSize>
+          <AutoTextSize maxFontSizePx={24} minFontSizePx={16}>
+            RECENTLY RELEASED
+          </AutoTextSize>
         </div>
 
         <div id="recent-games" className="cards-container">
           {isLoadingRecent ? (
-            <p>Loading...</p>
+            <>
+              <GameCardBlank />
+              <GameCardBlank />
+              <GameCardBlank />
+              <GameCardBlank />
+            </>
           ) : (
             <>
               {recentTitles.map((recentTitle) => {

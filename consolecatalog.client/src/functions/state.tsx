@@ -12,6 +12,11 @@ export const sidebarState = atom({
   default: false,
 });
 
+export const gameSearchModalState = atom({
+  key: "gameSearchmodalState",
+  default: false,
+});
+
 export const activePageState = atom({
   key: "activePageState",
   default: Pages.Home,
