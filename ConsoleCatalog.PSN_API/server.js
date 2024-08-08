@@ -1,79 +1,95 @@
 import express from "express";
 import cors from "cors";
-import { authenticate } from "./requests/auth.js";
-
+import { authenticatePSN } from "./requests/playstation/auth.js";
+import { makeUniversalSearch } from "./requests/playstation/search.js";
 import {
   getProfileFromUserName,
   getBasicPresence,
   getProfileFromAccountId,
   getUserFriendsAccountIds,
-} from "./requests/user.js";
-
+} from "./requests/playstation/user.js";
 import {
   getUserTitles,
   getUserTrophiesEarnedForTitle,
   getUserTrophyGroupEarningsForTitle,
   getUserTrophyProfileSummary,
-} from "./requests/trophy/user.js";
-
+} from "./requests/playstation/trophy/user.js";
 import {
   getTitleTrophies,
   getTitleTrophyGroups,
-} from "./requests/trophy/title.js";
+} from "./requests/playstation/trophy/title.js";
 
-import { makeUniversalSearch } from "./requests/search.js";
+import { authenticateGames } from "./requests/games/auth.js";
+import {
+  getPSNTitlesBySearch,
+  getPSNUpcomingTitles,
+  getPSNRecentTitles
+} from "./requests/games/search.js";
 
 const app = express();
 const PORT = 3000;
-var authorisation = null;
+
+var psn_auth = null;
+var games_auth = null;
 
 app.listen(PORT, async () => {
   console.log(`Express server running at http://localhost:${PORT}/`);
-  authorisation = await authenticate();
-  console.log("Authentication with the PSN API was successful");
+  try {
+    psn_auth = await authenticatePSN();
+    console.log("Authentication with the PSN API was successful");
+  } catch (ex) {
+    console.log("Authentication with the PSN API was unsuccessful");
+  }
+  try {
+    games_auth = await authenticateGames();
+    console.log("Authentication with the Games API was successful");
+  } catch (ex) {
+    console.log("Authentication with the Games API was unsuccessful");
+  }
 });
 
 app.use(cors());
 
-app.get("/profiles/:username", async (req, res) => {
+// Playstation API Calls
+app.get("/playstation/profiles/:username", async (req, res) => {
   const profile = await getProfileFromUserName(
-    { accessToken: authorisation.accessToken },
+    { accessToken: psn_auth.accessToken },
     req.params.username
   );
 
   res.send(profile);
 });
 
-app.get("/profiles/:accountId/basic", async (req, res) => {
+app.get("/playstation/profiles/:accountId/basic", async (req, res) => {
   const basicPresence = await getBasicPresence(
-    { accessToken: authorisation.accessToken },
+    { accessToken: psn_auth.accessToken },
     req.params.accountId
   );
 
   res.send(basicPresence);
 });
 
-app.get("/profiles/:accountId", async (req, res) => {
+app.get("/playstation/profiles/:accountId", async (req, res) => {
   const profile = await getProfileFromAccountId(
-    { accessToken: authorisation.accessToken },
+    { accessToken: psn_auth.accessToken },
     req.params.accountId
   );
 
   res.send(profile);
 });
 
-app.get("/profiles/:accountId/friends", async (req, res) => {
+app.get("/playstation/profiles/:accountId/friends", async (req, res) => {
   const friendsIds = await getUserFriendsAccountIds(
-    { accessToken: authorisation.accessToken },
+    { accessToken: psn_auth.accessToken },
     req.params.accountId
   );
 
   res.send(friendsIds);
 });
 
-app.get("/profiles/:accountId/titles/:offset", async (req, res) => {
+app.get("/playstation/profiles/:accountId/titles/:offset", async (req, res) => {
   const userTitles = await getUserTitles(
-    { accessToken: authorisation.accessToken },
+    { accessToken: psn_auth.accessToken },
     req.params.accountId,
     { limit: 10, offset: req.params.offset }
   );
@@ -81,38 +97,44 @@ app.get("/profiles/:accountId/titles/:offset", async (req, res) => {
   res.send(userTitles);
 });
 
-app.get("/profiles/:accountId/:titleId/trophies", async (req, res) => {
-  const userTrophiesForTitles = await getUserTrophiesEarnedForTitle(
-    { accessToken: authorisation.accessToken },
-    req.params.accountId,
-    req.params.titleId
-  );
+app.get(
+  "/playstation/profiles/:accountId/:titleId/trophies",
+  async (req, res) => {
+    const userTrophiesForTitles = await getUserTrophiesEarnedForTitle(
+      { accessToken: psn_auth.accessToken },
+      req.params.accountId,
+      req.params.titleId
+    );
 
-  res.send(userTrophiesForTitles);
-});
+    res.send(userTrophiesForTitles);
+  }
+);
 
-app.get("/profiles/:accountId/:titleId/trophy/group", async (req, res) => {
-  const userTrophyGroupForTitles = await getUserTrophyGroupEarningsForTitle(
-    { accessToken: authorisation.accessToken },
-    req.params.accountId,
-    req.params.titleId
-  );
+app.get(
+  "/playstation/profiles/:accountId/:titleId/trophy/group",
+  async (req, res) => {
+    const userTrophyGroupForTitles = await getUserTrophyGroupEarningsForTitle(
+      { accessToken: psn_auth.accessToken },
+      req.params.accountId,
+      req.params.titleId
+    );
 
-  res.send(userTrophyGroupForTitles);
-});
+    res.send(userTrophyGroupForTitles);
+  }
+);
 
-app.get("/profiles/:accountId/trophy/summary", async (req, res) => {
+app.get("/playstation/profiles/:accountId/trophy/summary", async (req, res) => {
   const userTrophyProfileSummary = await getUserTrophyProfileSummary(
-    { accessToken: authorisation.accessToken },
+    { accessToken: psn_auth.accessToken },
     req.params.accountId
   );
 
   res.send(userTrophyProfileSummary);
 });
 
-app.get("/PS5/:titleId", async (req, res) => {
+app.get("/playstation/PS5/:titleId", async (req, res) => {
   const titleTrophies = await getTitleTrophies(
-    { accessToken: authorisation.accessToken },
+    { accessToken: psn_auth.accessToken },
     req.params.titleId,
     "all"
   );
@@ -120,9 +142,9 @@ app.get("/PS5/:titleId", async (req, res) => {
   res.send(titleTrophies);
 });
 
-app.get("/PS4/:titleId", async (req, res) => {
+app.get("/playstation/PS4/:titleId", async (req, res) => {
   const titleTrophies = await getTitleTrophies(
-    { accessToken: authorisation.accessToken },
+    { accessToken: psn_auth.accessToken },
     req.params.titleId,
     "all",
     {
@@ -133,9 +155,9 @@ app.get("/PS4/:titleId", async (req, res) => {
   res.send(titleTrophies);
 });
 
-app.get("/PS5/:titleId/trophy/groups", async (req, res) => {
+app.get("/playstation/PS5/:titleId/trophy/groups", async (req, res) => {
   const titleTrophyGroups = await getTitleTrophyGroups(
-    { accessToken: authorisation.accessToken },
+    { accessToken: psn_auth.accessToken },
     req.params.titleId,
     "all"
   );
@@ -143,9 +165,9 @@ app.get("/PS5/:titleId/trophy/groups", async (req, res) => {
   res.send(titleTrophyGroups);
 });
 
-app.get("/PS4/:titleId/trophy/groups", async (req, res) => {
+app.get("/playstation/PS4/:titleId/trophy/groups", async (req, res) => {
   const titleTrophyGroups = await getTitleTrophyGroups(
-    { accessToken: authorisation.accessToken },
+    { accessToken: psn_auth.accessToken },
     req.params.titleId,
     "all",
     {
@@ -156,9 +178,9 @@ app.get("/PS4/:titleId/trophy/groups", async (req, res) => {
   res.send(titleTrophyGroups);
 });
 
-app.get("/profiles/:searchTerm", async (req, res) => {
+app.get("/playstation/profiles/:searchTerm", async (req, res) => {
   const profiles = await makeUniversalSearch(
-    { accessToken: authorisation.accessToken },
+    { accessToken: psn_auth.accessToken },
     req.params.searchTerm,
     "SocialAllAccounts"
   );
@@ -168,30 +190,29 @@ app.get("/profiles/:searchTerm", async (req, res) => {
   });
 });
 
-app.get("/titles/:searchTerm", async (req, res) => {
-  const authToken = await auth();
-  const titles = await getTitles(authToken.access_token, req.params.searchTerm);
+// Playstation Games API Call
+app.get("/playstation/titles/search/:searchTerm", async (req, res) => {
+  const titles = await getPSNTitlesBySearch(
+    games_auth.access_token,
+    req.params.searchTerm
+  );
 
   res.send(titles);
 });
 
-async function auth() {
-  const response = await fetch(
-    "https://id.twitch.tv/oauth2/token?client_id=lpm1svjpeapgiyruyx8pratk8x54om&client_secret=yl42dzj8517v4v4zbrq06qma664vbw&grant_type=client_credentials",
-    { method: "POST" }
+app.get("/playstation/titles/upcoming/:month/:year", async (req, res) => {
+  const upcomingTitles = await getPSNUpcomingTitles(
+    games_auth.access_token,
+    req.params.month,
+    req.params.year
   );
-  return response.json();
-}
+  res.send(upcomingTitles);
+});
 
-async function getTitles(accessToken, searchTerm) {
-  const response = await fetch("https://api.igdb.com/v4/games", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Client-ID": "lpm1svjpeapgiyruyx8pratk8x54om",
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: `fields id,aggregated_rating,cover.*,name,platforms.*; search "${searchTerm}"; where category = (0,3,8,9) & version_parent = null & platforms = (9,48,167); limit 50;`,
-  });
-  return response.json();
-}
+app.get("/playstation/titles/recent/:offset", async (req, res) => {
+  const upcomingTitles = await getPSNRecentTitles(
+    games_auth.access_token,
+    req.params.offset
+  );
+  res.send(upcomingTitles);
+});
