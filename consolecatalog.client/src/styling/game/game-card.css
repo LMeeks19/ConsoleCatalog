@@ -126,17 +126,3 @@
 .card:last-child {
     margin-right: 0;
 }
-
-@keyframes pulse {
-    35% {
-        background-color: #202020;
-    }
-
-    70% {
-        background-color: #262626;
-    }
-
-    100% {
-        background-color: #202020;
-    }
-}

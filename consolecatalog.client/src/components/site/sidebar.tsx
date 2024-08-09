@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { activePageState, sidebarState } from "../functions/state";
-import { Pages } from "../functions/enums";
-import { BarProps } from "../functions/interfaces";
-import "../styling/sidebar.css";
+import { activePageState, sidebarState } from "../../functions/state";
+import { Pages } from "../../functions/enums";
+import { BarProps } from "../../functions/interfaces";
+import "../../styling/site/sidebar.css";
 
 function SideBar(props: BarProps) {
   const [isSidebarActive, setIsSidebarActive] = useRecoilState(sidebarState);

@@ -1,6 +1,6 @@
 import { MouseEvent, useEffect, useState } from "react";
 import "../styling/login.css";
-import Background from "./background";
+import Background from "./site/background";
 import { useNavigate } from "react-router-dom";
 import {
   FormError,

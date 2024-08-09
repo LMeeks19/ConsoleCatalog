@@ -1,23 +1,11 @@
 import { AutoTextSize } from "auto-text-size";
-import { Platforms } from "../functions/enums";
-import { GameSummary } from "../functions/interfaces";
+import { Platforms } from "../../functions/enums";
+import { GameSummary } from "../../functions/interfaces";
 import { format } from "date-fns";
-import "../styling/game-card.css";
+import { getFullCardImageUrl, getRatingColour } from "../../functions/methods";
+import "../../styling/game/game-card.css";
 
 function GameCard(props: GameCardProps) {
-  const BASE_IMAGE_URL = "//images.igdb.com/igdb/image/upload/t_cover_big";
-
-  function getFullImageUrl(imageId: string) {
-    return `${BASE_IMAGE_URL}/${imageId}.jpg`;
-  }
-
-  function getRatingColour(rating: number): string {
-    if (rating > 90) return "amazing";
-    else if (rating > 70) return "good";
-    else if (rating > 50) return "average";
-    else if (rating > 30) return "bad";
-    return "awful";
-  }
 
   return (
     <div className="card" key={props.game.id}>
@@ -35,7 +23,7 @@ function GameCard(props: GameCardProps) {
 
       {props.game.cover === undefined ? (
         <div className="card-image-container">
-          <i className="fa-solid fa-image fa-2xl card-image"></i>
+          <i className="fa-regular fa-image fa-2xl card-image"></i>
           <div className="card-info-release">
             <div className="date">
               {format(props.game.first_release_date * 1000, "do MMMM yyyy")}
@@ -46,7 +34,7 @@ function GameCard(props: GameCardProps) {
         <div className="card-image-container">
           <img
             className="card-image"
-            src={getFullImageUrl(props.game.cover.image_id)}
+            src={getFullCardImageUrl(props.game.cover.image_id)}
           ></img>
           <div className="card-info-release">
             <div className="date">
@@ -75,7 +63,7 @@ function GameCard(props: GameCardProps) {
                   {platform.abbreviation}
                 </div>
               );
-            })}{" "}
+            })}
         </div>
       </div>
     </div>

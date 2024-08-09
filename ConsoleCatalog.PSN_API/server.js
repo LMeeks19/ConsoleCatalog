@@ -23,7 +23,8 @@ import { authenticateGames } from "./requests/games/auth.js";
 import {
   getPSNTitlesBySearch,
   getPSNUpcomingTitles,
-  getPSNRecentTitles
+  getPSNRecentTitles,
+  getTitleById,
 } from "./requests/games/search.js";
 
 const app = express();
@@ -215,4 +216,9 @@ app.get("/playstation/titles/recent/:offset", async (req, res) => {
     req.params.offset
   );
   res.send(upcomingTitles);
+});
+
+app.get("/playstation/titles/:id", async (req, res) => {
+  const title = await getTitleById(games_auth.access_token, req.params.id);
+  res.send(title);
 });

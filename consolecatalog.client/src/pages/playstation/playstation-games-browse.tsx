@@ -1,27 +1,24 @@
 import Playstation from "./playstation";
 import "../../styling/playstation/playstation-games-browse.css";
-import SearchBar from "../../components/searchbar";
+import SearchBar from "../../components/site/searchbar";
 import { useEffect, useState } from "react";
 import { GameSummary, SelectedDate } from "../../functions/interfaces";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { sidebarState, gameSearchModalState } from "../../functions/state";
-import GameCard from "../../components/game-card";
-import GamesSearchModal, {
-  getTitles,
-} from "../../components/game-search-modal";
+import { useRecoilValue } from "recoil";
+import { gameSearchModalState, sidebarState } from "../../functions/state";
+import GameCard from "../../components/games/game-card";
 import { AutoTextSize } from "auto-text-size";
 import { Month, Year } from "../../functions/enums";
-import GameCardBlank from "../../components/game-card-blank";
+import GameCardBlankCollection from "../../components/games/game-card-blank";
 
 function PlaystationGamesBrowse() {
   const isSidebarActive = useRecoilValue(sidebarState);
+  const isGameSearchModalActive = useRecoilValue(gameSearchModalState);
   const [upcomingTitles, setUpcomingTitles] = useState<GameSummary[]>(
     [] as GameSummary[]
   );
   const [recentTitles, setRecentTitles] = useState<GameSummary[]>(
     [] as GameSummary[]
   );
-  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const currentDate = new Date();
   const [selectedDate, setSelectedDate] = useState<SelectedDate>({
@@ -31,10 +28,6 @@ function PlaystationGamesBrowse() {
 
   const [isLoadingUpcoming, setIsLoadingUpcoming] = useState<Boolean>(true);
   const [isLoadingRecent, setIsLoadingRecent] = useState<Boolean>(true);
-
-  const [isGameSearchModalActive, setIsGameSearchModalActive] =
-    useRecoilState(gameSearchModalState);
-
   useEffect(() => {
     setIsLoadingUpcoming(true);
     const timeout = setTimeout(async () => {
@@ -85,35 +78,20 @@ function PlaystationGamesBrowse() {
 
   return (
     <>
-      {isGameSearchModalActive ? (
-        <GamesSearchModal
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-        />
-      ) : (
-        <></>
-      )}
       <Playstation />
       <div
         className={`content ${
           isSidebarActive || isGameSearchModalActive ? "disabled" : ""
         }`}
       >
-        <SearchBar
-          disabled={isGameSearchModalActive}
-          setSearchTerm={setSearchTerm}
-          setIsGamesSearchModalActive={setIsGameSearchModalActive}
-        />
+        <SearchBar />
 
         <div className="section-header">
-          <AutoTextSize
-            maxFontSizePx={24}
-            minFontSizePx={16}
-            className="section-header-text"
-          >
-            UPCOMING RELEASES FOR {Month[selectedDate.month].toUpperCase()}{" "}
-            {selectedDate.year.toString().toUpperCase()}
-          </AutoTextSize>
+          <div>
+            <AutoTextSize maxFontSizePx={24} minFontSizePx={24}>
+              UPCOMING RELEASES
+            </AutoTextSize>
+          </div>
           <div
             className={`select-container ${
               isLoadingUpcoming ? "disabled" : ""
@@ -151,8 +129,11 @@ function PlaystationGamesBrowse() {
                         selectedDate.year === currentDate.getFullYear()) ||
                       selectedDate.year > currentDate.getFullYear()
                     )
-                      return <option value={value}>{key}</option>;
-                    else return <></>;
+                      return (
+                        <option key={key} value={value}>
+                          {key}
+                        </option>
+                      );
                   })}
               </select>
             </div>
@@ -171,7 +152,11 @@ function PlaystationGamesBrowse() {
                 }
               >
                 {Object.values(Year).map((value) => {
-                  return <option value={value}>{value}</option>;
+                  return (
+                    <option key={value} value={value}>
+                      {value}
+                    </option>
+                  );
                 })}
               </select>
             </div>
@@ -180,12 +165,7 @@ function PlaystationGamesBrowse() {
 
         <div className="cards-container">
           {isLoadingUpcoming ? (
-            <>
-              <GameCardBlank />
-              <GameCardBlank />
-              <GameCardBlank />
-              <GameCardBlank />
-            </>
+            <GameCardBlankCollection number={6} />
           ) : (
             <>
               {upcomingTitles.map((upcomingTitle) => {
@@ -209,12 +189,7 @@ function PlaystationGamesBrowse() {
 
         <div id="recent-games" className="cards-container">
           {isLoadingRecent ? (
-            <>
-              <GameCardBlank />
-              <GameCardBlank />
-              <GameCardBlank />
-              <GameCardBlank />
-            </>
+            <GameCardBlankCollection number={6} />
           ) : (
             <>
               {recentTitles.map((recentTitle) => {
