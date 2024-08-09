@@ -1,0 +1,6 @@
+.results {
+    display: flex;
+    flex-direction: column;
+    height: calc(660px - 148px);
+    overflow: auto;
+}

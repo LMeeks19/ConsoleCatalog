@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { User } from "./interfaces";
+import { Game, GameSummary, User } from "./interfaces";
 import { Pages } from "./enums";
 
 export const userState = atom({
@@ -12,7 +12,17 @@ export const sidebarState = atom({
   default: false,
 });
 
+export const gameSearchModalState = atom({
+  key: "gameSearchmodalState",
+  default: false,
+});
+
 export const activePageState = atom({
   key: "activePageState",
   default: Pages.Home,
 });
+
+export const selectedGameState = atom({
+  key: "selectedGameState",
+  default: {} as Game
+})

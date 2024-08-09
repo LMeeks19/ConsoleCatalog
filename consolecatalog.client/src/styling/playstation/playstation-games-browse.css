@@ -25,7 +25,11 @@
         button {
             margin-right: 5px;
             background-color: #262626;
-            padding: 0 1.2em
+            padding: 0 1.2em;
+
+            &.disabled {
+                pointer-events: none;
+            }
         }
 
         button:hover {
@@ -43,6 +47,10 @@
 
         .custom-select {
             position: relative;
+
+            &.disabled {
+                pointer-events: none;
+            }
 
             &.month {
                 min-width: 140px !important;

@@ -1,9 +1,9 @@
-import "../styling/topbar.css";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { sidebarState } from "../functions/state";
-import { BarProps } from "../functions/interfaces";
+import { sidebarState } from "../../functions/state";
+import { BarProps } from "../../functions/interfaces";
 import { AutoTextSize } from "auto-text-size";
+import "../../styling/site/topbar.css";
 
 function TopBar(props: BarProps) {
   const [isSidebarActive, setIsSidebarActive] = useRecoilState(sidebarState);

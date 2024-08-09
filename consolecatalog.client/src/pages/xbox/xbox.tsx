@@ -1,9 +1,9 @@
 import xbox_icon from "../../images/xbox_icon.png";
 import playstation_icon from "../../images/playstation_icon.png";
-import TopBar from "../../components/topbar";
-import SideBar from "../../components/sidebar";
-import BottomBar from "../../components/bottombar";
-import "../../styling/page.css";
+import TopBar from "../../components/site/topbar";
+import SideBar from "../../components/site/sidebar";
+import BottomBar from "../../components/site/bottombar";
+import "../../styling/site/page.css";
 
 function Xbox() {
   return (

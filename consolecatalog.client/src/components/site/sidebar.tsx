@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { activePageState, sidebarState } from "../functions/state";
-import { Pages } from "../functions/enums";
-import { BarProps } from "../functions/interfaces";
-import "../styling/sidebar.css";
+import { activePageState, sidebarState } from "../../functions/state";
+import { Pages } from "../../functions/enums";
+import { BarProps } from "../../functions/interfaces";
+import "../../styling/site/sidebar.css";
 
 function SideBar(props: BarProps) {
   const [isSidebarActive, setIsSidebarActive] = useRecoilState(sidebarState);
@@ -21,6 +21,7 @@ function SideBar(props: BarProps) {
           } ${props.page}-item`}
           onClick={() => {
             setActivePage(Pages.Home);
+            setIsSidebarActive(!isSidebarActive);
             navigate(`/${props.page}`);
           }}
         >
@@ -34,8 +35,9 @@ function SideBar(props: BarProps) {
             activePage === Pages.Games ? "active" : ""
           } ${props.page}-item`}
           onClick={() => {
-            navigate(`/${props.page}/games/browse`);
             setActivePage(Pages.Games);
+            setIsSidebarActive(!isSidebarActive);
+            navigate(`/${props.page}/games/browse`);
           }}
         >
           <p className="side-bar-item-text">GAMES</p>
@@ -48,8 +50,9 @@ function SideBar(props: BarProps) {
             activePage === Pages.Profiles ? "active" : ""
           } ${props.page}-item`}
           onClick={() => {
-            navigate(`/${props.page}/profiles/browse`);
             setActivePage(Pages.Profiles);
+            setIsSidebarActive(!isSidebarActive);
+            navigate(`/${props.page}/profiles/browse`);
           }}
         >
           <p className="side-bar-item-text">PROFILES</p>
