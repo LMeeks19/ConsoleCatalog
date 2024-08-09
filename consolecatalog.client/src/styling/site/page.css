@@ -1,0 +1,12 @@
+.content {
+    margin-top: 60px;
+    height: calc(100% - 120px);
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    &.disabled {
+        pointer-events: none;
+        filter: blur(1px);
+    }
+}
+

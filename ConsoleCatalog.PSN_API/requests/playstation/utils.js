@@ -1,5 +1,6 @@
 export const TROPHY_BASE_URL = "https://m.np.playstation.com/api/trophy";
-export const USER_BASE_URL = "https://m.np.playstation.com/api/userProfile/v1/internal/users";
+export const USER_BASE_URL =
+  "https://m.np.playstation.com/api/userProfile/v1/internal/users";
 export const SEARCH_BASE_URL = "https://m.np.playstation.com/api/search";
 export const AUTH_BASE_URL = "https://ca.account.sony.com/api/authz/v3/oauth";
 

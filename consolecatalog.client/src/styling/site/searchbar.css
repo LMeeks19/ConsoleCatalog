@@ -1,0 +1,39 @@
+.search-bar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0 40px 0;
+
+    .search {
+        width: 50%;
+        background-color: #262626;
+        font-size: small;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: row;
+
+        input {
+            border: none !important;
+            padding: 15px;
+            border-radius: 10px;
+            width: 95%;
+            background-color: transparent;
+            outline: none;
+            font-size: large;
+        }
+
+
+        i {
+            margin: auto 20px auto 0;
+        }
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .search-bar {
+        .search {
+            width: 75%;
+        }
+    }
+}

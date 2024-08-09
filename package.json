@@ -1,10 +1,19 @@
 {
   "dependencies": {
+    "@aws-amplify/ui-react": "^6.1.14",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^5.16.6",
+    "auto-text-size": "^0.2.3",
+    "aws-amplify": "^6.4.4",
     "bootstrap": "^5.3.3",
+    "date-fns": "^3.6.0",
     "framer-motion": "^11.3.21",
     "i": "^0.3.7",
+    "material-components-web": "^14.0.0",
     "psn-api": "^2.10.1",
     "react-bootstrap": "^2.10.4",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-router-dom": "^6.26.0",
     "recoil": "^0.7.7",
     "vite": "^5.3.5"

@@ -1,0 +1,147 @@
+.default {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 131px);
+}
+
+.section-header:not(:first-child) {
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+.section-header {
+    margin: 0 40px 10px 40px;
+    font-weight: 500;
+    border-bottom: 1px solid #262626;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .select-container {
+        display: flex;
+
+        button {
+            margin-right: 5px;
+            background-color: #262626;
+            padding: 0 1.2em;
+
+            &.disabled {
+                pointer-events: none;
+            }
+        }
+
+        button:hover {
+            border-color: white;
+        }
+
+        button:focus,
+        button:focus-visible {
+            outline: transparent;
+        }
+
+        button:active {
+            border-color: black;
+        }
+
+        .custom-select {
+            position: relative;
+
+            &.disabled {
+                pointer-events: none;
+            }
+
+            &.month {
+                min-width: 140px !important;
+            }
+
+            &.year {
+                min-width: 95px !important;
+            }
+
+            select:hover {
+                border: 1px solid white;
+            }
+
+            select:active {
+                border: 1px solid black;
+            }
+        }
+
+        .custom-select:first-child {
+            margin-right: 5px;
+        }
+
+        .custom-select:last-child {
+            margin-left: 5px;
+        }
+
+        .custom-select select {
+            appearance: none;
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            font-family: inherit;
+            background-color: #262626;
+            border: 1px solid transparent;
+            border-radius: 7.5px;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.25s;
+        }
+
+        .custom-select::before,
+        .custom-select::after {
+            --size: 0.3rem;
+            position: absolute;
+            content: "";
+            right: 1rem;
+            pointer-events: none;
+        }
+
+        .custom-select::before {
+            border-left: var(--size) solid transparent;
+            border-right: var(--size) solid transparent;
+            border-bottom: var(--size) solid white;
+            top: 40%;
+        }
+
+        .custom-select::after {
+            border-left: var(--size) solid transparent;
+            border-right: var(--size) solid transparent;
+            border-top: var(--size) solid white;
+            top: 55%;
+        }
+    }
+}
+
+.cards-container:last-child {
+    margin-bottom: 40px;
+}
+
+.cards-container {
+    margin: 0 40px 0 40px;
+    display: flex;
+    overflow-x: auto;
+}
+
+@media screen and (max-width: 875px) {
+    .section-header {
+        flex-direction: column;
+        margin: 0 30px 10px 30px;
+        align-items: center !important;
+
+        select {
+            margin-left: 0;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        button {
+            height: 43px;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+    }
+}

@@ -1,7 +1,16 @@
 import fetch from "isomorphic-unfetch";
-import { AUTH_BASE_URL } from "../utils.js";
+import { AUTH_BASE_URL } from "./utils.js";
 
-export const exchangeNpssoForCode = async (npssoToken) => {
+export const NPSSO =
+  "H1mOuYChrds3Ik81oyKDDD73zLgnRlThbZWuJDrJlqeJHD2eRgYPt0LGuxLcVgLx";
+
+export async function authenticatePSN() {
+  const accessCode = await exchangeNpssoForCode(NPSSO);
+  const authorisation = await exchangeCodeForAccessToken(accessCode);
+  return authorisation;
+}
+
+const exchangeNpssoForCode = async (npssoToken) => {
   const queryString = new URLSearchParams({
     access_type: "offline",
     client_id: "09515159-7237-4370-9b40-3806e67c0891",
@@ -40,7 +49,7 @@ export const exchangeNpssoForCode = async (npssoToken) => {
   return redirectParams.get("code");
 };
 
-export const exchangeCodeForAccessToken = async (accessCode) => {
+const exchangeCodeForAccessToken = async (accessCode) => {
   const requestUrl = `${AUTH_BASE_URL}/token`;
 
   const res = await fetch(requestUrl, {
@@ -55,6 +64,37 @@ export const exchangeCodeForAccessToken = async (accessCode) => {
       redirect_uri: "com.scee.psxandroid.scecompcall://redirect",
       grant_type: "authorization_code",
       token_format: "jwt",
+    }).toString(),
+  });
+
+  const raw = await res.json();
+
+  return {
+    accessToken: raw.access_token,
+    expiresIn: raw.expires_in,
+    idToken: raw.id_token,
+    refreshToken: raw.refresh_token,
+    refreshTokenExpiresIn: raw.refresh_token_expires_in,
+    scope: raw.scope,
+    tokenType: raw.token_type,
+  };
+};
+
+export const exchangeRefreshTokenForAuthTokens = async (refreshToken) => {
+  const requestUrl = `${AUTH_BASE_URL}/token`;
+
+  const res = await fetch(requestUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization:
+        "Basic MDk1MTUxNTktNzIzNy00MzcwLTliNDAtMzgwNmU2N2MwODkxOnVjUGprYTV0bnRCMktxc1A=",
+    },
+    body: new URLSearchParams({
+      refresh_token: refreshToken,
+      grant_type: "refresh_token",
+      token_format: "jwt",
+      scope: "psn:mobile.v2.core psn:clientapp",
     }).toString(),
   });
 

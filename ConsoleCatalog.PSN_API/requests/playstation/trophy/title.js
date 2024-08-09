@@ -1,4 +1,4 @@
-import { call, buildRequestUrl, TROPHY_BASE_URL } from "../../utils.js";
+import { call, buildRequestUrl, TROPHY_BASE_URL } from "../utils.js";
 
 export const getTitleTrophies = async (
   authorization,
