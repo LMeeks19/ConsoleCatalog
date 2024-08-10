@@ -10,11 +10,13 @@
     flex-wrap: wrap;
 
     &.blank {
+        cursor: default;
         pointer-events: none;
         justify-content: center;
         align-items: center;
         font-size: large;
         height: 128px;
+        margin: 0;
     }
 
     img {

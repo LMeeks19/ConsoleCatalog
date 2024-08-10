@@ -1,16 +1,15 @@
-import { useRecoilState } from "recoil";
+import { SetterOrUpdater, useSetRecoilState } from "recoil";
 import { gameSearchModalState } from "../../functions/state";
 import "../../styling/modal/modal-search-bar.css";
 
 function ModalSearchBar(props: ModalSearchBarProps) {
-  const [isGameSearchModalActive, setIsGameSearchModalActive] =
-    useRecoilState(gameSearchModalState);
+  const setIsGameSearchModalActive = useSetRecoilState(gameSearchModalState);
 
   return (
     <div className="search">
       <div className="search-input">
         <input
-          autoFocus={isGameSearchModalActive}
+          autoFocus={true}
           value={props.searchTerm}
           placeholder="Search Games..."
           onChange={(e) => props.setSearchTerm(e.target.value)}
@@ -28,5 +27,5 @@ export default ModalSearchBar;
 
 interface ModalSearchBarProps {
   searchTerm: string;
-  setSearchTerm: Function;
+  setSearchTerm: SetterOrUpdater<string>;
 }

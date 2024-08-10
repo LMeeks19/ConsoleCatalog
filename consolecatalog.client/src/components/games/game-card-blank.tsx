@@ -1,9 +1,9 @@
 import "../../styling/game/game-card.css";
-import playstation_icon from "../../images/playstation_icon.png";
+import { BeatLoader } from "react-spinners";
 
 function GameCardBlankCollection(props: GameCardBlankCollectionProps) {
   function getIterationCount(total: number): Array<number> {
-    let array = new Array();
+    const array = [];
     for (let i = 0; i < total; i++) array.push(i);
     return array;
   }
@@ -20,12 +20,7 @@ function GameCardBlankCollection(props: GameCardBlankCollectionProps) {
 function GameCardBlank() {
   return (
     <div className="card blank">
-      <div className="card-image-container">
-        <div className="card-image">
-          <img src={playstation_icon}></img>
-        </div>
-      </div>
-      <div className="card-info"></div>
+      <BeatLoader speedMultiplier={.5} color="white" size={30} />
     </div>
   );
 }

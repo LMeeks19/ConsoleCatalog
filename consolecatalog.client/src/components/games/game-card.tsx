@@ -54,7 +54,9 @@ function GameCard(props: GameCardProps) {
       )}
       <div className="card-info">
         <div className="card-info-title">
-          <AutoTextSize maxFontSizePx={24}>{props.game.name}</AutoTextSize>
+          <AutoTextSize maxFontSizePx={24}>
+            {props.game.name}
+          </AutoTextSize>
         </div>
 
         <div className="card-info-platforms">

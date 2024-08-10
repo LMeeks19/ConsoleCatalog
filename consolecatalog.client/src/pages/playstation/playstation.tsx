@@ -4,7 +4,7 @@ import TopBar from "../../components/site/topbar";
 import SideBar from "../../components/site/sidebar";
 import BottomBar from "../../components/site/bottombar";
 import GamesSearchModal from "../../components/modal/game-search-modal";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   activePageState,
   gameSearchModalState,
@@ -18,7 +18,7 @@ import "../../styling/site/page.css";
 import { Game } from "../../functions/interfaces";
 
 function Playstation() {
-  const isGameSearchModalActive = useRecoilValue(gameSearchModalState);
+  const [isGameSearchModalActive, setIsGameSearchModalActive] = useRecoilState(gameSearchModalState);
   const setSelectedGame = useSetRecoilState(selectedGameState);
   const setActivePage = useSetRecoilState(activePageState);
   const location = useLocation();
@@ -33,8 +33,12 @@ function Playstation() {
     function resetSelectedGame() {
       setSelectedGame({} as Game);
     }
+    function resetModal() {
+      setIsGameSearchModalActive(false);
+    }
     setCurrentPage();
     resetSelectedGame();
+    resetModal()
   }, []);
 
   return (

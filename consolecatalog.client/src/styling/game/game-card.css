@@ -1,6 +1,6 @@
 .card {
-    width: 300px;
-    height: 350px;
+    min-width: 300px;
+    min-height: 350px;
     background-color: #262626;
     border-radius: 25px;
     position: relative;
@@ -13,6 +13,11 @@
         box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
         transform: scale(1);
         animation: pulse 1.5s infinite;
+        pointer-events: none;
+        cursor: default;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .card-rating {
@@ -70,6 +75,10 @@
                 width: 150px !important;
                 mix-blend-mode: color;
             }
+        }
+
+        .card-info-title {
+            margin: auto;
         }
 
 

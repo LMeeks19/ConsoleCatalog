@@ -21,15 +21,15 @@
     .select-container {
         display: flex;
 
+        &.disabled {
+            pointer-events: none;
+        }
+
         button {
             margin-right: 5px;
             background-color: #262626;
             padding: 0 1.2em;
             border-color: transparent;
-
-            &.disabled {
-                pointer-events: none;
-            }
         }
 
         button:hover {

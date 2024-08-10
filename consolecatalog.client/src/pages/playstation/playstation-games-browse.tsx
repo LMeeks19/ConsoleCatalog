@@ -1,5 +1,4 @@
 import Playstation from "./playstation";
-import SearchBar from "../../components/site/searchbar";
 import { useEffect, useState } from "react";
 import { GameSummary, SelectedDate } from "../../functions/interfaces";
 import { useRecoilValue } from "recoil";
@@ -26,8 +25,8 @@ function PlaystationGamesBrowse() {
     year: currentDate.getFullYear(),
   } as SelectedDate);
 
-  const [isLoadingUpcoming, setIsLoadingUpcoming] = useState<Boolean>(true);
-  const [isLoadingRecent, setIsLoadingRecent] = useState<Boolean>(true);
+  const [isLoadingUpcoming, setIsLoadingUpcoming] = useState<boolean>(true);
+  const [isLoadingRecent, setIsLoadingRecent] = useState<boolean>(true);
   useEffect(() => {
     setIsLoadingUpcoming(true);
     const timeout = setTimeout(async () => {
@@ -86,7 +85,9 @@ function PlaystationGamesBrowse() {
       >
         <div className="section-header">
           <div className="text">
-            <AutoTextSize maxFontSizePx={28} minFontSizePx={16}>UPCOMING RELEASES</AutoTextSize>
+            <AutoTextSize maxFontSizePx={28} minFontSizePx={16}>
+              UPCOMING RELEASES
+            </AutoTextSize>
           </div>
           <div
             className={`select-container ${

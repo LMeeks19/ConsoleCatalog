@@ -4,7 +4,7 @@ import GameSearchResult from "../games/game-search-result";
 import ModalSearchBar from "./modal-search-bar";
 import GameSearchResultBlank from "../games/game-search-result-blank";
 import { getTitles } from "../../functions/external-server";
-import { PulseLoader } from "react-spinners";
+import { BeatLoader } from "react-spinners";
 import "../../styling/modal/game-search-modal.css";
 
 function GamesSearchModal() {
@@ -16,7 +16,7 @@ function GamesSearchModal() {
     setIsLoading(true);
     const timeout = setTimeout(async () => {
       if (searchTerm !== "") {
-        let games = await getTitles(searchTerm);
+        const games = await getTitles(searchTerm);
         setGames(games);
         setIsLoading(false);
       }
@@ -27,7 +27,7 @@ function GamesSearchModal() {
 
   function getTextMessage(): JSX.Element {
     if (searchTerm === "") return <div>Begin Typing to Search</div>;
-    else if (isLoading) return <PulseLoader  color="white" size={10} />;
+    else if (isLoading) return <BeatLoader color="white" size={15} speedMultiplier={.5} />;
     else if (games.length === 0 && searchTerm !== "")
       return <div>No Games Found</div>;
     return <></>;

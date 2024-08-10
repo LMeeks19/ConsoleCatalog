@@ -1,5 +1,3 @@
-import { AutoTextSize } from "auto-text-size";
-import { Platforms } from "../../functions/enums";
 import { GameSummary } from "../../functions/interfaces";
 import {
   getFullSearchImageUrl,
@@ -9,11 +7,8 @@ import {
 import { format } from "date-fns";
 import "../../styling/game/game-search-result.css";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { gameSearchModalState } from "../../functions/state";
 
 function GameSearchResult(props: GameSearchResultProps) {
-  const setIsGameSearchModalActive = useSetRecoilState(gameSearchModalState);
   const navigate = useNavigate();
 
   return (
@@ -21,7 +16,6 @@ function GameSearchResult(props: GameSearchResultProps) {
       className="result"
       key={props.game.id}
       onClick={() => {
-        setIsGameSearchModalActive(false);
         navigate(`/playstation/games/${props.game.id}`);
       }}
     >
