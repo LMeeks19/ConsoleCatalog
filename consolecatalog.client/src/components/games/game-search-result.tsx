@@ -4,6 +4,7 @@ import { GameSummary } from "../../functions/interfaces";
 import {
   getFullSearchImageUrl,
   getRatingColour,
+  isPSTitle,
 } from "../../functions/methods";
 import { format } from "date-fns";
 import "../../styling/game/game-search-result.css";
@@ -45,12 +46,7 @@ function GameSearchResult(props: GameSearchResultProps) {
       </div>
       <div className="result-platforms">
         {props.game.platforms
-          .filter(
-            (platform) =>
-              platform.abbreviation === Platforms.PS3 ||
-              platform.abbreviation === Platforms.PS4 ||
-              platform.abbreviation === Platforms.PS5
-          )
+          .filter((platform) => isPSTitle(platform.abbreviation))
           .sort((a, b) => a.abbreviation.localeCompare(b.abbreviation))
           .map((platform) => {
             return (
@@ -60,13 +56,13 @@ function GameSearchResult(props: GameSearchResultProps) {
             );
           })}
       </div>
-      {props.game.rating !== undefined ? (
+      {props.game.total_rating !== undefined ? (
         <div
           className={`result-rating ${getRatingColour(
-            Math.round(props.game.rating)
+            Math.round(props.game.total_rating)
           )}`}
         >
-          {Math.round(props.game.rating)}
+          {Math.round(props.game.total_rating)}
         </div>
       ) : (
         <></>

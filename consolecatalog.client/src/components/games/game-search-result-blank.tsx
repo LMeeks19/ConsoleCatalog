@@ -1,33 +1,11 @@
 import "../../styling/game/game-search-result.css";
 
-function GameSearchResultBlankCollection(
-  props: GameSearchResultBlankCollectionProps
-) {
-  function getIterationCount(total: number): Array<number> {
-    let array = new Array();
-    for (let i = 0; i < total; i++) array.push(i);
-    return array;
-  }
-
-  return (
-    <>
-      {getIterationCount(props.number).map((i) => {
-        return <GameSearchResultBlank key={i} />;
-      })}
-    </>
-  );
+export function GameSearchResultBlank(props: GameSearchResultBlankProps) {
+  return <div className="result blank">{props.element}</div>;
 }
 
-function GameSearchResultBlank() {
-  return (
-    <div className="result blank">
-      <i className="fa-regular fa-image fa-2xl"></i>
-    </div>
-  );
-}
+export default GameSearchResultBlank;
 
-export default GameSearchResultBlankCollection;
-
-interface GameSearchResultBlankCollectionProps {
-  number: number;
+interface GameSearchResultBlankProps {
+  element: JSX.Element;
 }

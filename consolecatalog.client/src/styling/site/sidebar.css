@@ -52,7 +52,6 @@
             margin: 5px 0 5px 0;
 
             &.active {
-                pointer-events: none;
 
                 &.playstation-item {
                     background-color: #1e5ddb !important;

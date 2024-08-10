@@ -1,6 +1,7 @@
 .modal {
     position: fixed;
-    height: 600px;
+    min-height: 60px;
+    max-height: 600px;
     width: 60%;
     left: 50%;
     top: 50%;
@@ -10,4 +11,5 @@
     border-radius: 25px;
     padding: 30px;
     overflow: hidden;
+    transition: height 1s ease-in-out;
 }

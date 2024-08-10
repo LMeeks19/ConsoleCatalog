@@ -10,6 +10,11 @@
 
     &.blank {
         pointer-events: none;
+        justify-content: center;
+        align-items: center;
+        font-size: large;
+        font-weight: 500;
+        height: 128px;
     }
 
     img {

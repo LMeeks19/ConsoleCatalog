@@ -11,7 +11,7 @@ function ModalSearchBar(props: ModalSearchBarProps) {
       <input
         autoFocus={isGameSearchModalActive}
         value={props.searchTerm}
-        placeholder="Search..."
+        placeholder="Search Games..."
         onChange={(e) => props.setSearchTerm(e.target.value)}
       />
       <i className="fa-solid fa-magnifying-glass fa-xl fa-flip-horizontal" />

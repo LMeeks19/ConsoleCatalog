@@ -1,5 +1,4 @@
 import Playstation from "./playstation";
-import "../../styling/playstation/playstation-games-browse.css";
 import SearchBar from "../../components/site/searchbar";
 import { useEffect, useState } from "react";
 import { GameSummary, SelectedDate } from "../../functions/interfaces";
@@ -9,6 +8,7 @@ import GameCard from "../../components/games/game-card";
 import { AutoTextSize } from "auto-text-size";
 import { Month, Year } from "../../functions/enums";
 import GameCardBlankCollection from "../../components/games/game-card-blank";
+import "../../styling/playstation/playstation-games-browse.css";
 
 function PlaystationGamesBrowse() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -41,7 +41,7 @@ function PlaystationGamesBrowse() {
         setUpcomingTitles(upcomingTitles);
       }
       setIsLoadingUpcoming(false);
-    }, 1000);
+    }, 2000);
 
     return () => clearTimeout(timeout);
   }, [selectedDate]);
@@ -54,7 +54,7 @@ function PlaystationGamesBrowse() {
       const newRecentTitles = await getRecentPSNTitles(recentTitles.length);
       setRecentTitles([...recentTitles, ...newRecentTitles]);
       setIsLoadingRecent(false);
-    }, 1000);
+    }, 2000);
 
     return () => clearTimeout(timeout);
   }, [page]);
@@ -165,7 +165,7 @@ function PlaystationGamesBrowse() {
 
         <div className="cards-container">
           {isLoadingUpcoming ? (
-            <GameCardBlankCollection number={6} />
+            <GameCardBlankCollection number={20} />
           ) : (
             <>
               {upcomingTitles.map((upcomingTitle) => {
@@ -189,7 +189,7 @@ function PlaystationGamesBrowse() {
 
         <div id="recent-games" className="cards-container">
           {isLoadingRecent ? (
-            <GameCardBlankCollection number={6} />
+            <GameCardBlankCollection number={20} />
           ) : (
             <>
               {recentTitles.map((recentTitle) => {

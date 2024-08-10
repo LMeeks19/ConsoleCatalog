@@ -10,6 +10,8 @@ export enum Pages {
 }
 
 export enum Platforms {
+  PS1 = "PS1",
+  PS2 = "PS2",
   PS3 = "PS3",
   PS4 = "PS4",
   PS5 = "PS5",
@@ -38,5 +40,5 @@ export enum Year {
   Y2025 = "2025",
   Y2026 = "2026",
   Y2027 = "2027",
-  Y2028 = "2028"
+  Y2028 = "2028",
 }

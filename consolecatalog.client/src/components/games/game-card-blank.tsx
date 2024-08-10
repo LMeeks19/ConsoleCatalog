@@ -1,4 +1,5 @@
 import "../../styling/game/game-card.css";
+import playstation_icon from "../../images/playstation_icon.png";
 
 function GameCardBlankCollection(props: GameCardBlankCollectionProps) {
   function getIterationCount(total: number): Array<number> {
@@ -20,7 +21,9 @@ function GameCardBlank() {
   return (
     <div className="card blank">
       <div className="card-image-container">
-        <i className="fa-solid fa-image fa-2xl card-image"></i>
+        <div className="card-image">
+          <img src={playstation_icon}></img>
+        </div>
       </div>
       <div className="card-info"></div>
     </div>

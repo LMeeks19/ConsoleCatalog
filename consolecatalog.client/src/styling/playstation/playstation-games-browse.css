@@ -5,9 +5,8 @@
     height: calc(100% - 131px);
 }
 
-.section-header:not(:first-child) {
-    margin-top: 10px;
-    padding-top: 10px;
+.section-header:first-child {
+    margin-top: 0 !important;
 }
 
 .section-header {
@@ -116,12 +115,9 @@
     }
 }
 
-.cards-container:last-child {
-    margin-bottom: 40px;
-}
 
 .cards-container {
-    margin: 0 40px 0 40px;
+    margin: 0 40px 40px 40px;
     display: flex;
     overflow-x: auto;
 }

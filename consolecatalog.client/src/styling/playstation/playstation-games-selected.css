@@ -1,0 +1,139 @@
+.game {
+    padding: 50px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-wrap: wrap;
+
+    .cover-container {
+        border-radius: 25px;
+        background-color: #262626;
+        padding: 20px;
+        margin-bottom: 20px;
+        width: 361px;
+        height: 525px;
+        margin-right: 20px;
+
+        img {
+            border-radius: 25px;
+            width: 361px;
+            height: 525px;
+        }
+    }
+
+    .info-container {
+        border-radius: 25px;
+        background-color: #262626;
+        padding: 20px;
+        margin-bottom: 20px;
+        height: 525px;
+        margin-right: 20px;
+        min-width: 361px;
+        width: calc(100% - 882px);
+    }
+
+    .platform-container {
+        border-radius: 25px;
+        background-color: #262626;
+        padding: 20px;
+        margin-bottom: 20px;
+        width: 361px;
+        height: 525px;
+    }
+
+    .screenshot-container {
+        background-color: #262626;
+        overflow: hidden;
+        padding: 20px 20px 15px 20px;
+        width: 555px;
+        height: 337px;
+        border-radius: 25px;
+        margin-right: 20px;
+
+        .scroll-container {
+            overflow-y: hidden;
+            overflow-x: auto;
+            display: flex;
+            width: 555px;
+            scroll-snap-type: x mandatory;
+
+            img {
+                border-radius: 25px;
+                margin-bottom: 15px;
+                margin-right: 15px;
+                scroll-snap-align: start;
+            }
+
+            img:last-child {
+                margin-right: 0;
+            }
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #262626 !important;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #161616 !important;
+
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #161616 !important;
+        }
+    }
+
+    .bundle-container {
+        margin-right: 20px;
+    }
+
+    .bundle-container,
+    .addon-container {
+        background-color: #262626;
+        overflow: hidden;
+        padding: 20px 20px 15px 20px;
+        width: 547px;
+        height: 337px;
+        border-radius: 25px;
+
+        .scroll-container {
+            overflow-y: hidden;
+            overflow-x: auto;
+            display: flex;
+            width: 577px;
+            height: 337px;
+            scroll-snap-type: x mandatory;
+
+            img {
+                border-radius: 25px;
+                margin-bottom: 15px;
+                margin-right: 15px;
+                scroll-snap-align: start;
+                border: 2px solid transparent;
+                cursor: pointer;
+            }
+
+            img:hover {
+                border-color: white;
+            }
+
+            img:last-child {
+                margin-right: 0;
+            }
+        }
+
+
+        ::-webkit-scrollbar-track {
+            background: #262626 !important;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #161616 !important;
+
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #161616 !important;
+        }
+    }
+}

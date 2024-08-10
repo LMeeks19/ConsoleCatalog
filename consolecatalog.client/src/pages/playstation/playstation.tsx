@@ -4,13 +4,38 @@ import TopBar from "../../components/site/topbar";
 import SideBar from "../../components/site/sidebar";
 import BottomBar from "../../components/site/bottombar";
 import GamesSearchModal from "../../components/modal/game-search-modal";
-import { useRecoilValue } from "recoil";
-import { gameSearchModalState } from "../../functions/state";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  activePageState,
+  gameSearchModalState,
+  selectedGameState,
+} from "../../functions/state";
 import Modal from "../../components/modal/modal";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { Pages } from "../../functions/enums";
 import "../../styling/site/page.css";
+import { Game } from "../../functions/interfaces";
 
 function Playstation() {
   const isGameSearchModalActive = useRecoilValue(gameSearchModalState);
+  const setSelectedGame = useSetRecoilState(selectedGameState);
+  const setActivePage = useSetRecoilState(activePageState);
+  const location = useLocation();
+
+  useEffect(() => {
+    function setCurrentPage() {
+      if (location.pathname.includes("games")) setActivePage(Pages.Games);
+      else if (location.pathname.includes("profiles"))
+        setActivePage(Pages.Profiles);
+      else setActivePage(Pages.Home);
+    }
+    function resetSelectedGame() {
+      setSelectedGame({} as Game);
+    }
+    setCurrentPage();
+    resetSelectedGame();
+  }, []);
 
   return (
     <>
