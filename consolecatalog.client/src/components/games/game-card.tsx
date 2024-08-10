@@ -1,5 +1,4 @@
 import { AutoTextSize } from "auto-text-size";
-import { Platforms } from "../../functions/enums";
 import { GameSummary } from "../../functions/interfaces";
 import { format } from "date-fns";
 import {

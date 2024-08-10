@@ -84,13 +84,9 @@ function PlaystationGamesBrowse() {
           isSidebarActive || isGameSearchModalActive ? "disabled" : ""
         }`}
       >
-        <SearchBar />
-
         <div className="section-header">
-          <div>
-            <AutoTextSize maxFontSizePx={24} minFontSizePx={24}>
-              UPCOMING RELEASES
-            </AutoTextSize>
+          <div className="text">
+            <AutoTextSize maxFontSizePx={28} minFontSizePx={16}>UPCOMING RELEASES</AutoTextSize>
           </div>
           <div
             className={`select-container ${
@@ -182,9 +178,11 @@ function PlaystationGamesBrowse() {
         </div>
 
         <div className="section-header">
-          <AutoTextSize maxFontSizePx={24} minFontSizePx={16}>
-            RECENTLY RELEASED
-          </AutoTextSize>
+          <div className="text">
+            <AutoTextSize maxFontSizePx={28} minFontSizePx={16}>
+              RECENTLY RELEASED
+            </AutoTextSize>
+          </div>
         </div>
 
         <div id="recent-games" className="cards-container">

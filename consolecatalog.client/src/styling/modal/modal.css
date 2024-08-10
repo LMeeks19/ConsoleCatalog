@@ -1,8 +1,8 @@
 .modal {
     position: fixed;
     min-height: 60px;
-    max-height: 600px;
-    width: 60%;
+    max-height: 650px;
+    width: 40%;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -11,5 +11,4 @@
     border-radius: 25px;
     padding: 30px;
     overflow: hidden;
-    transition: height 1s ease-in-out;
 }

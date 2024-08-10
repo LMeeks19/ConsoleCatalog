@@ -31,9 +31,7 @@ function GameSearchResult(props: GameSearchResultProps) {
         <i className="fa-regular fa-image fa-2xl"></i>
       )}
       <div className="result-info">
-        <div className="result-title">
-          <AutoTextSize maxFontSizePx={30}>{props.game.name}</AutoTextSize>
-        </div>
+        <div className="result-title">{props.game.name}</div>
         {props.game.first_release_date !== undefined ? (
           <div className="result-release">
             <div className="date">

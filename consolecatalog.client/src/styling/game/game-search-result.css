@@ -7,13 +7,13 @@
     margin-right: 10px;
     cursor: pointer;
     border: 1px solid #202020;
+    flex-wrap: wrap;
 
     &.blank {
         pointer-events: none;
         justify-content: center;
         align-items: center;
         font-size: large;
-        font-weight: 500;
         height: 128px;
     }
 
@@ -38,41 +38,39 @@
     .result-info {
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
+        justify-content: space-evenly;
         padding-left: 20px;
-        width: 100%;
 
         .result-title {
-            margin-top: 10px;
+            font-size: 25px;
         }
 
         .result-release {
             background-color: #161616;
             border-radius: 15px;
             padding: 5px 15px 5px 15px;
-            font-size: 12px;
+            font-size: small;
             font-weight: 500;
             width: fit-content;
-            margin-bottom: 10px;
-
         }
     }
 
     .result-platforms {
         display: flex;
         align-items: center;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
         padding: 10px;
+        margin-left: auto;
+        overflow: hidden;
 
         .platform {
             background-color: #161616;
             border-radius: 15px;
             padding: 5px 15px 5px 15px;
-            margin-right: 10px;
+            margin: 5px;
         }
 
-        .platform:first-child {
-            margin-left: 5px;
-        }
     }
 
     .result-rating {
@@ -85,7 +83,7 @@
         font-weight: 500;
         font-size: large;
         margin: auto 20px auto 0;
-
+        overflow: hidden;
 
         &.amazing {
             background-color: #06803d;
@@ -115,7 +113,7 @@
 
 .result:hover {
     border-color: white;
-    background-color: #303030;
+    background-color: #363636;
 
     &.blank {
         border-color: transparent !important;
