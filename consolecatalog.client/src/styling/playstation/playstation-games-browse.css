@@ -121,6 +121,7 @@
     display: flex;
     overflow-x: auto;
     margin-bottom: 20px;
+    scroll-snap-type: x mandatory;
 }
 
 .cards-container:last-child {

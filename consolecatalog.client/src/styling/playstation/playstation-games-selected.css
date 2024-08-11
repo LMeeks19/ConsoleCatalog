@@ -1,5 +1,5 @@
 .game {
-    padding: 50px;
+    padding: 20px;
     overflow-y: auto;
     overflow-x: hidden;
     display: flex;
@@ -28,8 +28,7 @@
         margin-bottom: 20px;
         height: 525px;
         margin-right: 20px;
-        min-width: 361px;
-        width: calc(100% - 882px);
+        width: 928px;
     }
 
     .platform-container {
@@ -68,22 +67,10 @@
                 margin-right: 0;
             }
         }
-
-        ::-webkit-scrollbar-track {
-            background: #262626 !important;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #161616 !important;
-
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #161616 !important;
-        }
     }
 
-    .bundle-container {
+    .bundle-container,
+    .addon-container {
         margin-right: 20px;
     }
 
@@ -92,7 +79,7 @@
         background-color: #262626;
         overflow: hidden;
         padding: 20px 20px 15px 20px;
-        width: 547px;
+        width: 236px;
         height: 337px;
         border-radius: 25px;
 
@@ -100,14 +87,13 @@
             overflow-y: hidden;
             overflow-x: auto;
             display: flex;
-            width: 577px;
+            width: 236px;
             height: 337px;
             scroll-snap-type: x mandatory;
 
             img {
                 border-radius: 25px;
-                margin-bottom: 15px;
-                margin-right: 15px;
+                margin: 0 15px 15px 0;
                 scroll-snap-align: start;
                 border: 2px solid transparent;
                 cursor: pointer;
@@ -121,15 +107,25 @@
                 margin-right: 0;
             }
         }
+    }
 
+    .tone-container {
+        background-color: #262626;
+        border-radius: 25px;
+        width: 563px;
+        height: 332px;
+        padding: 20px;
+    }
 
+    .bundle-container,
+    .addon-container,
+    .screenshot-container {
         ::-webkit-scrollbar-track {
             background: #262626 !important;
         }
 
         ::-webkit-scrollbar-thumb {
             background: #161616 !important;
-
         }
 
         ::-webkit-scrollbar-thumb:hover {

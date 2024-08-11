@@ -8,6 +8,7 @@
     margin: 0 5px 10px 5px;
     cursor: pointer;
     border: 2px solid #161616;
+    scroll-snap-align: start;
 
     &.blank {
         box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
