@@ -1,6 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { activePageState, sidebarState } from "../../functions/state";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  activePageState,
+  sidebarState,
+  userState,
+} from "../../functions/state";
 import { Pages } from "../../functions/enums";
 import { BarProps } from "../../functions/interfaces";
 import "../../styling/site/sidebar.css";
@@ -8,6 +12,7 @@ import "../../styling/site/sidebar.css";
 function SideBar(props: BarProps) {
   const [isSidebarActive, setIsSidebarActive] = useRecoilState(sidebarState);
   const [activePage, setActivePage] = useRecoilState(activePageState);
+  const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
   return (
@@ -63,6 +68,34 @@ function SideBar(props: BarProps) {
       </div>
       <div className="side-bar-bottom">
         <div
+          className={`side-bar-item ${
+            activePage === Pages.Home ? "active" : ""
+          } ${props.page}-item`}
+          onClick={() => {
+            setActivePage(Pages.MyProfile);
+            setIsSidebarActive(!isSidebarActive);
+          }}
+        >
+          <p className="side-bar-item-text">PSN PROFILE</p>
+          <div className="side-bar-item-icon">
+            <i className="fa-solid fa-user fa-2xl" />
+          </div>
+        </div>
+        <div
+          className={`side-bar-item ${
+            activePage === Pages.Home ? "active" : ""
+          } ${props.page}-item`}
+          onClick={() => {
+            setActivePage(Pages.Account);
+            setIsSidebarActive(!isSidebarActive);
+          }}
+        >
+          <p className="side-bar-item-text">ACCOUNT</p>
+          <div className="side-bar-item-icon">
+            <i className="fa-solid fa-user fa-2xl" />
+          </div>
+        </div>
+        <div
           className={`side-bar-item ${props.page}`}
           onClick={() => {
             setActivePage(Pages.Home);
@@ -70,10 +103,14 @@ function SideBar(props: BarProps) {
             navigate(`/${props.page === "xbox" ? "playstation" : "xbox"}`);
           }}
         >
-          <p className="side-bar-item-text">{props.page === "xbox" ? "PLAYSTATION" : "XBOX"}</p>
+          <p className="side-bar-item-text">
+            {props.page === "xbox" ? "PLAYSTATION" : "XBOX"}
+          </p>
           <img
             src={props.icon}
-            className={`side-bar-item-icon ${props.page === "xbox" ? "playstation" : "xbox"}-icon`}
+            className={`side-bar-item-icon ${
+              props.page === "xbox" ? "playstation" : "xbox"
+            }-icon`}
           />
         </div>
         <div

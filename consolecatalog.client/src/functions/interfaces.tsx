@@ -64,6 +64,25 @@ export interface Game {
   summary: string;
   themes: Theme[];
   total_rating: number;
+  total_rating_count: number;
+  rating: number;
+  rating_count: number;
+  aggregated_rating: number;
+  aggregated_rating_count: number; 
+  age_ratings: AgeRating[];
+}
+
+export interface AgeRating {
+  id: number;
+  synopsis: string;
+  category: number;
+  content_descriptions: ContentDescription[]
+}
+
+export interface ContentDescription {
+  id: number;
+  description: string;
+
 }
 
 export interface AddOn {

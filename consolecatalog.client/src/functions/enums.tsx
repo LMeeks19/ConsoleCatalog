@@ -7,6 +7,8 @@ export enum Pages {
   Home,
   Games,
   Profiles,
+  MyProfile,
+  Account
 }
 
 export enum Platforms {

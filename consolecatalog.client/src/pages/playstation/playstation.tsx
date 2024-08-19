@@ -2,7 +2,6 @@ import playstation_icon from "../../images/playstation_icon.png";
 import xbox_icon from "../../images/xbox_icon.png";
 import TopBar from "../../components/site/topbar";
 import SideBar from "../../components/site/sidebar";
-import BottomBar from "../../components/site/bottombar";
 import GamesSearchModal from "../../components/modal/game-search-modal";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
@@ -50,7 +49,6 @@ function Playstation() {
       )}
       <TopBar page="playstation" icon={playstation_icon} />
       <SideBar page="playstation" icon={xbox_icon} />
-      <BottomBar page="playstation" />
     </>
   );
 }

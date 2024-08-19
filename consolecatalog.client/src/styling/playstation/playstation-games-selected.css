@@ -4,15 +4,16 @@
     overflow-x: hidden;
     display: flex;
     flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-evenly;
 
     .cover-container {
         border-radius: 25px;
         background-color: #262626;
         padding: 20px;
         margin-bottom: 20px;
-        width: 361px;
+        min-width: 361px;
         height: 525px;
-        margin-right: 20px;
 
         img {
             border-radius: 25px;
@@ -24,30 +25,141 @@
     .info-container {
         border-radius: 25px;
         background-color: #262626;
-        padding: 20px;
+        padding: 10px;
         margin-bottom: 20px;
-        height: 525px;
-        margin-right: 20px;
-        width: 928px;
-    }
+        min-height: 545px;
+        width: 1349px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
 
-    .platform-container {
-        border-radius: 25px;
-        background-color: #262626;
-        padding: 20px;
-        margin-bottom: 20px;
-        width: 361px;
-        height: 525px;
+        .info-small-col {
+            display: flex;
+            flex-direction: row;
+
+            .col-width {
+                width: 50%;
+            }
+        }
+
+        .info-text {
+            margin: 0 20px 15px 20px;
+        }
+
+        .info-heading {
+            font-size: 20px;
+            border-bottom: 1px solid #404040;
+        }
+
+        .info-name,
+        .info-summary,
+        .info-storyline,
+        .info-release-date,
+        .info-ratings,
+        .info-platforms {
+            margin-top: 10px;
+        }
+
+        .info-name {
+            font-size: 34px;
+        }
+
+        .info-storyline,
+        .info-summary {
+            font-size: 16px;
+            text-wrap: wrap !important;
+        }
+
+        .info-release-date {
+            background-color: #161616;
+            border-radius: 15px;
+            padding: 5px 15px 5px 15px;
+            text-wrap: nowrap;
+            width: fit-content;
+        }
+
+        .info-ratings {
+            display: flex;
+            flex-wrap: wrap;
+
+            .info-ratings-heading {
+                font-size: 18px;
+                margin: auto 10px auto 0;
+
+                &.left {
+                    margin-left: auto;
+                }
+            }
+
+            .info-rating {
+                background-color: #161616;
+                border-radius: 15px;
+                padding: 5px 15px 5px 15px;
+                text-wrap: nowrap;
+                margin-bottom: 5px;
+
+                &.margin {
+                    &.right {
+                        margin-right: 10px
+                    }
+                }
+
+                &.amazing {
+                    background-color: #06803d;
+                }
+
+                &.good {
+                    background-color: #00ce7a;
+                }
+
+                &.average {
+                    background-color: #ffbd3f;
+                }
+
+                &.bad {
+                    background-color: #ff6874;
+                }
+
+                &.awful {
+                    background-color: #f11528;
+                }
+            }
+        }
+
+        .info-platforms {
+            display: flex;
+            flex-wrap: wrap;
+
+            .info-platform {
+                background-color: #161616;
+                border-radius: 15px;
+                padding: 5px 15px 5px 15px;
+                text-wrap: nowrap;
+                margin: auto 10px 5px 0;
+            }
+
+            .info-platform:last-child {
+                margin-right: 0;
+            }
+        }
     }
 
     .screenshot-container {
         background-color: #262626;
         overflow: hidden;
-        padding: 20px 20px 15px 20px;
+        padding: 15px 20px 15px 20px;
         width: 555px;
-        height: 337px;
+        height: 383px;
         border-radius: 25px;
-        margin-right: 20px;
+
+        .screenshot-text {
+
+            .screenshot-heading {
+                font-size: 20px;
+                margin-bottom: 10px;
+                border-bottom: 1px solid #404040;
+            }
+        }
 
         .scroll-container {
             overflow-y: hidden;
@@ -71,17 +183,23 @@
 
     .bundle-container,
     .addon-container {
-        margin-right: 20px;
-    }
-
-    .bundle-container,
-    .addon-container {
         background-color: #262626;
         overflow: hidden;
-        padding: 20px 20px 15px 20px;
+        padding: 15px 20px 15px 20px;
         width: 236px;
-        height: 337px;
+        height: 383px;
         border-radius: 25px;
+
+        .bundle-text,
+        .addon-text {
+
+            .bundle-heading,
+            .addon-heading {
+                font-size: 20px;
+                margin-bottom: 10px;
+                border-bottom: 1px solid #404040;
+            }
+        }
 
         .scroll-container {
             overflow-y: hidden;
@@ -112,13 +230,58 @@
     .tone-container {
         background-color: #262626;
         border-radius: 25px;
-        width: 563px;
-        height: 332px;
+        height: 383px;
+        width: 543px;
         padding: 20px;
+        overflow: hidden;
+
+        .scroll-container {
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 383px;
+            width: 543px;
+
+            .tone-text {
+                margin: 0 20px 15px 10px;
+
+                .tone-heading {
+                    font-size: 20px;
+                    border-bottom: 1px solid #404040;
+                }
+
+                .tone-genres,
+                .tone-themes,
+                .tone-contents {
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin-top: 10px;
+
+                    .tone-genre,
+                    .tone-theme,
+                    .tone-content {
+                        margin-right: 10px;
+                        background-color: #161616;
+                        border-radius: 15px;
+                        padding: 5px 15px 5px 15px;
+                        text-wrap: nowrap;
+                        margin-bottom: 5px;
+                        width: fit-content;
+                    }
+                }
+
+                .tone-age-rating {
+                    margin-top: 10px;
+                }
+            }
+        }
     }
 
+    .info-container,
     .bundle-container,
     .addon-container,
+    .tone-container,
     .screenshot-container {
         ::-webkit-scrollbar-track {
             background: #262626 !important;
@@ -130,6 +293,20 @@
 
         ::-webkit-scrollbar-thumb:hover {
             background: #161616 !important;
+        }
+    }
+}
+
+@media screen and (max-width: 875px) {
+    .game {
+        .info-container {
+            .info-small-col {
+                flex-wrap: wrap;
+
+                .col-width {
+                    width: 100%;
+                }
+            }
         }
     }
 }

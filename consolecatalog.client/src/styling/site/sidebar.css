@@ -1,7 +1,7 @@
 .side-bar {
     background-color: #181818;
     width: 0px;
-    height: calc(100% - 140px);
+    height: calc(100% - 70px);
     z-index: 2;
     position: fixed;
     top: 0;
