@@ -15,6 +15,15 @@
         min-width: 361px;
         height: 525px;
 
+        .blank {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 361px;
+            width: 525px;
+            font-size: 200px;
+        }
+
         img {
             border-radius: 25px;
             width: 361px;
@@ -161,6 +170,14 @@
             }
         }
 
+        .blank {
+            width: 555px;
+            height: 382px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         .scroll-container {
             overflow-y: hidden;
             overflow-x: auto;
@@ -199,6 +216,14 @@
                 margin-bottom: 10px;
                 border-bottom: 1px solid #404040;
             }
+        }
+
+        .blank {
+            width: 236px;
+            height: 337px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .scroll-container {
@@ -240,6 +265,7 @@
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
+            justify-content: space-evenly;
             height: 383px;
             width: 543px;
 
@@ -270,10 +296,6 @@
                         width: fit-content;
                     }
                 }
-
-                .tone-age-rating {
-                    margin-top: 10px;
-                }
             }
         }
     }
@@ -295,6 +317,13 @@
             background: #161616 !important;
         }
     }
+}
+
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 @media screen and (max-width: 875px) {

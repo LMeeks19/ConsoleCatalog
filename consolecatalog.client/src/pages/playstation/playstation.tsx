@@ -17,7 +17,8 @@ import "../../styling/site/page.css";
 import { Game } from "../../functions/interfaces";
 
 function Playstation() {
-  const [isGameSearchModalActive, setIsGameSearchModalActive] = useRecoilState(gameSearchModalState);
+  const [isGameSearchModalActive, setIsGameSearchModalActive] =
+    useRecoilState(gameSearchModalState);
   const setSelectedGame = useSetRecoilState(selectedGameState);
   const setActivePage = useSetRecoilState(activePageState);
   const location = useLocation();
@@ -27,6 +28,10 @@ function Playstation() {
       if (location.pathname.includes("games")) setActivePage(Pages.Games);
       else if (location.pathname.includes("profiles"))
         setActivePage(Pages.Profiles);
+      else if (location.pathname.includes("account/PSNprofile"))
+        setActivePage(Pages.MyProfile);
+      else if (location.pathname.includes("account"))
+        setActivePage(Pages.Account);
       else setActivePage(Pages.Home);
     }
     function resetSelectedGame() {
@@ -37,7 +42,7 @@ function Playstation() {
     }
     setCurrentPage();
     resetSelectedGame();
-    resetModal()
+    resetModal();
   }, []);
 
   return (

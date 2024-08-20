@@ -1,10 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  activePageState,
-  sidebarState,
-  userState,
-} from "../../functions/state";
+import { useRecoilState } from "recoil";
+import { activePageState, sidebarState } from "../../functions/state";
 import { Pages } from "../../functions/enums";
 import { BarProps } from "../../functions/interfaces";
 import "../../styling/site/sidebar.css";
@@ -12,7 +8,6 @@ import "../../styling/site/sidebar.css";
 function SideBar(props: BarProps) {
   const [isSidebarActive, setIsSidebarActive] = useRecoilState(sidebarState);
   const [activePage, setActivePage] = useRecoilState(activePageState);
-  const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
   return (
@@ -62,14 +57,14 @@ function SideBar(props: BarProps) {
         >
           <p className="side-bar-item-text">PROFILES</p>
           <div className="side-bar-item-icon">
-            <i className="fa-solid fa-user fa-2xl" />
+            <i className="fa-solid fa-users fa-2xl" />
           </div>
         </div>
       </div>
       <div className="side-bar-bottom">
         <div
           className={`side-bar-item ${
-            activePage === Pages.Home ? "active" : ""
+            activePage === Pages.MyProfile ? "active" : ""
           } ${props.page}-item`}
           onClick={() => {
             setActivePage(Pages.MyProfile);
@@ -83,7 +78,7 @@ function SideBar(props: BarProps) {
         </div>
         <div
           className={`side-bar-item ${
-            activePage === Pages.Home ? "active" : ""
+            activePage === Pages.Account ? "active" : ""
           } ${props.page}-item`}
           onClick={() => {
             setActivePage(Pages.Account);
@@ -92,7 +87,7 @@ function SideBar(props: BarProps) {
         >
           <p className="side-bar-item-text">ACCOUNT</p>
           <div className="side-bar-item-icon">
-            <i className="fa-solid fa-user fa-2xl" />
+            <i className="fa-solid fa-id-card fa-2xl" />
           </div>
         </div>
         <div
