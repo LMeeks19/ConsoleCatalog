@@ -1,6 +1,7 @@
 .results {
     display: flex;
     flex-direction: column;
-    height: calc(660px - 148px);
-    overflow: auto;
+    max-height: 562px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }

@@ -57,11 +57,39 @@ function SideBar(props: BarProps) {
         >
           <p className="side-bar-item-text">PROFILES</p>
           <div className="side-bar-item-icon">
-            <i className="fa-solid fa-user fa-2xl" />
+            <i className="fa-solid fa-users fa-2xl" />
           </div>
         </div>
       </div>
       <div className="side-bar-bottom">
+        <div
+          className={`side-bar-item ${
+            activePage === Pages.MyProfile ? "active" : ""
+          } ${props.page}-item`}
+          onClick={() => {
+            setActivePage(Pages.MyProfile);
+            setIsSidebarActive(!isSidebarActive);
+          }}
+        >
+          <p className="side-bar-item-text">PSN PROFILE</p>
+          <div className="side-bar-item-icon">
+            <i className="fa-solid fa-user fa-2xl" />
+          </div>
+        </div>
+        <div
+          className={`side-bar-item ${
+            activePage === Pages.Account ? "active" : ""
+          } ${props.page}-item`}
+          onClick={() => {
+            setActivePage(Pages.Account);
+            setIsSidebarActive(!isSidebarActive);
+          }}
+        >
+          <p className="side-bar-item-text">ACCOUNT</p>
+          <div className="side-bar-item-icon">
+            <i className="fa-solid fa-id-card fa-2xl" />
+          </div>
+        </div>
         <div
           className={`side-bar-item ${props.page}`}
           onClick={() => {
@@ -70,10 +98,14 @@ function SideBar(props: BarProps) {
             navigate(`/${props.page === "xbox" ? "playstation" : "xbox"}`);
           }}
         >
-          <p className="side-bar-item-text">{props.page === "xbox" ? "PLAYSTATION" : "XBOX"}</p>
+          <p className="side-bar-item-text">
+            {props.page === "xbox" ? "PLAYSTATION" : "XBOX"}
+          </p>
           <img
             src={props.icon}
-            className={`side-bar-item-icon ${props.page === "xbox" ? "playstation" : "xbox"}-icon`}
+            className={`side-bar-item-icon ${
+              props.page === "xbox" ? "playstation" : "xbox"
+            }-icon`}
           />
         </div>
         <div

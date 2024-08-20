@@ -15,7 +15,7 @@ function SearchBar() {
           id="searchTerm"
           name="searchTerm"
           type="text"
-          placeholder="Search..."
+          placeholder="Search Games..."
           autoComplete="off"
           onClick={() => setIsGamesSearchModalActive(true)}
         />

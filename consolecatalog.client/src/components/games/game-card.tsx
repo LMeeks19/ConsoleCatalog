@@ -1,21 +1,30 @@
 import { AutoTextSize } from "auto-text-size";
-import { Platforms } from "../../functions/enums";
 import { GameSummary } from "../../functions/interfaces";
 import { format } from "date-fns";
-import { getFullCardImageUrl, getRatingColour } from "../../functions/methods";
+import {
+  getFullCardImageUrl,
+  getRatingColour,
+  isPSTitle,
+} from "../../functions/methods";
 import "../../styling/game/game-card.css";
+import { useNavigate } from "react-router-dom";
 
 function GameCard(props: GameCardProps) {
+  const navigate = useNavigate();
 
   return (
-    <div className="card" key={props.game.id}>
-      {props.game.rating !== undefined ? (
+    <div
+      className="card"
+      key={props.game.id}
+      onClick={() => navigate(`/playstation/games/${props.game.id}`)}
+    >
+      {props.game.total_rating !== undefined ? (
         <div
           className={`card-rating ${getRatingColour(
-            Math.round(props.game.rating)
+            Math.round(props.game.total_rating)
           )}`}
         >
-          {Math.round(props.game.rating)}
+          {Math.round(props.game.total_rating)}
         </div>
       ) : (
         <></>
@@ -45,17 +54,14 @@ function GameCard(props: GameCardProps) {
       )}
       <div className="card-info">
         <div className="card-info-title">
-          <AutoTextSize maxFontSizePx={24}>{props.game.name}</AutoTextSize>
+          <AutoTextSize maxFontSizePx={24}>
+            {props.game.name}
+          </AutoTextSize>
         </div>
 
         <div className="card-info-platforms">
           {props.game.platforms
-            .filter(
-              (platform) =>
-                platform.abbreviation === Platforms.PS3 ||
-                platform.abbreviation === Platforms.PS4 ||
-                platform.abbreviation === Platforms.PS5
-            )
+            .filter((platform) => isPSTitle(platform.abbreviation))
             .sort((a, b) => b.abbreviation.localeCompare(a.abbreviation))
             .map((platform) => {
               return (

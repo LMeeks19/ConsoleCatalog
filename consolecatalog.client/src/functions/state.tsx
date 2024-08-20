@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { Game, GameSummary, User } from "./interfaces";
+import { Game, User } from "./interfaces";
 import { Pages } from "./enums";
 
 export const userState = atom({

@@ -1,8 +1,9 @@
 import "../../styling/game/game-card.css";
+import { BeatLoader } from "react-spinners";
 
 function GameCardBlankCollection(props: GameCardBlankCollectionProps) {
   function getIterationCount(total: number): Array<number> {
-    let array = new Array();
+    const array = [];
     for (let i = 0; i < total; i++) array.push(i);
     return array;
   }
@@ -19,10 +20,7 @@ function GameCardBlankCollection(props: GameCardBlankCollectionProps) {
 function GameCardBlank() {
   return (
     <div className="card blank">
-      <div className="card-image-container">
-        <i className="fa-solid fa-image fa-2xl card-image"></i>
-      </div>
-      <div className="card-info"></div>
+      <BeatLoader speedMultiplier={.5} color="white" size={30} />
     </div>
   );
 }

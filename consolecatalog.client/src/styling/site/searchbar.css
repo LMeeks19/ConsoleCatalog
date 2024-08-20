@@ -3,7 +3,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px 0 40px 0;
+    margin: auto 0 auto 0;
 
     .search {
         width: 50%;
@@ -12,21 +12,27 @@
         border-radius: 10px;
         display: flex;
         flex-direction: row;
+        margin-bottom: 0;
+        padding: 7.5px 15px 7.5px 15px;
 
         input {
             border: none !important;
-            padding: 15px;
             border-radius: 10px;
             width: 95%;
             background-color: transparent;
             outline: none;
             font-size: large;
+            height: 28px;
         }
-
 
         i {
-            margin: auto 20px auto 0;
+            width: 5%;
+            margin: auto;
         }
+    }
+
+    .search:hover {
+        background-color: #363636;
     }
 }
 

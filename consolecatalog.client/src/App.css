@@ -11,3 +11,23 @@
     pointer-events: none !important;
     filter: blur(5px);
 }
+
+.amazing {
+    background-color: #06803d;
+}
+
+.good {
+    background-color: #00ce7a;
+}
+
+.average {
+    background-color: #ffbd3f;
+}
+
+.bad {
+    background-color: #ff6874;
+}
+
+.awful {
+    background-color: #f11528;
+}

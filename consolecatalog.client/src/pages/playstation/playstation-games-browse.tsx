@@ -1,6 +1,4 @@
 import Playstation from "./playstation";
-import "../../styling/playstation/playstation-games-browse.css";
-import SearchBar from "../../components/site/searchbar";
 import { useEffect, useState } from "react";
 import { GameSummary, SelectedDate } from "../../functions/interfaces";
 import { useRecoilValue } from "recoil";
@@ -9,6 +7,7 @@ import GameCard from "../../components/games/game-card";
 import { AutoTextSize } from "auto-text-size";
 import { Month, Year } from "../../functions/enums";
 import GameCardBlankCollection from "../../components/games/game-card-blank";
+import "../../styling/playstation/playstation-games-browse.css";
 
 function PlaystationGamesBrowse() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -26,8 +25,8 @@ function PlaystationGamesBrowse() {
     year: currentDate.getFullYear(),
   } as SelectedDate);
 
-  const [isLoadingUpcoming, setIsLoadingUpcoming] = useState<Boolean>(true);
-  const [isLoadingRecent, setIsLoadingRecent] = useState<Boolean>(true);
+  const [isLoadingUpcoming, setIsLoadingUpcoming] = useState<boolean>(true);
+  const [isLoadingRecent, setIsLoadingRecent] = useState<boolean>(true);
   useEffect(() => {
     setIsLoadingUpcoming(true);
     const timeout = setTimeout(async () => {
@@ -41,7 +40,7 @@ function PlaystationGamesBrowse() {
         setUpcomingTitles(upcomingTitles);
       }
       setIsLoadingUpcoming(false);
-    }, 1000);
+    }, 2000);
 
     return () => clearTimeout(timeout);
   }, [selectedDate]);
@@ -54,7 +53,7 @@ function PlaystationGamesBrowse() {
       const newRecentTitles = await getRecentPSNTitles(recentTitles.length);
       setRecentTitles([...recentTitles, ...newRecentTitles]);
       setIsLoadingRecent(false);
-    }, 1000);
+    }, 2000);
 
     return () => clearTimeout(timeout);
   }, [page]);
@@ -84,11 +83,9 @@ function PlaystationGamesBrowse() {
           isSidebarActive || isGameSearchModalActive ? "disabled" : ""
         }`}
       >
-        <SearchBar />
-
         <div className="section-header">
-          <div>
-            <AutoTextSize maxFontSizePx={24} minFontSizePx={24}>
+          <div className="text">
+            <AutoTextSize maxFontSizePx={28} minFontSizePx={16}>
               UPCOMING RELEASES
             </AutoTextSize>
           </div>
@@ -165,7 +162,7 @@ function PlaystationGamesBrowse() {
 
         <div className="cards-container">
           {isLoadingUpcoming ? (
-            <GameCardBlankCollection number={6} />
+            <GameCardBlankCollection number={20} />
           ) : (
             <>
               {upcomingTitles.map((upcomingTitle) => {
@@ -182,14 +179,16 @@ function PlaystationGamesBrowse() {
         </div>
 
         <div className="section-header">
-          <AutoTextSize maxFontSizePx={24} minFontSizePx={16}>
-            RECENTLY RELEASED
-          </AutoTextSize>
+          <div className="text">
+            <AutoTextSize maxFontSizePx={28} minFontSizePx={16}>
+              RECENTLY RELEASED
+            </AutoTextSize>
+          </div>
         </div>
 
         <div id="recent-games" className="cards-container">
           {isLoadingRecent ? (
-            <GameCardBlankCollection number={6} />
+            <GameCardBlankCollection number={20} />
           ) : (
             <>
               {recentTitles.map((recentTitle) => {

@@ -1,7 +1,7 @@
 .side-bar {
     background-color: #181818;
     width: 0px;
-    height: calc(100% - 120px);
+    height: calc(100% - 70px);
     z-index: 2;
     position: fixed;
     top: 0;
@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-top: 60px;
+    margin-top: 70px;
     transition: all 1s ease-in-out;
     display: flex;
     justify-content: space-between;
@@ -52,7 +52,6 @@
             margin: 5px 0 5px 0;
 
             &.active {
-                pointer-events: none;
 
                 &.playstation-item {
                     background-color: #1e5ddb !important;
@@ -89,7 +88,7 @@
         }
 
         .side-bar-item:hover {
-            background-color: #282828;
+            background-color: #363636;
         }
     }
 }
