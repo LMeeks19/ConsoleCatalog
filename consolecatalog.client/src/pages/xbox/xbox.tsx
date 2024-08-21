@@ -21,6 +21,10 @@ function Xbox() {
       if (location.pathname.includes("games")) setActivePage(Pages.Games);
       else if (location.pathname.includes("profiles"))
         setActivePage(Pages.Profiles);
+      else if (location.pathname.includes("account/PSNprofile"))
+        setActivePage(Pages.MyProfile);
+      else if (location.pathname.includes("account"))
+        setActivePage(Pages.Account);
       else setActivePage(Pages.Home);
     }
     setCurrentPage();

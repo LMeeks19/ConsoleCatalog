@@ -8,15 +8,18 @@ import {
 } from "../../functions/methods";
 import "../../styling/game/game-card.css";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../functions/state";
 
 function GameCard(props: GameCardProps) {
+  const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
   return (
     <div
       className="card"
       key={props.game.id}
-      onClick={() => navigate(`/playstation/games/${props.game.id}`)}
+      onClick={() => navigate(`/${user.id}/playstation/games/${props.game.id}`)}
     >
       {props.game.total_rating !== undefined ? (
         <div

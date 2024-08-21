@@ -12,7 +12,7 @@ import {
   validateUserLogin,
   validateUserRegistrationPassword,
 } from "../functions/validation";
-import { getUser, putUser } from "../functions/server";
+import { getUserByUsername, putUser } from "../functions/server";
 import { useSetRecoilState } from "recoil";
 import { userState } from "../functions/state";
 import { ActiveLoginTab } from "../functions/enums";
@@ -66,7 +66,7 @@ function Login() {
     event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
     event.preventDefault();
-    const user = await getUser(loginDetails.username);
+    const user = await getUserByUsername(loginDetails.username);
     if (validateUserLogin(user, loginDetails)) {
       setUser(user);
       setShowLoginErrorMessage(false);

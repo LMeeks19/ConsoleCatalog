@@ -1,5 +1,9 @@
 import { useRecoilState, useRecoilValue } from "recoil";
-import { selectedGameState, sidebarState } from "../../functions/state";
+import {
+  selectedGameState,
+  sidebarState,
+  userState,
+} from "../../functions/state";
 import Playstation from "./playstation";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -15,13 +19,17 @@ function PlaystationGamesSelected() {
   const [selectedGame, setSelectedGame] = useRecoilState(selectedGameState);
   const isSidebarActive = useRecoilValue(sidebarState);
   const [isLoading, setIsLoading] = useState(true);
+  const user = useRecoilValue(userState);
   const location = useLocation();
   const naviagte = useNavigate();
 
   useEffect(() => {
     async function fetchSelectedGame() {
       setIsLoading(true);
-      var gameId = location.pathname.replace("/playstation/games/", "");
+      var gameId = location.pathname.replace(
+        `/${user.id}/playstation/games/`,
+        ""
+      );
       const game = await getTitleById(gameId);
       setSelectedGame(game[0]);
       setIsLoading(false);

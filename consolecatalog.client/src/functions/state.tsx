@@ -1,11 +1,16 @@
 import { atom } from "recoil";
-import { Game, User } from "./interfaces";
+import { Game, PSNProfile, User } from "./interfaces";
 import { Pages } from "./enums";
 
 export const userState = atom({
   key: "userState",
   default: {} as User,
 });
+
+export const selectedPSNProfileState = atom({
+  key: "selectedPSNProfileState",
+  default: {} as PSNProfile
+})
 
 export const sidebarState = atom({
   key: "sidebarState",

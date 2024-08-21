@@ -1,6 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { activePageState, sidebarState } from "../../functions/state";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  activePageState,
+  sidebarState,
+  userState,
+} from "../../functions/state";
 import { Pages } from "../../functions/enums";
 import { BarProps } from "../../functions/interfaces";
 import "../../styling/site/sidebar.css";
@@ -8,6 +12,7 @@ import "../../styling/site/sidebar.css";
 function SideBar(props: BarProps) {
   const [isSidebarActive, setIsSidebarActive] = useRecoilState(sidebarState);
   const [activePage, setActivePage] = useRecoilState(activePageState);
+  const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
   return (
@@ -22,7 +27,7 @@ function SideBar(props: BarProps) {
           onClick={() => {
             setActivePage(Pages.Home);
             setIsSidebarActive(!isSidebarActive);
-            navigate(`/${props.page}`);
+            navigate(`/${user.id}/${props.page}`);
           }}
         >
           <p className="side-bar-item-text">HOME</p>
@@ -37,7 +42,7 @@ function SideBar(props: BarProps) {
           onClick={() => {
             setActivePage(Pages.Games);
             setIsSidebarActive(!isSidebarActive);
-            navigate(`/${props.page}/games/browse`);
+            navigate(`/${user.id}/${props.page}/games/browse`);
           }}
         >
           <p className="side-bar-item-text">GAMES</p>
@@ -52,7 +57,7 @@ function SideBar(props: BarProps) {
           onClick={() => {
             setActivePage(Pages.Profiles);
             setIsSidebarActive(!isSidebarActive);
-            navigate(`/${props.page}/profiles/browse`);
+            navigate(`/${user.id}/${props.page}/profiles/browse`);
           }}
         >
           <p className="side-bar-item-text">PROFILES</p>
@@ -69,6 +74,13 @@ function SideBar(props: BarProps) {
           onClick={() => {
             setActivePage(Pages.MyProfile);
             setIsSidebarActive(!isSidebarActive);
+            navigate(
+              `/${user.id}/${props.page}/profiles/${
+                props.page === "xbox"
+                  ? user.xboxGamertag
+                  : user.playstationGamertag
+              }`
+            );
           }}
         >
           <p className="side-bar-item-text">PSN PROFILE</p>
@@ -95,7 +107,9 @@ function SideBar(props: BarProps) {
           onClick={() => {
             setActivePage(Pages.Home);
             setIsSidebarActive(!isSidebarActive);
-            navigate(`/${props.page === "xbox" ? "playstation" : "xbox"}`);
+            navigate(
+              `/${user.id}/${props.page === "xbox" ? "playstation" : "xbox"}`
+            );
           }}
         >
           <p className="side-bar-item-text">
@@ -113,7 +127,7 @@ function SideBar(props: BarProps) {
           onClick={() => {
             setActivePage(Pages.Home);
             setIsSidebarActive(!isSidebarActive);
-            navigate("/");
+            navigate(`/${user.id}`);
           }}
         >
           <p className="side-bar-item-text">RETURN</p>

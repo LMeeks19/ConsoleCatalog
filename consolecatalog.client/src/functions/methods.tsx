@@ -17,6 +17,14 @@ export function getRatingColour(rating: number): string {
   return "awful";
 }
 
+export function getProgressColour(rating: number): string {
+  if (rating > 90) return "#06803d";
+  else if (rating > 70) return "#00ce7a";
+  else if (rating > 50) return "#ffbd3f";
+  else if (rating > 30) return "#ff6874";
+  return "#f11528";
+}
+
 export function isPSTitle(abbreviation: string): boolean {
   return (
     abbreviation === Platforms.PS1 ||

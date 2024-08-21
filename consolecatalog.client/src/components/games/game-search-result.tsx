@@ -7,8 +7,11 @@ import {
 import { format } from "date-fns";
 import "../../styling/game/game-search-result.css";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../functions/state";
 
 function GameSearchResult(props: GameSearchResultProps) {
+  const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
   return (
@@ -16,7 +19,7 @@ function GameSearchResult(props: GameSearchResultProps) {
       className="result"
       key={props.game.id}
       onClick={() => {
-        navigate(`/playstation/games/${props.game.id}`);
+        navigate(`${user.id}/playstation/games/${props.game.id}`);
       }}
     >
       {props.game.cover !== undefined ? (

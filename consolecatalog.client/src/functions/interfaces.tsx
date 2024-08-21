@@ -19,6 +19,93 @@ export interface User {
   password: string;
 }
 
+export interface Profile {
+  profile: PSNProfile;
+}
+
+export interface PSNProfile {
+  aboutMe: string;
+  accountId: string;
+  avatarUrls: AvatarUrl[];
+  blocking: boolean;
+  consoleAvailability: ConsoleAvailability;
+  following: false;
+  friendRelation: string;
+  isOfficiallyVerified: boolean;
+  languagesUsed: string[];
+  npId: string;
+  onlineId: string;
+  personalDetail: PersonalDetail;
+  personalDetailSharing: string;
+  personalDetailSharingRequestMessageFlag: boolean;
+  plus: number;
+  presences: Presence[];
+  primaryOnlineStatus: string;
+  requestMessageFlag: boolean;
+  trophySummary: TrophySummary;
+  trophyTitles: PSNProfileTrophyTitleObject;
+}
+
+export interface PSNProfileTrophyTitleObject {
+  nextOffset: number;
+  previousOffset: number;
+  totalItemCount: number;
+  trophyTitles: TrophyTitle[];
+}
+
+export interface TrophyTitle {
+  definedTrophies: DefinedTrophies;
+  earnedTrophies: EarnedTrophies;
+  hasTrophyGroups: boolean;
+  hiddenFlag: boolean;
+  lastUpdatedDateTime: Date;
+  npCommunicationId: string;
+  npServiceName: string;
+  progress: number;
+  trophyGroupCount: number;
+  trophySetVersion: string;
+  trophyTitleDetail: string;
+  trophyTitleIconUrl: string;
+  trophyTitleName: string;
+  trophyTitlePlatform: string;
+}
+
+export interface AvatarUrl {
+  avatarUrl: string;
+  size: string;
+}
+
+export interface ConsoleAvailability {
+  availabilityStatus: string;
+}
+
+export interface PersonalDetail {
+  firstName: string;
+  lastName: string;
+}
+
+export interface Presence {
+  hasBroadcastData: boolean;
+  lastOnlineDate: Date;
+  onlineStatus: string;
+}
+
+export interface TrophySummary {
+  earnedTrophies: EarnedTrophies;
+  level: number;
+  progress: number;
+}
+
+export interface EarnedTrophies extends TrophyTypes {}
+export interface DefinedTrophies extends TrophyTypes {}
+
+export interface TrophyTypes {
+  bronze: number;
+  gold: number;
+  platinum: number;
+  silver: number;
+}
+
 export interface FormError {
   field: string;
   message: string;
@@ -68,7 +155,7 @@ export interface Game {
   rating: number;
   rating_count: number;
   aggregated_rating: number;
-  aggregated_rating_count: number; 
+  aggregated_rating_count: number;
   age_ratings: AgeRating[];
 }
 
@@ -76,13 +163,12 @@ export interface AgeRating {
   id: number;
   synopsis: string;
   category: number;
-  content_descriptions: ContentDescription[]
+  content_descriptions: ContentDescription[];
 }
 
 export interface ContentDescription {
   id: number;
   description: string;
-
 }
 
 export interface AddOn {
