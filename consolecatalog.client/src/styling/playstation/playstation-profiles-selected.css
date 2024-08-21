@@ -1,59 +1,68 @@
-.trophy-titles {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
+.profile-container {
+    height: 100%; 
 
-    .trophy-title {
-        background-color: #262626;
-        border-radius: 25px;
-        cursor: pointer;
-        border: 2px solid #161616;
-        scroll-snap-align: start;
-        margin-bottom: 10px;
-        width: 400px;
-        max-height: 450px;
+    .trophy-titles {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
 
-        img {
-            border-top-left-radius: 25px;
-            border-top-right-radius: 25px;
+        .trophy-title {
+            background-color: #262626;
+            border-radius: 25px;
+            cursor: pointer;
+            border: 2px solid #161616;
+            scroll-snap-align: start;
+            margin-bottom: 10px;
             width: 400px;
-            height: 300px;
-        }
+            height: 400px;
 
-        .details {
-            padding: 10px 20px 20px 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
 
-            .name {
-                margin-bottom: 5px;
-                display: flex;
-                justify-content: center;
+
+            img {
+                border-top-left-radius: 25px;
+                border-top-right-radius: 25px;
+                width: 400px;
+                height: 250px;
             }
 
-            .trophies {
+            .details {
+                padding: 10px 20px 20px 20px;
                 display: flex;
+                flex-direction: column;
                 justify-content: space-evenly;
 
+                .name {
+                    margin-bottom: 5px;
+                    display: flex;
+                    justify-content: center;
+                }
 
-                .platinum,
-                .gold,
-                .silver,
-                .bronze {
-                    font-weight: bold;
+                .trophies {
+                    display: flex;
+                    justify-content: space-evenly;
+
+
+                    .platinum,
+                    .gold,
+                    .silver,
+                    .bronze {
+                        font-weight: bold;
+                    }
+                }
+
+                .progress {
+                    padding: 10px;
                 }
             }
 
-            .progress {
-                padding: 10px;
-            }
         }
 
-    }
+        .trophy-title:hover {
+            border-color: white;
+        }
 
-
-    .trophy-title:hover {
-        border-color: white;
+        .trophy-title:has(+ .loader) {
+            height: 100%;
+        }
     }
 }
