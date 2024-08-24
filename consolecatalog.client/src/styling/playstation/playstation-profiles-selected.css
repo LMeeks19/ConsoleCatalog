@@ -1,10 +1,75 @@
 .profile-container {
-    height: 100%; 
+
+    .details-container {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+
+        .avatar-container {
+            width: 500px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            padding: 10px;
+            background-color: #262626;
+
+            .avatar {
+                width: 500px;
+                height: 500px;
+            }
+        }
+
+        .info {
+            padding: 20px 30px 20px 30px;
+            margin: 20px 0 20px 20px;
+            height: 480px;
+            width: 870px;
+            min-width: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            border-radius: 25px;
+            background-color: #262626;
+
+            .username {
+                font-size: 34px;
+                margin-bottom: 10px;
+                border-bottom: 1px solid #404040;
+            }
+
+            .about-me {
+                .heading {
+                    font-size: 20px;
+                    border-bottom: 1px solid #404040;
+                }
+
+                .text {
+                    font-size: 16px;
+                    margin-top: 10px;
+                }
+            }
+        }
+
+        .progress {
+            min-width: 300px;
+            height: 480px;
+            padding: 20px;
+            background-color: #262626;
+            border-radius: 25px;
+            border-bottom: 1px solid #404040;
+            display: flex;
+            flex-direction: column;
+        }
+    }
 
     .trophy-titles {
         display: flex;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
+        gap: 20px;
 
         .trophy-title {
             background-color: #262626;
@@ -14,11 +79,8 @@
             scroll-snap-align: start;
             margin-bottom: 10px;
             width: 400px;
-            height: 400px;
 
-
-
-            img {
+            .cover {
                 border-top-left-radius: 25px;
                 border-top-right-radius: 25px;
                 width: 400px;
@@ -30,16 +92,20 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: space-evenly;
+                overflow: hidden;
 
                 .name {
                     margin-bottom: 5px;
-                    display: flex;
-                    justify-content: center;
+                    text-align: center;
+                    font-size: 26px;
+                    white-space: nowrap;
+                    overflow: hidden;
                 }
 
                 .trophies {
                     display: flex;
                     justify-content: space-evenly;
+                    flex-wrap: wrap;
 
 
                     .platinum,
@@ -47,6 +113,16 @@
                     .silver,
                     .bronze {
                         font-weight: bold;
+                        display: flex;
+                        align-items: center;
+
+                        .icon {
+                            height: 25px;
+                            width: 25px;
+                            margin-right: 5px
+                        }
+
+                        ;
                     }
                 }
 
@@ -54,15 +130,72 @@
                     padding: 10px;
                 }
             }
-
         }
 
         .trophy-title:hover {
             border-color: white;
         }
+    }
+}
 
-        .trophy-title:has(+ .loader) {
-            height: 100%;
+@media screen and (max-width: 1050px) {
+    .profile-container {
+        .details-container {
+            flex-wrap: wrap;
+            justify-content: center;
+
+            .avatar {
+                padding-bottom: 0;
+            }
+
+            .info {
+                margin: 20px 0 20px 0;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 590px) {
+    .profile-container {
+        .details-container {
+            .avatar-container {
+                width: 360px !important;
+                height: 360px !important;
+
+                .avatar {
+                    width: 360px !important;
+                    height: 360px !important;
+                }
+            }
+        }
+    }
+
+
+}
+
+@media screen and (max-width: 470px) {
+    .profile-container {
+        .details-container {
+            .avatar-container {
+                width: 240px !important;
+                height: 240px !important;
+
+                .avatar {
+                    width: 240px !important;
+                    height: 240px !important;
+                }
+            }
+        }
+
+        .trophy-titles {
+            .trophy-title {
+                width: 360px !important;
+
+                .cover {
+                    width: 360px !important;
+                    height: 240px !important;
+                }
+            }
         }
     }
 }

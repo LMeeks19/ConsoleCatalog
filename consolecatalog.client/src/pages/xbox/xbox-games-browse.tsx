@@ -1,6 +1,7 @@
 import { useRecoilValue } from "recoil";
 import Xbox from "./xbox";
 import { sidebarState } from "../../functions/state";
+import Conditional from "../../components/site/if-then-else";
 
 function XboxGamesBrowse() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -8,7 +9,12 @@ function XboxGamesBrowse() {
   return (
     <>
       <Xbox />
-      <div className={`content ${isSidebarActive ? "disabled" : ""}`}>
+      <div
+        className={`content ${Conditional({
+          Condition: isSidebarActive,
+          If: "disabled",
+        })}`}
+      >
         Xbox Games
       </div>
     </>

@@ -1,6 +1,7 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import { gameSearchModalState, sidebarState } from "../../functions/state";
 import "../../styling/site/searchbar.css";
+import Conditional from "./if-then-else";
 
 function SearchBar() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -8,7 +9,12 @@ function SearchBar() {
     useRecoilState(gameSearchModalState);
 
   return (
-    <div className={`search-bar ${isSidebarActive ? "side-bar-open" : ""}`}>
+    <div
+      className={`search-bar ${Conditional({
+        Condition: isSidebarActive,
+        If: "side-bar-open",
+      })}`}
+    >
       <div className="search">
         <input
           disabled={isGameSearchModalActive}

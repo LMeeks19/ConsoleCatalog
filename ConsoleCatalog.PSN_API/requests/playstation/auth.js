@@ -10,6 +10,11 @@ export async function authenticatePSN() {
   return authorisation;
 }
 
+export async function reAuthenticatePSN(refreshToken) {
+  const authorisation = await exchangeRefreshTokenForAuthTokens(refreshToken);
+  return authorisation;
+}
+
 const exchangeNpssoForCode = async (npssoToken) => {
   const queryString = new URLSearchParams({
     access_type: "offline",

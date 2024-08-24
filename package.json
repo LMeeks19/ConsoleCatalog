@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@alptugidin/react-circular-progress-bar": "^1.1.2",
     "@aws-amplify/ui-react": "^6.1.14",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
@@ -15,11 +16,15 @@
     "material-components-web": "^14.0.0",
     "psn-api": "^2.10.1",
     "react-bootstrap": "^2.10.4",
+    "react-circular-progressbar": "^2.1.0",
+    "react-gauge-component": "^1.2.21",
     "react-infinite-scroll-component": "^6.1.0",
     "react-multi-carousel": "^2.8.5",
     "react-router-dom": "^6.26.0",
+    "react-semicircle-progressbar": "^1.1.0",
     "react-spinners": "^0.14.1",
     "recoil": "^0.7.7",
+    "styled-components": "^6.1.12",
     "vite": "^5.3.5"
   },
   "devDependencies": {

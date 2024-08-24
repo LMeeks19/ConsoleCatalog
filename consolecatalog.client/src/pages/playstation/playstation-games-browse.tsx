@@ -8,6 +8,7 @@ import { AutoTextSize } from "auto-text-size";
 import { Month, Year } from "../../functions/enums";
 import GameCardBlankCollection from "../../components/games/game-card-blank";
 import "../../styling/playstation/playstation-games-browse.css";
+import Conditional from "../../components/site/if-then-else";
 
 function PlaystationGamesBrowse() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -79,9 +80,10 @@ function PlaystationGamesBrowse() {
     <>
       <Playstation />
       <div
-        className={`content ${
-          isSidebarActive || isGameSearchModalActive ? "disabled" : ""
-        }`}
+        className={`content ${Conditional({
+          Condition: isSidebarActive || isGameSearchModalActive,
+          If: "disabled",
+        })}`}
       >
         <div className="section-header">
           <div className="text">
@@ -90,9 +92,10 @@ function PlaystationGamesBrowse() {
             </AutoTextSize>
           </div>
           <div
-            className={`select-container ${
-              isLoadingUpcoming ? "disabled" : ""
-            }`}
+            className={`select-container ${Conditional({
+              Condition: isLoadingUpcoming,
+              If: "disabled",
+            })}`}
           >
             <button
               onClick={() =>
@@ -105,9 +108,10 @@ function PlaystationGamesBrowse() {
               <i className="fa-solid fa-rotate-left"></i>
             </button>
             <div
-              className={`custom-select month ${
-                isLoadingUpcoming ? "disabled" : ""
-              }`}
+              className={`custom-select month ${Conditional({
+                Condition: isLoadingUpcoming,
+                If: "disabled",
+              })}`}
             >
               <select
                 value={selectedDate.month}
@@ -135,9 +139,10 @@ function PlaystationGamesBrowse() {
               </select>
             </div>
             <div
-              className={`custom-select year ${
-                isLoadingUpcoming ? "disabled" : ""
-              }`}
+              className={`custom-select year ${Conditional({
+                Condition: isLoadingUpcoming,
+                If: "disabled",
+              })}`}
             >
               <select
                 value={selectedDate.year}
@@ -161,21 +166,23 @@ function PlaystationGamesBrowse() {
         </div>
 
         <div className="cards-container">
-          {isLoadingUpcoming ? (
-            <GameCardBlankCollection number={20} />
-          ) : (
-            <>
-              {upcomingTitles.map((upcomingTitle) => {
-                return (
-                  <GameCard
-                    key={upcomingTitle.id}
-                    game={upcomingTitle}
-                    blank={false}
-                  />
-                );
-              })}
-            </>
-          )}
+          <Conditional
+            Condition={isLoadingUpcoming}
+            If={<GameCardBlankCollection number={20} />}
+            Else={
+              <>
+                {upcomingTitles.map((upcomingTitle) => {
+                  return (
+                    <GameCard
+                      key={upcomingTitle.id}
+                      game={upcomingTitle}
+                      blank={false}
+                    />
+                  );
+                })}
+              </>
+            }
+          />
         </div>
 
         <div className="section-header">
@@ -187,21 +194,23 @@ function PlaystationGamesBrowse() {
         </div>
 
         <div id="recent-games" className="cards-container">
-          {isLoadingRecent ? (
-            <GameCardBlankCollection number={20} />
-          ) : (
-            <>
-              {recentTitles.map((recentTitle) => {
-                return (
-                  <GameCard
-                    key={recentTitle.id}
-                    game={recentTitle}
-                    blank={false}
-                  />
-                );
-              })}
-            </>
-          )}
+          <Conditional
+            Condition={isLoadingRecent}
+            If={<GameCardBlankCollection number={20} />}
+            Else={
+              <>
+                {recentTitles.map((recentTitle) => {
+                  return (
+                    <GameCard
+                      key={recentTitle.id}
+                      game={recentTitle}
+                      blank={false}
+                    />
+                  );
+                })}
+              </>
+            }
+          />
         </div>
       </div>
     </>

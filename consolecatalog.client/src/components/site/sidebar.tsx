@@ -8,6 +8,7 @@ import {
 import { Pages } from "../../functions/enums";
 import { BarProps } from "../../functions/interfaces";
 import "../../styling/site/sidebar.css";
+import Conditional from "./if-then-else";
 
 function SideBar(props: BarProps) {
   const [isSidebarActive, setIsSidebarActive] = useRecoilState(sidebarState);
@@ -17,13 +18,17 @@ function SideBar(props: BarProps) {
 
   return (
     <div
-      className={`side-bar ${props.page} ${isSidebarActive ? "active" : ""}`}
+      className={`side-bar ${props.page} ${Conditional({
+        Condition: isSidebarActive,
+        If: "active",
+      })}`}
     >
       <div className="side-bar-top">
         <div
-          className={`side-bar-item ${
-            activePage === Pages.Home ? "active" : ""
-          } ${props.page}-item`}
+          className={`side-bar-item ${Conditional({
+            Condition: activePage === Pages.Home,
+            If: "active",
+          })} ${props.page}-item`}
           onClick={() => {
             setActivePage(Pages.Home);
             setIsSidebarActive(!isSidebarActive);
@@ -36,9 +41,10 @@ function SideBar(props: BarProps) {
           </div>
         </div>
         <div
-          className={`side-bar-item ${
-            activePage === Pages.Games ? "active" : ""
-          } ${props.page}-item`}
+          className={`side-bar-item ${Conditional({
+            Condition: activePage === Pages.Games,
+            If: "active",
+          })} ${props.page}-item`}
           onClick={() => {
             setActivePage(Pages.Games);
             setIsSidebarActive(!isSidebarActive);
@@ -51,9 +57,10 @@ function SideBar(props: BarProps) {
           </div>
         </div>
         <div
-          className={`side-bar-item ${
-            activePage === Pages.Profiles ? "active" : ""
-          } ${props.page}-item`}
+          className={`side-bar-item ${Conditional({
+            Condition: activePage === Pages.Profiles,
+            If: "active",
+          })} ${props.page}-item`}
           onClick={() => {
             setActivePage(Pages.Profiles);
             setIsSidebarActive(!isSidebarActive);
@@ -68,18 +75,19 @@ function SideBar(props: BarProps) {
       </div>
       <div className="side-bar-bottom">
         <div
-          className={`side-bar-item ${
-            activePage === Pages.MyProfile ? "active" : ""
-          } ${props.page}-item`}
+          className={`side-bar-item ${Conditional({
+            Condition: activePage === Pages.MyProfile,
+            If: "active",
+          })} ${props.page}-item`}
           onClick={() => {
             setActivePage(Pages.MyProfile);
             setIsSidebarActive(!isSidebarActive);
             navigate(
-              `/${user.id}/${props.page}/profiles/${
-                props.page === "xbox"
-                  ? user.xboxGamertag
-                  : user.playstationGamertag
-              }`
+              `/${user.id}/${props.page}/profiles/${Conditional({
+                Condition: props.page === "xbox",
+                If: user.xboxGamertag,
+                Else: user.playstationGamertag,
+              })}`
             );
           }}
         >
@@ -89,9 +97,10 @@ function SideBar(props: BarProps) {
           </div>
         </div>
         <div
-          className={`side-bar-item ${
-            activePage === Pages.Account ? "active" : ""
-          } ${props.page}-item`}
+          className={`side-bar-item ${Conditional({
+            Condition: activePage === Pages.Account,
+            If: "active",
+          })} ${props.page}-item`}
           onClick={() => {
             setActivePage(Pages.Account);
             setIsSidebarActive(!isSidebarActive);
@@ -108,18 +117,28 @@ function SideBar(props: BarProps) {
             setActivePage(Pages.Home);
             setIsSidebarActive(!isSidebarActive);
             navigate(
-              `/${user.id}/${props.page === "xbox" ? "playstation" : "xbox"}`
+              `/${user.id}/${Conditional({
+                Condition: props.page === "xbox",
+                If: "playstation",
+                Else: "xbox",
+              })}`
             );
           }}
         >
           <p className="side-bar-item-text">
-            {props.page === "xbox" ? "PLAYSTATION" : "XBOX"}
+            {Conditional({
+              Condition: props.page === "xbox",
+              If: "PLAYSTATION",
+              Else: "XBOX",
+            })}
           </p>
           <img
             src={props.icon}
-            className={`side-bar-item-icon ${
-              props.page === "xbox" ? "playstation" : "xbox"
-            }-icon`}
+            className={`side-bar-item-icon ${Conditional({
+              Condition: props.page === "xbox",
+              If: "playstation",
+              Else: "xbox",
+            })}-icon`}
           />
         </div>
         <div
