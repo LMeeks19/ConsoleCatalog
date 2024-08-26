@@ -259,7 +259,7 @@ const CustomProgressBar: React.FC<ICustomProgressBar> = ({
   const dashoffset = (1 - (afterProgress + range.from) / range.to) * dasharray;
 
   return (
-    <div ref={flatRef} style={{ position: "relative" }}>
+    <div ref={flatRef} style={{ position: "relative", height: "280px" }}>
       <svg viewBox="0 0 110 110" style={{ position: "relative", zIndex: 50 }}>
         <circle
           cx="55"
@@ -313,7 +313,7 @@ const CustomProgressBar: React.FC<ICustomProgressBar> = ({
         {text !== undefined && text !== "" && (
           <text
             x="50%"
-            y={shape === "half" ? "40%" : showValue ? "55%" : "50%"}
+            y={shape === "half" ? "40%" : showValue ? "60%" : "55%"}
             fontSize={textSize}
             fontWeight={textWeight}
             textAnchor="middle"

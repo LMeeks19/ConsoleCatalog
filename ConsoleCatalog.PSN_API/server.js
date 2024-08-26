@@ -199,7 +199,7 @@ app.get("/playstation/PS4/:titleId/trophy/groups", async (req, res) => {
   res.send(titleTrophyGroups);
 });
 
-app.get("/playstation/profiles/:searchTerm", async (req, res) => {
+app.get("/playstation/profiles/all/:searchTerm", async (req, res) => {
   const profiles = await makeUniversalSearch(
     { accessToken: psn_auth?.accessToken },
     req.params.searchTerm,

@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { sidebarState } from "../../functions/state";
 import Playstation from "./playstation";
-import { getProgressColour } from "../../functions/methods";
+import { getProgressColour, languagesArray } from "../../functions/methods";
 import platinum_icon from "../../images/psn-trophy-platinum.png";
 import gold_icon from "../../images/psn-trophy-gold.png";
 import silver_icon from "../../images/psn-trophy-silver.png";
@@ -18,6 +18,8 @@ import { PSNProfile } from "../../functions/interfaces";
 import Conditional from "../../components/site/if-then-else";
 import ProgressBar from "@ramonak/react-progress-bar";
 import CustomProgressBar from "../../components/site/custom-progress-bar";
+import ps_plus_icon from "../../images/ps-plus_icon.png";
+import verified_icon from "../../images/verified_icon.png";
 
 function PlaystationProfilesSelected() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -115,37 +117,126 @@ function PlaystationProfilesSelected() {
               ></img>
             </div>
             <div className="info">
-              <div className="username">{selectedPSNProfile.onlineId}</div>
-              <Conditional
-                Condition={selectedPSNProfile.aboutMe !== ""}
-                If={
-                  <div className="about-me">
-                    <div className="heading">About Me</div>
-                    <div className="text">{selectedPSNProfile.aboutMe}</div>
-                  </div>
-                }
-              />
+              <div className="username">
+                {selectedPSNProfile.onlineId}
+                <div className="icons">
+                  <Conditional
+                    Condition={selectedPSNProfile.isOfficiallyVerified}
+                    If={<img className="verified" src={verified_icon} />}
+                  />
+                  <Conditional
+                    Condition={selectedPSNProfile.plus > 0}
+                    If={<img className="ps-plus-icon" src={ps_plus_icon} />}
+                  />
+                </div>
+              </div>
+
+              <div className="names">
+                <div className="fname">
+                  <div className="heading">First Name</div>
+                  <Conditional
+                    Condition={
+                      selectedPSNProfile.personalDetailSharing === "shared" &&
+                      selectedPSNProfile.personalDetail?.firstName !== ""
+                    }
+                    If={
+                      <div className="text">
+                        {selectedPSNProfile.personalDetail?.firstName}
+                      </div>
+                    }
+                    Else={<div className="text">N/A</div>}
+                  />
+                </div>
+                <div className="lname">
+                  <div className="heading">Last Name</div>
+                  <Conditional
+                    Condition={
+                      selectedPSNProfile.personalDetailSharing === "shared" &&
+                      selectedPSNProfile.personalDetail?.lastName !== ""
+                    }
+                    If={
+                      <div className="text">
+                        {selectedPSNProfile.personalDetail?.lastName}
+                      </div>
+                    }
+                    Else={<div className="text">N/A</div>}
+                  />
+                </div>
+              </div>
+
+              <div className="about-me">
+                <div className="heading">About Me</div>
+                <Conditional
+                  Condition={selectedPSNProfile.aboutMe !== ""}
+                  If={<div className="text">{selectedPSNProfile.aboutMe}</div>}
+                  Else={<div className="text">N/A</div>}
+                />
+              </div>
+
+              <div className="langs-used">
+                <div className="heading">Languages Used</div>
+                <Conditional
+                  Condition={
+                    (selectedPSNProfile.languagesUsed?.length ?? 0) > 0
+                  }
+                  If={selectedPSNProfile.languagesUsed?.map((lang_used) => {
+                    return (
+                      <div key={lang_used} className="text lang-used">
+                        {
+                          languagesArray.find(
+                            (entry) => entry.countryCode === lang_used
+                          )?.fullName
+                        }
+                      </div>
+                    );
+                  })}
+                  Else={<div className="text">N/A</div>}
+                />
+              </div>
             </div>
-            <div className="progress">
-              <CustomProgressBar
-                range={{ from: 0, to: 100 }}
-                progress={selectedPSNProfile.trophySummary?.progress}
-                text={`Level: ${selectedPSNProfile.trophySummary?.level.toString() ?? "0"}`}
-                sx={{
-                  strokeColor: "#1e5ddb",
-                  bgStrokeColor: "#161616",
-                  barWidth: 4,
-                  shape: "threequarters",
-                  strokeLinecap: "round",
-                  bgColor: { value: "#161616", transparency: "0" },
-                  miniCircleSize: 5,
-                  miniCircleColor: "#1e5ddb",
-                  textSize: 12,
-                  textColor: "white",
-                  valueSize: 20,
-                  valueColor: "white",
-                }}
-              />
+            <div className="progress-container">
+              <div className="progress">
+                <CustomProgressBar
+                  range={{ from: 0, to: 100 }}
+                  progress={selectedPSNProfile.trophySummary?.progress}
+                  text={`Level: ${
+                    selectedPSNProfile.trophySummary?.level.toString() ?? "0"
+                  }`}
+                  sx={{
+                    strokeColor: "#1e5ddb",
+                    bgStrokeColor: "#161616",
+                    barWidth: 4,
+                    shape: "threequarters",
+                    strokeLinecap: "round",
+                    bgColor: { value: "#161616", transparency: "0" },
+                    miniCircleSize: 5,
+                    miniCircleColor: "#1e5ddb",
+                    textSize: 12,
+                    textColor: "white",
+                    valueSize: 20,
+                    valueColor: "white",
+                  }}
+                />
+              </div>
+              <div className="trophies">
+                <div className="platinum">
+                  <img className="icon" src={platinum_icon} />
+                  {selectedPSNProfile.trophySummary?.earnedTrophies.platinum ??
+                    0}
+                </div>
+                <div className="gold">
+                  <img className="icon" src={gold_icon} />
+                  {selectedPSNProfile.trophySummary?.earnedTrophies.gold ?? 0}
+                </div>
+                <div className="silver">
+                  <img className="icon" src={silver_icon} />
+                  {selectedPSNProfile.trophySummary?.earnedTrophies.silver ?? 0}
+                </div>
+                <div className="bronze">
+                  <img className="icon" src={bronze_icon} />
+                  {selectedPSNProfile.trophySummary?.earnedTrophies.bronze ?? 0}
+                </div>
+              </div>
             </div>
           </div>
           <div id="trophy-titles" className="trophy-titles">
@@ -180,23 +271,23 @@ function PlaystationProfilesSelected() {
                       <div className="trophies">
                         <div className="platinum">
                           <img className="icon" src={platinum_icon} />
-                          {trophyTitle.earnedTrophies.platinum}/
-                          {trophyTitle.definedTrophies.platinum}
+                          {trophyTitle?.earnedTrophies.platinum ?? 0}/
+                          {trophyTitle?.definedTrophies.platinum ?? 0}
                         </div>
                         <div className="gold">
                           <img className="icon" src={gold_icon} />
-                          {trophyTitle.earnedTrophies.gold}/
-                          {trophyTitle.definedTrophies.gold}
+                          {trophyTitle?.earnedTrophies.gold ?? 0}/
+                          {trophyTitle?.definedTrophies.gold ?? 0}
                         </div>
                         <div className="silver">
                           <img className="icon" src={silver_icon} />
-                          {trophyTitle.earnedTrophies.silver}/
-                          {trophyTitle.definedTrophies.silver}
+                          {trophyTitle?.earnedTrophies.silver ?? 0}/
+                          {trophyTitle?.definedTrophies.silver ?? 0}
                         </div>
                         <div className="bronze">
                           <img className="icon" src={bronze_icon} />
-                          {trophyTitle.earnedTrophies.bronze}/
-                          {trophyTitle.definedTrophies.bronze}
+                          {trophyTitle?.earnedTrophies.bronze ?? 0}/
+                          {trophyTitle?.definedTrophies.bronze ?? 0}
                         </div>
                       </div>
                     </div>

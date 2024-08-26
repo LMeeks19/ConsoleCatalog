@@ -1,5 +1,5 @@
 import { useRecoilValue } from "recoil";
-import { sidebarState, userState } from "../../functions/state";
+import { sidebarState } from "../../functions/state";
 import Playstation from "./playstation";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -7,8 +7,7 @@ import { getTitleById } from "../../functions/external-server";
 import { COVER_BIG_URL, SCREENSHOT_MED_URL } from "../../functions/utils";
 import "react-multi-carousel/lib/styles.css";
 import "../../styling/playstation/playstation-games-selected.css";
-import { format } from "date-fns";
-import { getRatingColour } from "../../functions/methods";
+import { FormatDate, getRatingColour } from "../../functions/methods";
 import { BeatLoader } from "react-spinners";
 import { Game } from "../../functions/interfaces";
 import Conditional from "../../components/site/if-then-else";
@@ -17,17 +16,13 @@ function PlaystationGamesSelected() {
   const [selectedGame, setSelectedGame] = useState<Game>({} as Game);
   const isSidebarActive = useRecoilValue(sidebarState);
   const [isLoading, setIsLoading] = useState(true);
-  const user = useRecoilValue(userState);
   const location = useLocation();
   const naviagte = useNavigate();
 
   useEffect(() => {
     async function fetchSelectedGame() {
       setIsLoading(true);
-      var gameId = location.pathname.replace(
-        `/${user.id}/playstation/games/`,
-        ""
-      );
+      var gameId = location.pathname.slice(56, 62);
       const game = await getTitleById(gameId);
       setSelectedGame(game[0]);
       setIsLoading(false);
@@ -71,7 +66,7 @@ function PlaystationGamesSelected() {
                   Condition={selectedGame.cover !== undefined}
                   If={
                     <img
-                      src={`${COVER_BIG_URL}/${selectedGame.cover.image_id}.jpg`}
+                      src={`${COVER_BIG_URL}/${selectedGame.cover?.image_id}.jpg`}
                     ></img>
                   }
                   Else={<i className="fa-regular fa-image fa-2xl blank"></i>}
@@ -111,10 +106,7 @@ function PlaystationGamesSelected() {
                       Condition={selectedGame.first_release_date !== undefined}
                       If={
                         <div className="info-release-date">
-                          {format(
-                            selectedGame.first_release_date * 1000,
-                            "do MMMM yyyy"
-                          )}
+                          {FormatDate(selectedGame.first_release_date)}
                         </div>
                       }
                       Else={<div className="info-release-date">Unknown</div>}
@@ -174,7 +166,7 @@ function PlaystationGamesSelected() {
                     Condition={selectedGame.platforms !== undefined}
                     If={
                       <div className="info-platforms">
-                        {selectedGame.platforms.map((platform) => {
+                        {selectedGame.platforms?.map((platform) => {
                           return (
                             <div key={platform.id} className="info-platform">
                               {platform.name}
@@ -273,7 +265,7 @@ function PlaystationGamesSelected() {
                         return (
                           <img
                             key={screenshot.id}
-                            src={`${SCREENSHOT_MED_URL}/${screenshot.image_id}.jpg`}
+                            src={`${SCREENSHOT_MED_URL}/${screenshot?.image_id}.jpg`}
                           />
                         );
                       })}

@@ -1,10 +1,10 @@
 import { GameSummary } from "../../functions/interfaces";
 import {
+  FormatDate,
   getFullSearchImageUrl,
   getRatingColour,
   isPSTitle,
 } from "../../functions/methods";
-import { format } from "date-fns";
 import "../../styling/game/game-search-result.css";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -35,7 +35,7 @@ function GameSearchResult(props: GameSearchResultProps) {
           If={
             <div className="result-release">
               <div className="date">
-                {format(props.game.first_release_date * 1000, "do MMMM yyyy")}
+                {FormatDate(props.game.first_release_date)}
               </div>
             </div>
           }
