@@ -1,14 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import playstation_logo from "../../images/playstation_logo.webp";
 import xbox_logo from "../../images/xbox_logo.jpg";
-import { useSetRecoilState } from "recoil";
-import { activePageState } from "../../functions/state";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { activePageState, userState } from "../../functions/state";
 import { Pages } from "../../functions/enums";
 import "../../styling/site/background.css";
 
 function Background() {
   const navigate = useNavigate();
   const setActivePage = useSetRecoilState(activePageState);
+  const user = useRecoilValue(userState);
 
   return (
     <div className="background">
@@ -16,7 +17,7 @@ function Background() {
         className="playstation"
         onClick={() => {
           setActivePage(Pages.Home);
-          navigate(`/playstation`);
+          navigate(`/${user.id}/playstation`);
         }}
       >
         <img src={playstation_logo} className="playstation-logo" />
@@ -25,7 +26,7 @@ function Background() {
         className="xbox"
         onClick={() => {
           setActivePage(Pages.Home);
-          navigate(`/xbox`);
+          navigate(`/${user.id}/xbox`);
         }}
       >
         <img src={xbox_logo} className="xbox-logo" />

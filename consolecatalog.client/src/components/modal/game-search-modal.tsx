@@ -6,6 +6,7 @@ import GameSearchResultBlank from "../games/game-search-result-blank";
 import { getTitles } from "../../functions/external-server";
 import { BeatLoader } from "react-spinners";
 import "../../styling/modal/game-search-modal.css";
+import Conditional from "../site/if-then-else";
 
 function GamesSearchModal() {
   const [games, setGames] = useState<GameSummary[]>([] as GameSummary[]);
@@ -27,7 +28,8 @@ function GamesSearchModal() {
 
   function getTextMessage(): JSX.Element {
     if (searchTerm === "") return <div>Begin Typing to Search</div>;
-    else if (isLoading) return <BeatLoader color="white" size={15} speedMultiplier={.5} />;
+    else if (isLoading)
+      return <BeatLoader color="white" size={15} speedMultiplier={0.5} />;
     else if (games.length === 0 && searchTerm !== "")
       return <div>No Games Found</div>;
     return <></>;
@@ -38,15 +40,17 @@ function GamesSearchModal() {
       <ModalSearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
       <div className="results">
-        {isLoading || searchTerm === "" || games.length === 0 ? (
-          <GameSearchResultBlank element={getTextMessage()} />
-        ) : (
-          <>
-            {games.map((game) => {
-              return <GameSearchResult key={game.id} game={game} />;
-            })}
-          </>
-        )}
+        <Conditional
+          Condition={isLoading || searchTerm === "" || games.length === 0}
+          If={<GameSearchResultBlank element={getTextMessage()} />}
+          Else={
+            <>
+              {games.map((game) => {
+                return <GameSearchResult key={game.id} game={game} />;
+              })}
+            </>
+          }
+        />
       </div>
     </>
   );

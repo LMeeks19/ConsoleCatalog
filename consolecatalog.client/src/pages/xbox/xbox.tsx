@@ -10,6 +10,7 @@ import { activePageState, gameSearchModalState } from "../../functions/state";
 import GamesSearchModal from "../../components/modal/game-search-modal";
 import Modal from "../../components/modal/modal";
 import "../../styling/site/page.css";
+import Conditional from "../../components/site/if-then-else";
 
 function Xbox() {
   const isGameSearchModalActive = useRecoilValue(gameSearchModalState);
@@ -21,6 +22,10 @@ function Xbox() {
       if (location.pathname.includes("games")) setActivePage(Pages.Games);
       else if (location.pathname.includes("profiles"))
         setActivePage(Pages.Profiles);
+      else if (location.pathname.includes("account/PSNprofile"))
+        setActivePage(Pages.MyProfile);
+      else if (location.pathname.includes("account"))
+        setActivePage(Pages.Account);
       else setActivePage(Pages.Home);
     }
     setCurrentPage();
@@ -28,11 +33,10 @@ function Xbox() {
 
   return (
     <>
-      {isGameSearchModalActive ? (
-        <Modal component={<GamesSearchModal />} />
-      ) : (
-        <></>
-      )}
+      <Conditional
+        Condition={isGameSearchModalActive}
+        If={<Modal component={<GamesSearchModal />} />}
+      />
       <TopBar page="xbox" icon={xbox_icon} />
       <SideBar page="xbox" icon={playstation_icon} />
     </>
