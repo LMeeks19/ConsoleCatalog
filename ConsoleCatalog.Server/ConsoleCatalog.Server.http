@@ -1,8 +1,15 @@
 @ConsoleCatalog.Server_HostAddress = http://localhost:5162
 
 
-GET {{ConsoleCatalog.Server_HostAddress}}/user/
+GET {{ConsoleCatalog.Server_HostAddress}}/user/getUserByUsername/
 Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Server_HostAddress}}/user/getUserById/
+Accept: application/json
+
+###
 
 POST {{ConsoleCatalog.Server_HostAddress}}/user/
 Accept: application/json

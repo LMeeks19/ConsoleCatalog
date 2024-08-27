@@ -1,28 +1,38 @@
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { activePageState, sidebarState } from "../../functions/state";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  activePageState,
+  sidebarState,
+  userState,
+} from "../../functions/state";
 import { Pages } from "../../functions/enums";
 import { BarProps } from "../../functions/interfaces";
 import "../../styling/site/sidebar.css";
+import Conditional from "./if-then-else";
 
 function SideBar(props: BarProps) {
   const [isSidebarActive, setIsSidebarActive] = useRecoilState(sidebarState);
   const [activePage, setActivePage] = useRecoilState(activePageState);
+  const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
   return (
     <div
-      className={`side-bar ${props.page} ${isSidebarActive ? "active" : ""}`}
+      className={`side-bar ${props.page} ${Conditional({
+        Condition: isSidebarActive,
+        If: "active",
+      })}`}
     >
       <div className="side-bar-top">
         <div
-          className={`side-bar-item ${
-            activePage === Pages.Home ? "active" : ""
-          } ${props.page}-item`}
+          className={`side-bar-item ${Conditional({
+            Condition: activePage === Pages.Home,
+            If: "active",
+          })} ${props.page}-item`}
           onClick={() => {
             setActivePage(Pages.Home);
             setIsSidebarActive(!isSidebarActive);
-            navigate(`/${props.page}`);
+            navigate(`/${user.id}/${props.page}`);
           }}
         >
           <p className="side-bar-item-text">HOME</p>
@@ -31,13 +41,14 @@ function SideBar(props: BarProps) {
           </div>
         </div>
         <div
-          className={`side-bar-item ${
-            activePage === Pages.Games ? "active" : ""
-          } ${props.page}-item`}
+          className={`side-bar-item ${Conditional({
+            Condition: activePage === Pages.Games,
+            If: "active",
+          })} ${props.page}-item`}
           onClick={() => {
             setActivePage(Pages.Games);
             setIsSidebarActive(!isSidebarActive);
-            navigate(`/${props.page}/games/browse`);
+            navigate(`/${user.id}/${props.page}/games/browse`);
           }}
         >
           <p className="side-bar-item-text">GAMES</p>
@@ -46,34 +57,88 @@ function SideBar(props: BarProps) {
           </div>
         </div>
         <div
-          className={`side-bar-item ${
-            activePage === Pages.Profiles ? "active" : ""
-          } ${props.page}-item`}
+          className={`side-bar-item ${Conditional({
+            Condition: activePage === Pages.Profiles,
+            If: "active",
+          })} ${props.page}-item`}
           onClick={() => {
             setActivePage(Pages.Profiles);
             setIsSidebarActive(!isSidebarActive);
-            navigate(`/${props.page}/profiles/browse`);
+            navigate(`/${user.id}/${props.page}/profiles/browse`);
           }}
         >
           <p className="side-bar-item-text">PROFILES</p>
           <div className="side-bar-item-icon">
-            <i className="fa-solid fa-user fa-2xl" />
+            <i className="fa-solid fa-users fa-2xl" />
           </div>
         </div>
       </div>
       <div className="side-bar-bottom">
         <div
+          className={`side-bar-item ${Conditional({
+            Condition: activePage === Pages.MyProfile,
+            If: "active",
+          })} ${props.page}-item`}
+          onClick={() => {
+            setActivePage(Pages.MyProfile);
+            setIsSidebarActive(!isSidebarActive);
+            navigate(
+              `/${user.id}/${props.page}/profiles/${Conditional({
+                Condition: props.page === "xbox",
+                If: user.xboxGamertag,
+                Else: user.playstationGamertag,
+              })}`
+            );
+          }}
+        >
+          <p className="side-bar-item-text">PSN PROFILE</p>
+          <div className="side-bar-item-icon">
+            <i className="fa-solid fa-user fa-2xl" />
+          </div>
+        </div>
+        <div
+          className={`side-bar-item ${Conditional({
+            Condition: activePage === Pages.Account,
+            If: "active",
+          })} ${props.page}-item`}
+          onClick={() => {
+            setActivePage(Pages.Account);
+            setIsSidebarActive(!isSidebarActive);
+          }}
+        >
+          <p className="side-bar-item-text">ACCOUNT</p>
+          <div className="side-bar-item-icon">
+            <i className="fa-solid fa-id-card fa-2xl" />
+          </div>
+        </div>
+        <div
           className={`side-bar-item ${props.page}`}
           onClick={() => {
             setActivePage(Pages.Home);
             setIsSidebarActive(!isSidebarActive);
-            navigate(`/${props.page === "xbox" ? "playstation" : "xbox"}`);
+            navigate(
+              `/${user.id}/${Conditional({
+                Condition: props.page === "xbox",
+                If: "playstation",
+                Else: "xbox",
+              })}`
+            );
           }}
         >
-          <p className="side-bar-item-text">{props.page === "xbox" ? "PLAYSTATION" : "XBOX"}</p>
+          <p className="side-bar-item-text">
+            {Conditional({
+              Condition: props.page === "xbox",
+              If: "PLAYSTATION",
+              Else: "XBOX",
+            })}
+          </p>
           <img
             src={props.icon}
-            className={`side-bar-item-icon ${props.page === "xbox" ? "playstation" : "xbox"}-icon`}
+            className={`side-bar-item-icon ${Conditional({
+              Condition: props.page === "xbox",
+              If: "playstation",
+              Else: "xbox",
+            })}-icon`}
           />
         </div>
         <div
@@ -81,7 +146,7 @@ function SideBar(props: BarProps) {
           onClick={() => {
             setActivePage(Pages.Home);
             setIsSidebarActive(!isSidebarActive);
-            navigate("/");
+            navigate(`/${user.id}`);
           }}
         >
           <p className="side-bar-item-text">RETURN</p>

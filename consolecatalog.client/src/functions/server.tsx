@@ -1,7 +1,12 @@
 import { RegisterDetails } from "./interfaces";
 
-export async function getUser(username: string | null) {
-  const response = await fetch(`user/${username}`);
+export async function getUserByUsername(username: string | null) {
+  const response = await fetch(`/user/getUserByUsername/${username}`);
+  return await response.json();
+}
+
+export async function getUserById(id: string | null) {
+  const response = await fetch(`/user/getUserById/${id}`);
   return await response.json();
 }
 

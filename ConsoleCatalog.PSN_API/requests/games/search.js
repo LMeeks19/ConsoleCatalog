@@ -1,4 +1,15 @@
-import { BASE_RELEASE_DATES_URL, BASE_GAMES_URL, CLIENT_ID } from "./utils.js";
+import {
+  BASE_RELEASE_DATES_URL,
+  BASE_GAMES_URL,
+  CLIENT_ID,
+  GAME_FIELDS,
+  ADD_ON_FIELDS,
+  IMAGE_FIELDS,
+  TONE_FIELDS,
+  PLATFORM_FIELDS,
+  FULL_GAME_FIELDS,
+  FULL_GAME_SUMMARY_FIELDS,
+} from "./utils.js";
 
 export async function getPSNTitlesBySearch(accessToken, searchTerm) {
   const response = await fetch(BASE_GAMES_URL, {
@@ -8,7 +19,7 @@ export async function getPSNTitlesBySearch(accessToken, searchTerm) {
       "Client-ID": CLIENT_ID,
       Authorization: `Bearer ${accessToken}`,
     },
-    body: `fields category,id,rating,cover.*,name,platforms.*,first_release_date; where name ~ *"${searchTerm}"* & category = (0,8,9) & version_parent = null & platforms = (9,48,167); limit 50; sort rating desc;`,
+    body: `fields ${FULL_GAME_SUMMARY_FIELDS}; where name ~ *"${searchTerm}"* & category = (0,8,9) & version_parent = null & platforms = (7,8,9,48,167); limit 50; sort name asc;`,
   });
   return response.json();
 }
@@ -45,16 +56,13 @@ export async function getPSNUpcomingTitles(accessToken, m, y) {
       "Client-ID": CLIENT_ID,
       Authorization: `Bearer ${accessToken}`,
     },
-    body: `fields category,id,rating,cover.*,name,platforms.*,first_release_date; where platforms = (9,48,167) & version_parent = null & category = (0,8,9) & first_release_date > ${finalStartDate} & first_release_date < ${finalEndDate}; sort first_release_date asc; limit 20;`,
+    body: `fields ${FULL_GAME_SUMMARY_FIELDS}; where platforms = (48,167) & version_parent = null & category = (0,8,9) & first_release_date > ${finalStartDate} & first_release_date < ${finalEndDate}; sort first_release_date asc; limit 20;`,
   });
   return response.json();
 }
 
 export async function getPSNRecentTitles(accessToken, offset) {
   let currentDate = Math.round(Date.now() / 1000);
-  let periodDate = new Date();
-  periodDate.setMonth(periodDate.getMonth() - 1);
-  let finalPeriodDate = Math.round(periodDate.getTime() / 1000);
 
   const response = await fetch(BASE_GAMES_URL, {
     method: "POST",
@@ -63,17 +71,12 @@ export async function getPSNRecentTitles(accessToken, offset) {
       "Client-ID": CLIENT_ID,
       Authorization: `Bearer ${accessToken}`,
     },
-    body: `fields category,id,rating,cover.*,name,platforms.*,first_release_date; where platforms = (9,48,167) & version_parent = null & category = (0,8,9) & first_release_date < ${currentDate}; sort first_release_date desc; limit 20; offset ${offset};`,
+    body: `fields ${FULL_GAME_SUMMARY_FIELDS}; where platforms = (48,167) & version_parent = null & category = (0,8,9) & first_release_date < ${currentDate}; sort first_release_date desc; limit 20; offset ${offset};`,
   });
   return response.json();
 }
 
 export async function getTitleById(accessToken, id) {
-  let currentDate = Math.round(Date.now() / 1000);
-  let periodDate = new Date();
-  periodDate.setMonth(periodDate.getMonth() - 1);
-  let finalPeriodDate = Math.round(periodDate.getTime() / 1000);
-
   const response = await fetch(BASE_GAMES_URL, {
     method: "POST",
     headers: {
@@ -81,7 +84,8 @@ export async function getTitleById(accessToken, id) {
       "Client-ID": CLIENT_ID,
       Authorization: `Bearer ${accessToken}`,
     },
-    body: `fields *,bundles.*,bundles.cover.*,cover.*,expansions.*,expansions.cover.*,genres.*,platforms.*,release_dates.*,screenshots.*,themes.*; where id = ${id};`,
+    body: `fields ${FULL_GAME_FIELDS}; where id = ${id};`,
   });
+
   return response.json();
 }

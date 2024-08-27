@@ -7,9 +7,13 @@ export enum Pages {
   Home,
   Games,
   Profiles,
+  MyProfile,
+  Account
 }
 
 export enum Platforms {
+  PS1 = "PS1",
+  PS2 = "PS2",
   PS3 = "PS3",
   PS4 = "PS4",
   PS5 = "PS5",
@@ -38,5 +42,19 @@ export enum Year {
   Y2025 = "2025",
   Y2026 = "2026",
   Y2027 = "2027",
-  Y2028 = "2028"
+  Y2028 = "2028",
+}
+
+export enum TrophyTypeString {
+  Platinum = "platinum",
+  Gold = "gold",
+  Silver = "silver",
+  Bronze = "bronze"
+}
+
+export enum TrophyTypeNumber {
+  Platinum = 0,
+  Gold = 1,
+  Silver = 2,
+  Bronze = 3
 }

@@ -8,38 +8,52 @@ import XboxGamesBrowse from "../pages/xbox/xbox-games-browse";
 import XboxProfilesBrowse from "../pages/xbox/xbox-profiles-browse";
 import PlaystationProfilesBrowse from "../pages/playstation/playstation-profiles-browse";
 import PlaystationGamesSelected from "../pages/playstation/playstation-games-selected";
+import PlaystationProfilesSelected from "../pages/playstation/playstation-profiles-selected";
+import PlaystationProfilesSelectedGameTrophies from "../pages/playstation/playstation-profiles-selected-game-trophies";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Background />,
+    element: <Login />,
   },
   {
-    path: "/playstation",
+    path: "/:userId",
+    element: <Background />
+  },
+  {
+    path: "/:userId/playstation",
     element: <PlaystationHome />,
   },
   {
-    path: "/playstation/games/browse",
+    path: "/:userId/playstation/games/browse",
     element: <PlaystationGamesBrowse />,
   },
   {
-    path: "/playstation/games/:id",
+    path: "/:userId/playstation/games/:id",
     element: <PlaystationGamesSelected />,
   },
   {
-    path: "/playstation/profiles/browse",
+    path: "/:userId/playstation/profiles/browse",
     element: <PlaystationProfilesBrowse />,
   },
   {
-    path: "/xbox",
+    path: "/:userId/playstation/profiles/:username",
+    element: <PlaystationProfilesSelected />,
+  },
+  {
+    path: "/:userId/playstation/profiles/:username/:gameId/trophies",
+    element: <PlaystationProfilesSelectedGameTrophies />,
+  },
+  {
+    path: "/:userId/xbox",
     element: <XboxHome />,
   },
   {
-    path: "/xbox/games/browse",
+    path: "/:userId/xbox/games/browse",
     element: <XboxGamesBrowse />,
   },
   {
-    path: "/xbox/profiles/browse",
+    path: "/:userId/xbox/profiles/browse",
     element: <XboxProfilesBrowse />,
   },
 ]);

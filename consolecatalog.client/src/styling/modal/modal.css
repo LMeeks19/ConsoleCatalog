@@ -1,7 +1,8 @@
 .modal {
     position: fixed;
-    height: 600px;
-    width: 60%;
+    min-height: 60px;
+    max-height: 650px;
+    width: 40%;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);

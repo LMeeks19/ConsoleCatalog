@@ -5,35 +5,35 @@
     height: calc(100% - 131px);
 }
 
-.section-header:not(:first-child) {
-    margin-top: 10px;
-    padding-top: 10px;
-}
-
 .section-header {
-    margin: 0 40px 10px 40px;
     font-weight: 500;
     border-bottom: 1px solid #262626;
-    padding-bottom: 10px;
     display: flex;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
     flex-direction: row;
     justify-content: space-between;
 
+    .text {
+        width: 100%;
+    }
+
     .select-container {
         display: flex;
+
+        &.disabled {
+            pointer-events: none;
+        }
 
         button {
             margin-right: 5px;
             background-color: #262626;
             padding: 0 1.2em;
-
-            &.disabled {
-                pointer-events: none;
-            }
+            border-color: transparent;
         }
 
         button:hover {
-            border-color: white;
+            background-color: #363636;
         }
 
         button:focus,
@@ -61,7 +61,7 @@
             }
 
             select:hover {
-                border: 1px solid white;
+                background-color: #363636;
             }
 
             select:active {
@@ -116,14 +116,16 @@
     }
 }
 
-.cards-container:last-child {
-    margin-bottom: 40px;
-}
 
 .cards-container {
-    margin: 0 40px 0 40px;
     display: flex;
     overflow-x: auto;
+    margin-bottom: 20px;
+    scroll-snap-type: x mandatory;
+}
+
+.cards-container:last-child {
+    margin-bottom: 0;
 }
 
 @media screen and (max-width: 875px) {

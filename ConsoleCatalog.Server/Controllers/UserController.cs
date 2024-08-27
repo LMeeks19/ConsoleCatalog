@@ -20,11 +20,25 @@ namespace ConsoleCatalog.Server.Controllers
             _databaseContext = databaseContext;
         }
 
-        [HttpGet(Name = "GetUser")]
-        [Route("{username}")]
-        public User GetAsync(string username)
+        [HttpGet(Name = "GetUserByUsername")]
+        [Route("getUserByUsername/{username}")]
+        public User GetUserByUsername(string username)
         {
             var user = _databaseContext.Users.SingleOrDefault(user => user.Username == username);
+
+            if (user == null)
+            {
+                return new User() { Username = null, Password = null };
+            }
+
+            return user;
+        }
+
+        [HttpGet(Name = "GetUserById")]
+        [Route("getUserById/{id}")]
+        public User GetUserById(string id)
+        {
+            var user = _databaseContext.Users.SingleOrDefault(user => user.Id == new Guid(id));
 
             if (user == null)
             {

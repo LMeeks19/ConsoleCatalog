@@ -1,6 +1,4 @@
 import Playstation from "./playstation";
-import "../../styling/playstation/playstation-games-browse.css";
-import SearchBar from "../../components/site/searchbar";
 import { useEffect, useState } from "react";
 import { GameSummary, SelectedDate } from "../../functions/interfaces";
 import { useRecoilValue } from "recoil";
@@ -9,6 +7,8 @@ import GameCard from "../../components/games/game-card";
 import { AutoTextSize } from "auto-text-size";
 import { Month, Year } from "../../functions/enums";
 import GameCardBlankCollection from "../../components/games/game-card-blank";
+import "../../styling/playstation/playstation-games-browse.css";
+import Conditional from "../../components/site/if-then-else";
 
 function PlaystationGamesBrowse() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -26,8 +26,8 @@ function PlaystationGamesBrowse() {
     year: currentDate.getFullYear(),
   } as SelectedDate);
 
-  const [isLoadingUpcoming, setIsLoadingUpcoming] = useState<Boolean>(true);
-  const [isLoadingRecent, setIsLoadingRecent] = useState<Boolean>(true);
+  const [isLoadingUpcoming, setIsLoadingUpcoming] = useState<boolean>(true);
+  const [isLoadingRecent, setIsLoadingRecent] = useState<boolean>(true);
   useEffect(() => {
     setIsLoadingUpcoming(true);
     const timeout = setTimeout(async () => {
@@ -41,7 +41,7 @@ function PlaystationGamesBrowse() {
         setUpcomingTitles(upcomingTitles);
       }
       setIsLoadingUpcoming(false);
-    }, 1000);
+    }, 2000);
 
     return () => clearTimeout(timeout);
   }, [selectedDate]);
@@ -54,7 +54,7 @@ function PlaystationGamesBrowse() {
       const newRecentTitles = await getRecentPSNTitles(recentTitles.length);
       setRecentTitles([...recentTitles, ...newRecentTitles]);
       setIsLoadingRecent(false);
-    }, 1000);
+    }, 2000);
 
     return () => clearTimeout(timeout);
   }, [page]);
@@ -80,22 +80,22 @@ function PlaystationGamesBrowse() {
     <>
       <Playstation />
       <div
-        className={`content ${
-          isSidebarActive || isGameSearchModalActive ? "disabled" : ""
-        }`}
+        className={`content ${Conditional({
+          Condition: isSidebarActive || isGameSearchModalActive,
+          If: "disabled",
+        })}`}
       >
-        <SearchBar />
-
         <div className="section-header">
-          <div>
-            <AutoTextSize maxFontSizePx={24} minFontSizePx={24}>
+          <div className="text">
+            <AutoTextSize maxFontSizePx={28} minFontSizePx={16}>
               UPCOMING RELEASES
             </AutoTextSize>
           </div>
           <div
-            className={`select-container ${
-              isLoadingUpcoming ? "disabled" : ""
-            }`}
+            className={`select-container ${Conditional({
+              Condition: isLoadingUpcoming,
+              If: "disabled",
+            })}`}
           >
             <button
               onClick={() =>
@@ -108,9 +108,10 @@ function PlaystationGamesBrowse() {
               <i className="fa-solid fa-rotate-left"></i>
             </button>
             <div
-              className={`custom-select month ${
-                isLoadingUpcoming ? "disabled" : ""
-              }`}
+              className={`custom-select month ${Conditional({
+                Condition: isLoadingUpcoming,
+                If: "disabled",
+              })}`}
             >
               <select
                 value={selectedDate.month}
@@ -138,9 +139,10 @@ function PlaystationGamesBrowse() {
               </select>
             </div>
             <div
-              className={`custom-select year ${
-                isLoadingUpcoming ? "disabled" : ""
-              }`}
+              className={`custom-select year ${Conditional({
+                Condition: isLoadingUpcoming,
+                If: "disabled",
+              })}`}
             >
               <select
                 value={selectedDate.year}
@@ -164,45 +166,51 @@ function PlaystationGamesBrowse() {
         </div>
 
         <div className="cards-container">
-          {isLoadingUpcoming ? (
-            <GameCardBlankCollection number={6} />
-          ) : (
-            <>
-              {upcomingTitles.map((upcomingTitle) => {
-                return (
-                  <GameCard
-                    key={upcomingTitle.id}
-                    game={upcomingTitle}
-                    blank={false}
-                  />
-                );
-              })}
-            </>
-          )}
+          <Conditional
+            Condition={isLoadingUpcoming}
+            If={<GameCardBlankCollection number={20} />}
+            Else={
+              <>
+                {upcomingTitles.map((upcomingTitle) => {
+                  return (
+                    <GameCard
+                      key={upcomingTitle.id}
+                      game={upcomingTitle}
+                      blank={false}
+                    />
+                  );
+                })}
+              </>
+            }
+          />
         </div>
 
         <div className="section-header">
-          <AutoTextSize maxFontSizePx={24} minFontSizePx={16}>
-            RECENTLY RELEASED
-          </AutoTextSize>
+          <div className="text">
+            <AutoTextSize maxFontSizePx={28} minFontSizePx={16}>
+              RECENTLY RELEASED
+            </AutoTextSize>
+          </div>
         </div>
 
         <div id="recent-games" className="cards-container">
-          {isLoadingRecent ? (
-            <GameCardBlankCollection number={6} />
-          ) : (
-            <>
-              {recentTitles.map((recentTitle) => {
-                return (
-                  <GameCard
-                    key={recentTitle.id}
-                    game={recentTitle}
-                    blank={false}
-                  />
-                );
-              })}
-            </>
-          )}
+          <Conditional
+            Condition={isLoadingRecent}
+            If={<GameCardBlankCollection number={20} />}
+            Else={
+              <>
+                {recentTitles.map((recentTitle) => {
+                  return (
+                    <GameCard
+                      key={recentTitle.id}
+                      game={recentTitle}
+                      blank={false}
+                    />
+                  );
+                })}
+              </>
+            }
+          />
         </div>
       </div>
     </>
