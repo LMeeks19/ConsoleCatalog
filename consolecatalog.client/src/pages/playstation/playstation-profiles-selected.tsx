@@ -3,7 +3,7 @@ import {
   getPSNProfile,
   getPSNProfileTitles,
 } from "../../functions/external-server";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { sidebarState } from "../../functions/state";
 import Playstation from "./playstation";
@@ -28,6 +28,7 @@ function PlaystationProfilesSelected() {
   );
   const [page, setPage] = useState(1);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchPSNProfile() {
@@ -252,6 +253,16 @@ function PlaystationProfilesSelected() {
                     }
                     onMouseOut={() =>
                       unscrollTitleIfOverflowing(trophyTitle.npCommunicationId)
+                    }
+                    onClick={() =>
+                      navigate(`${trophyTitle.npCommunicationId}/trophies`, {
+                        state: {
+                          accountId: selectedPSNProfile?.accountId,
+                          titleId: trophyTitle?.npCommunicationId,
+                          titleName: trophyTitle?.trophyTitleName,
+                          platform: trophyTitle?.trophyTitlePlatform
+                        },
+                      })
                     }
                   >
                     <img

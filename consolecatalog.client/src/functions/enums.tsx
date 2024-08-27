@@ -44,3 +44,17 @@ export enum Year {
   Y2027 = "2027",
   Y2028 = "2028",
 }
+
+export enum TrophyTypeString {
+  Platinum = "platinum",
+  Gold = "gold",
+  Silver = "silver",
+  Bronze = "bronze"
+}
+
+export enum TrophyTypeNumber {
+  Platinum = 0,
+  Gold = 1,
+  Silver = 2,
+  Bronze = 3
+}

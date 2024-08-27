@@ -1,4 +1,10 @@
-import { Game, GameSummary, Profile, PSNProfileTrophyTitleObject } from "./interfaces";
+import {
+  Game,
+  GameSummary,
+  Profile,
+  PSNProfileTrophyTitleObject,
+  TitleTrophies,
+} from "./interfaces";
 
 const BASE_API_URL = "http://localhost:3000";
 
@@ -21,9 +27,42 @@ export async function getPSNProfile(username: string): Promise<Profile> {
   return response.json();
 }
 
-export async function getPSNProfileTitles(accountId: string, offset: number): Promise<PSNProfileTrophyTitleObject> {
+export async function getPSNProfileTitles(
+  accountId: string,
+  offset: number
+): Promise<PSNProfileTrophyTitleObject> {
   const response = await fetch(
     `${BASE_API_URL}/playstation/profiles/${accountId}/titles/${offset}`
+  );
+  return response.json();
+}
+
+export async function getPSNProfileTrophiesForTitle(
+  accountId: string,
+  titleId: string,
+  platform: string
+): Promise<TitleTrophies> {
+  if (platform === "PS5") {
+    const response = await fetch(
+      `${BASE_API_URL}/playstation/profiles/${accountId}/titles/new/${titleId}/trophies`
+    );
+    return response.json();
+  }
+  const response = await fetch(
+    `${BASE_API_URL}/playstation/profiles/${accountId}/titles/old/${titleId}/trophies`
+  );
+  return response.json();
+}
+
+export async function getPSNTitleTrophies(titleId: string, platform: string): Promise<TitleTrophies> {
+  if (platform === "PS5") {
+    const response = await fetch(
+      `${BASE_API_URL}/playstation/titles/new/${titleId}/trophies`
+    );
+    return response.json();
+  }
+  const response = await fetch(
+    `${BASE_API_URL}/playstation/titles/old/${titleId}/trophies`
   );
   return response.json();
 }

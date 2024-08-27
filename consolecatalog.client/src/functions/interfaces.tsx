@@ -1,3 +1,5 @@
+import { TrophyTypeString } from "./enums";
+
 export interface LoginDetails {
   username: string | null;
   password: string | null;
@@ -200,4 +202,28 @@ export interface Platform {
   id: number;
   abbreviation: string;
   name: string;
+}
+
+export interface TitleTrophies {
+  hasTrophyGroups: boolean;
+  totelItemCount: number;
+  trophies: Trophy[];
+  trophySetVersion: string;
+  
+  lastUpdatedDateTime: Date;
+  rarestTrophies: Trophy[];
+}
+
+export interface Trophy {
+  trophyDetail: string;
+  trophyGroupId: string;
+  trophyHidden: boolean;
+  trophyIconUrl: string;
+  trophyId: number;
+  trophyName: string;
+  trophyType: string;
+
+  earned: boolean;
+  trophyEarnedRate: string;
+  trophyRare: number;
 }
