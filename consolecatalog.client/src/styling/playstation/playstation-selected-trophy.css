@@ -1,0 +1,252 @@
+.trophy {
+    background-color: #262626;
+    border-radius: 25px;
+    display: flex;
+    gap: 10px;
+    height: 125px;
+    width: 100%;
+    border: 2px solid #262626;
+    transition: border-color .5s;
+
+    &.earned {
+        opacity: 50%;
+    }
+
+    .image {
+        width: 125px;
+        border-radius: 25px 0 0 25px;
+    }
+
+    .details {
+        padding: 20px;
+
+        display: flex;
+        flex-direction: column !important;
+        justify-content: space-between;
+
+        .name {
+            font-size: 28px;
+        }
+
+        .description {
+            font-size: 18px;
+        }
+    }
+
+    .earned {
+        font-size: 50px;
+        margin: auto 0 auto auto;
+        padding: 20px;
+    }
+
+    .rarity {
+        margin: auto 0 auto auto;
+        font-size: 18px;
+        text-align: center;
+        width: 100px;
+    }
+
+    .type {
+        height: 80px;
+        width: 80px;
+        margin: auto 0 auto 0;
+        padding: 20px;
+    }
+
+    .earned~.rarity {
+        margin: auto 0 auto 0;
+    }
+}
+
+.title {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto 0 auto 0;
+    border-bottom: 1px solid #404040;
+    margin-top: 20px;
+
+    .name {
+        font-size: 30px;
+    }
+
+    .actions {
+        display: flex;
+        gap: 10px;
+
+        button {
+            margin-right: 5px;
+            background-color: #262626;
+            padding: 0 1.2em;
+            border-color: transparent;
+            padding: 10px 12.5px 10px 12.5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &.delete {
+                background-color: red;
+
+                &.disabled {
+                    cursor: not-allowed;
+                }
+            }
+
+            .label {
+                font-size: 18px;
+                margin-right: 10px;
+                font-weight: 500;
+            }
+
+            .add-icon {
+                font-size: 18px;
+            }
+        }
+
+        button:hover {
+            &.add {
+                background-color: #363636;
+            }
+
+            &.delete {
+                background-color: rgb(255, 73, 73);
+
+                &.disabled {
+                    background-color: red !important;
+                }
+            }
+        }
+
+        button:focus,
+        button:focus-visible {
+            outline: transparent;
+        }
+
+        button:active {
+            border-color: black;
+        }
+    }
+}
+
+.sub-objectives {
+    height: calc(100% - 259px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px 0 20px 0;
+
+    &.empty {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .sub-objective {
+        background-color: #262626;
+        padding: 10px;
+        border-radius: 25px;
+        padding: 20px;
+        display: flex;
+
+        &.complete {
+            opacity: 50%;
+        }
+
+        .checkbox-container {
+            margin-left: 10px;
+        }
+
+        .checkbox-container .checkbox {
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
+        }
+
+        .checkbox-container .checkbox span {
+            display: inline-block;
+            vertical-align: middle;
+            transform: translate3d(0, 0, 0);
+        }
+
+        .checkbox-container .checkbox span:first-child {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            transform: scale(1);
+            vertical-align: middle;
+            border: 1px solid white;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-container .checkbox span:first-child svg {
+            position: absolute;
+            z-index: 1;
+            top: 8px;
+            left: 6px;
+            fill: none;
+            stroke: white;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 16px;
+            stroke-dashoffset: 16px;
+            transition: all 0.3s ease;
+            transition-delay: 0.1s;
+            transform: translate3d(0, 0, 0);
+        }
+
+        .checkbox-container .checkbox span:first-child:before {
+            content: "";
+            width: 100%;
+            height: 100%;
+            background: #1e5ddb;
+            display: block;
+            transform: scale(0);
+            opacity: 1;
+            border-radius: 50%;
+            transition-delay: 0.2s;
+        }
+
+        .checkbox-container .checkbox:hover span:first-child {
+            border-color: #1e5ddb;
+        }
+
+        .checkbox-container .input-checkbox:checked+.checkbox span:first-child {
+            border-color: #1e5ddb;
+            background: #1e5ddb;
+            animation: check 0.6s ease;
+        }
+
+        .checkbox-container .input-checkbox:checked+.checkbox span:first-child svg {
+            stroke-dashoffset: 0;
+        }
+
+        .checkbox-container .input-checkbox:checked+.checkbox span:first-child:before {
+            transform: scale(2.2);
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+
+        .text {
+            font-size: 18px;
+            margin-left: 20px;
+        }
+
+        .delete-icon {
+            color: red;
+            margin: auto 10px auto auto;
+            font-size: 25px;
+            cursor: pointer;
+        }
+    }
+}
+
+
+@keyframes check {
+    50% {
+        transform: scale(1.2);
+    }
+}

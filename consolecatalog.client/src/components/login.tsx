@@ -12,7 +12,7 @@ import {
   validateUserLogin,
   validateUserRegistrationPassword,
 } from "../functions/validation";
-import { getUserByUsername, putUser } from "../functions/server";
+import { getUserByUsername, postUser } from "../functions/server";
 import { useSetRecoilState } from "recoil";
 import { userState } from "../functions/state";
 import { ActiveLoginTab } from "../functions/enums";
@@ -89,7 +89,7 @@ function Login() {
 
     if (registrationErrors.length === 0) {
       try {
-        const user = await putUser(registerDetails);
+        const user = await postUser(registerDetails);
         setUser(user);
         navigate(`/${user.id}`);
       } catch (error) {

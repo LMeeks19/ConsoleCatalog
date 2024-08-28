@@ -1,6 +1,10 @@
 import { format } from "date-fns";
-import { Platforms } from "./enums";
+import { Platforms, TrophyTypeNumber, TrophyTypeString } from "./enums";
 import { COVER_BIG_URL, COVER_SMALL } from "./utils";
+import platinum_icon from "../images/psn-trophy-platinum.png";
+import gold_icon from "../images/psn-trophy-gold.png";
+import silver_icon from "../images/psn-trophy-silver.png";
+import bronze_icon from "../images/psn-trophy-bronze.png";
 
 export function getFullCardImageUrl(imageId: string) {
   return `${COVER_BIG_URL}/${imageId}.jpg`;
@@ -34,6 +38,27 @@ export function isPSTitle(abbreviation: string): boolean {
     abbreviation === Platforms.PS4 ||
     abbreviation === Platforms.PS5
   );
+}
+
+export function getTrophyTypeIcon(type: string) {
+  if (type === TrophyTypeString.Platinum) return platinum_icon;
+  else if (type === TrophyTypeString.Gold) return gold_icon;
+  else if (type === TrophyTypeString.Silver) return silver_icon;
+  return bronze_icon;
+}
+
+export function getTrophyType(type: string): TrophyTypeNumber {
+  if (type === TrophyTypeString.Platinum) return TrophyTypeNumber.Platinum;
+  else if (type === TrophyTypeString.Gold) return TrophyTypeNumber.Gold;
+  else if (type === TrophyTypeString.Silver) return TrophyTypeNumber.Silver;
+  return TrophyTypeNumber.Bronze;
+}
+
+export function getTrophyRarity(rarity: number) {
+  if (rarity === 0) return "Ultra Rare";
+  else if (rarity === 1) return "Very Rare";
+  else if (rarity === 2) return "Rare";
+  return "Common";
 }
 
 export function FormatDate(date: number | undefined) {

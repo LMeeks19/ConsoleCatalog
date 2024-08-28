@@ -227,3 +227,11 @@ export interface Trophy {
   trophyEarnedRate: string;
   trophyRare: number;
 }
+
+export interface SubObjective {
+  id: string;
+  trophyId: number;
+  titleId: string;
+  details: string;
+  isComplete: boolean;
+}
