@@ -1,6 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { sidebarState, userState } from "../../functions/state";
+import {
+  addSubObjectiveModalState,
+  gameSearchModalState,
+  sidebarState,
+  userState,
+} from "../../functions/state";
 import { BarProps } from "../../functions/interfaces";
 import { AutoTextSize } from "auto-text-size";
 import SearchBar from "./searchbar";
@@ -9,11 +14,20 @@ import Conditional from "./if-then-else";
 
 function TopBar(props: BarProps) {
   const [isSidebarActive, setIsSidebarActive] = useRecoilState(sidebarState);
+  const isGameSearchModalActive = useRecoilValue(gameSearchModalState);
+  const isAddSubObjectiveModalActive = useRecoilValue(
+    addSubObjectiveModalState
+  );
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
   return (
-    <div className={`top-bar ${props.page}`}>
+    <div
+      className={`top-bar ${props.page} ${Conditional({
+        Condition: isSidebarActive || isAddSubObjectiveModalActive,
+        If: "disabled",
+      })}`}
+    >
       <div
         className={`top-bar-title ${props.page}`}
         onClick={() => navigate(`/${user.id}`)}
@@ -23,7 +37,10 @@ function TopBar(props: BarProps) {
       <SearchBar />
       <div className="top-bar-end">
         <div
-          className="top-bar-menu"
+          className={`top-bar-menu ${Conditional({
+            Condition: isGameSearchModalActive || isAddSubObjectiveModalActive,
+            If: "disabled",
+          })}`}
           onClick={() => setIsSidebarActive(!isSidebarActive)}
         >
           <Conditional

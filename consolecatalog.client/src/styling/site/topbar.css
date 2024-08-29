@@ -8,6 +8,10 @@
     display: flex;
     justify-content: space-between;
 
+    &.disabled {
+        pointer-events: none;
+    }
+
     &.playstation {
         border-bottom: 1px solid #1e5ddb;
     }
@@ -63,6 +67,11 @@
             margin-bottom: auto;
             cursor: pointer;
             border-radius: 5px;
+            pointer-events: all !important;
+
+            &.disabled {
+                pointer-events: none !important;
+            }
 
             i {
                 width: 35px;

@@ -26,10 +26,12 @@
 
         .name {
             font-size: 28px;
+            text-wrap: nowrap;
         }
 
         .description {
             font-size: 18px;
+            text-wrap: nowrap;
         }
     }
 
@@ -44,6 +46,7 @@
         font-size: 18px;
         text-align: center;
         width: 100px;
+        text-wrap: nowrap;
     }
 
     .type {
@@ -61,6 +64,7 @@
 .title {
     padding: 10px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     margin: auto 0 auto 0;
@@ -69,6 +73,7 @@
 
     .name {
         font-size: 30px;
+        text-wrap: nowrap;
     }
 
     .actions {
@@ -86,7 +91,7 @@
             align-items: center;
 
             &.delete {
-                background-color: red;
+                background-color: rgba(255, 0, 0, 0.575);
 
                 &.disabled {
                     cursor: not-allowed;
@@ -97,6 +102,7 @@
                 font-size: 18px;
                 margin-right: 10px;
                 font-weight: 500;
+                text-wrap: nowrap;
             }
 
             .add-icon {
@@ -110,10 +116,10 @@
             }
 
             &.delete {
-                background-color: rgb(255, 73, 73);
+                background-color: rgb(224, 65, 65);
 
                 &.disabled {
-                    background-color: red !important;
+                    background-color: rgba(255, 0, 0, 0.575) !important;
                 }
             }
         }
@@ -154,7 +160,7 @@
         }
 
         .checkbox-container {
-            margin-left: 10px;
+            margin: auto 0 auto 10px;
         }
 
         .checkbox-container .checkbox {
@@ -233,13 +239,18 @@
         .text {
             font-size: 18px;
             margin-left: 20px;
+            margin-right: 20px;
         }
 
         .delete-icon {
-            color: red;
+            color: rgba(255, 0, 0, 0.575);
             margin: auto 10px auto auto;
             font-size: 25px;
             cursor: pointer;
+        }
+
+        .delete-icon:hover {
+            color: rgb(224, 65, 65);
         }
     }
 }
@@ -248,5 +259,18 @@
 @keyframes check {
     50% {
         transform: scale(1.2);
+    }
+}
+
+@media screen and (max-width: 593px) {
+    .title {
+        justify-content: center;
+        gap: 10px;
+
+        .actions {
+            justify-content: center;
+            display: flex;
+            flex-wrap: wrap;
+        }
     }
 }

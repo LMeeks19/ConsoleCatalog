@@ -1,6 +1,10 @@
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import Conditional from "../../components/site/if-then-else";
-import { sidebarState } from "../../functions/state";
+import {
+  addSubObjectiveModalState,
+  gameSearchModalState,
+  sidebarState,
+} from "../../functions/state";
 import Playstation from "./playstation";
 import { useLocation } from "react-router-dom";
 import { getTrophyRarity, getTrophyTypeIcon } from "../../functions/methods";
@@ -13,6 +17,8 @@ import {
   getSubObjectives,
   putSubObjective,
 } from "../../functions/server";
+import Modal from "../../components/modal/modal";
+import AddSubObjectiveModal from "../../components/modal/add-sub-objective-modal";
 
 function PlaystationSelectedTrophy() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -21,6 +27,9 @@ function PlaystationSelectedTrophy() {
   const [subObjectives, setSubObjectives] = useState<SubObjective[]>(
     [] as SubObjective[]
   );
+  const [isAddSubObjectiveModalActive, setIsAddSubObjectiveModalActive] =
+    useRecoilState(addSubObjectiveModalState);
+  const isGameSearchModalActive = useRecoilValue(gameSearchModalState);
 
   useEffect(() => {
     async function fetchSubObjectives() {
@@ -42,11 +51,13 @@ function PlaystationSelectedTrophy() {
     );
   }
 
-  async function removeAllSubObjectives(subObjectives: SubObjective[]) {
-    const deletedSubObjectiveIds = await deleteSubObjectives(subObjectives);
+  async function removeCompletedSubObjectives(subObjectives: SubObjective[]) {
+    const deletedSubObjectiveIds = await deleteSubObjectives(
+      subObjectives.filter((subObjective) => subObjective.isComplete)
+    );
     setSubObjectives(
       subObjectives.filter(
-        (subObjective) => !deletedSubObjectiveIds.includes(subObjective.id)
+        (subObjective) => !deletedSubObjectiveIds.includes(subObjective.id!)
       )
     );
   }
@@ -64,9 +75,26 @@ function PlaystationSelectedTrophy() {
   return (
     <>
       <Playstation />
+      <Conditional
+        Condition={isAddSubObjectiveModalActive}
+        If={
+          <Modal
+            component={
+              <AddSubObjectiveModal
+                titleId={location.state?.titleId}
+                trophyId={trophy?.trophyId}
+                setSubObjectives={setSubObjectives}
+              />
+            }
+          />
+        }
+      />
       <div
         className={`content ${Conditional({
-          Condition: isSidebarActive,
+          Condition:
+            isSidebarActive ||
+            isAddSubObjectiveModalActive ||
+            isGameSearchModalActive,
           If: "disabled",
         })}`}
       >
@@ -99,19 +127,28 @@ function PlaystationSelectedTrophy() {
         <div className="title">
           <div className="name">Sub Objectives</div>
           <div className="actions">
-            <button className="add">
+            <button
+              className="add"
+              onClick={() => setIsAddSubObjectiveModalActive(true)}
+            >
               <div className="label">Add</div>
               <i className="fa-solid fa-plus add-icon"></i>
             </button>
             <button
               className={`delete ${Conditional({
-                Condition: subObjectives.length === 0,
+                Condition:
+                  subObjectives.filter(
+                    (subObjective) => subObjective.isComplete
+                  ).length === 0,
                 If: "disabled",
               })}`}
-              onClick={() => removeAllSubObjectives(subObjectives)}
-              disabled={subObjectives.length === 0}
+              onClick={() => removeCompletedSubObjectives(subObjectives)}
+              disabled={
+                subObjectives.filter((subObjective) => subObjective.isComplete)
+                  .length === 0
+              }
             >
-              <div className="label">Delete All</div>
+              <div className="label">Delete Completed</div>
               <i className="fa-solid fa-trash-can add-icon"></i>
             </button>
           </div>
@@ -126,7 +163,7 @@ function PlaystationSelectedTrophy() {
             Condition={subObjectives.length === 0}
             If={<div>No Sub Objectives</div>}
             Else={subObjectives
-              .sort((a,b) => a.details.localeCompare(b.details))
+              .sort((a, b) => a.details.localeCompare(b.details))
               .sort((a, b) => Number(a.isComplete) - Number(b.isComplete))
               .map((subObjective) => {
                 return (

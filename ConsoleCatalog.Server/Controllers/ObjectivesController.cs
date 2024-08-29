@@ -38,7 +38,6 @@ namespace ConsoleCatalog.Server.Controllers
 
         [HttpPost(Name = "PostSubObjective")]
         [Route("postSubObjective")]
-
         public SubObjective PostSubObjective([FromBody] SubObjective subObjective)
         {
             _databaseContext.SubObjectives.Add(subObjective);
@@ -47,7 +46,7 @@ namespace ConsoleCatalog.Server.Controllers
         }
 
         [HttpPost(Name = "PostSubObjectives")]
-        [HttpPost(Name = "postSubObjectives")]
+        [Route("postSubObjectives")]
         public List<SubObjective> PostSubObjectives([FromBody] List<SubObjective> subObjectives)
         {
             _databaseContext.SubObjectives.AddRange(subObjectives);
@@ -56,7 +55,7 @@ namespace ConsoleCatalog.Server.Controllers
                 .Where(subObjective => subObjective.TitleId == subObjectives[0].TitleId && subObjective.TrophyId == subObjectives[0].TrophyId)
                 .Select(subObjective => subObjective)
                 .ToList();
-            return subObjectives;
+            return newSubObjectives;
         }
 
         [HttpPut(Name = "PutSubObjective")]
