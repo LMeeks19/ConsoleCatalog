@@ -3,26 +3,23 @@ import Playstation from "./playstation";
 import { sidebarState } from "../../functions/state";
 import Conditional from "../../components/site/if-then-else";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   getPSNProfileTrophiesForTitle,
   getPSNTitleTrophies,
 } from "../../functions/external-server";
 import { TitleTrophies, Trophy } from "../../functions/interfaces";
-import "../../styling/playstation/playstation-profiles-selected-game-trophies.css";
-import { TrophyTypeNumber, TrophyTypeString } from "../../functions/enums";
-import platinum_icon from "../../images/psn-trophy-platinum.png";
-import gold_icon from "../../images/psn-trophy-gold.png";
-import silver_icon from "../../images/psn-trophy-silver.png";
-import bronze_icon from "../../images/psn-trophy-bronze.png";
+import "../../styling/playstation/playstation-game-trophies.css";
+import { getTrophyType, getTrophyRarity, getTrophyTypeIcon } from "../../functions/methods";
 
-function PlaystationProfilesSelectedGameTrophies() {
+function PlaystationGameTrophies() {
   const isSidebarActive = useRecoilValue(sidebarState);
   const location = useLocation();
   const [userEarnedTrophies, setUserEarnedTrophies] = useState<TitleTrophies>(
     {} as TitleTrophies
   );
   const [sortBy, setSortBy] = useState<number>(0);
+  const navigate = useNavigate();
 
   function mergeTrophyArrays(
     titleTrophies: Trophy[],
@@ -94,27 +91,6 @@ function PlaystationProfilesSelectedGameTrophies() {
       return trophies.sort((a, b) => Number(a.earned) - Number(b.earned));
   }
 
-  function getTrophyTypeIcon(type: string) {
-    if (type === TrophyTypeString.Platinum) return platinum_icon;
-    else if (type === TrophyTypeString.Gold) return gold_icon;
-    else if (type === TrophyTypeString.Silver) return silver_icon;
-    return bronze_icon;
-  }
-
-  function getTrophyType(type: string): TrophyTypeNumber {
-    if (type === TrophyTypeString.Platinum) return TrophyTypeNumber.Platinum;
-    else if (type === TrophyTypeString.Gold) return TrophyTypeNumber.Gold;
-    else if (type === TrophyTypeString.Silver) return TrophyTypeNumber.Silver;
-    return TrophyTypeNumber.Bronze;
-  }
-
-  function getTrophyRarity(rarity: number) {
-    if (rarity === 0) return "Ultra Rare";
-    else if (rarity === 1) return "Very Rare";
-    else if (rarity === 2) return "Rare";
-    return "Common";
-  }
-
   return (
     <>
       <Playstation />
@@ -151,6 +127,14 @@ function PlaystationProfilesSelectedGameTrophies() {
                   Condition: trophy.earned,
                   If: "earned",
                 })}`}
+                onClick={() =>
+                  navigate(`${trophy.trophyId}`, {
+                    state: {
+                      trophy: trophy,
+                      titleId: location.state.titleId,
+                    },
+                  })
+                }
               >
                 <img className="image" src={trophy.trophyIconUrl}></img>
                 <div className="details">
@@ -183,4 +167,4 @@ function PlaystationProfilesSelectedGameTrophies() {
   );
 }
 
-export default PlaystationProfilesSelectedGameTrophies;
+export default PlaystationGameTrophies;

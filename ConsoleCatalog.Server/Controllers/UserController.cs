@@ -1,8 +1,5 @@
 using ConsoleCatalog.Server.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.JSInterop;
-using System.Text.Encodings.Web;
 
 namespace ConsoleCatalog.Server.Controllers
 {
@@ -10,7 +7,6 @@ namespace ConsoleCatalog.Server.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-
         private readonly ILogger<UserController> _logger;
         private readonly DatabaseContext _databaseContext;
 

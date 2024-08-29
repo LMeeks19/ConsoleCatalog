@@ -46,6 +46,10 @@ export default defineConfig({
             '^/user': {
                 target,
                 secure: false
+            },
+            '^/objectives': {
+                target,
+                secure: false
             }
         },
         port: 5173,

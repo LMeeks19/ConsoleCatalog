@@ -17,6 +17,11 @@ export const gameSearchModalState = atom({
   default: false,
 });
 
+export const addSubObjectiveModalState = atom({
+  key: "addSubObjectiveModalState",
+  default: false,
+});
+
 export const activePageState = atom({
   key: "activePageState",
   default: Pages.Home,

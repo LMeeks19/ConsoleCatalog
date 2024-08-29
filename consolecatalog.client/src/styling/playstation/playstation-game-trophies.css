@@ -104,6 +104,7 @@
 
         &.earned {
             opacity: 50%;
+            pointer-events: none;
         }
 
         .image {
