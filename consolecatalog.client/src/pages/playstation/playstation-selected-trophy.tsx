@@ -4,6 +4,7 @@ import {
   addSubObjectiveModalState,
   gameSearchModalState,
   sidebarState,
+  userState,
 } from "../../functions/state";
 import Playstation from "./playstation";
 import { useLocation } from "react-router-dom";
@@ -34,6 +35,7 @@ function PlaystationSelectedTrophy() {
   useEffect(() => {
     async function fetchSubObjectives() {
       const fetchedSubObjectives = await getSubObjectives(
+        location.state.userId,
         location.state.titleId,
         trophy.trophyId
       );
@@ -98,108 +100,111 @@ function PlaystationSelectedTrophy() {
           If: "disabled",
         })}`}
       >
-        <div
-          className={`trophy ${Conditional({
-            Condition: trophy?.earned,
-            If: "earned",
-          })}`}
-        >
-          <img className="image" src={trophy?.trophyIconUrl}></img>
-          <div className="details">
-            <div className="name">{trophy?.trophyName}</div>
-            <div className="description">{trophy?.trophyDetail}</div>
+        <div className="trophy-container">
+          <div
+            className={`trophy ${Conditional({
+              Condition: trophy?.earned,
+              If: "earned",
+            })}`}
+          >
+            <img className="image" src={trophy?.trophyIconUrl}></img>
+            <div className="details">
+              <div className="name">{trophy?.trophyName}</div>
+              <div className="description">{trophy?.trophyDetail}</div>
+            </div>
+            <Conditional
+              Condition={trophy?.earned}
+              If={
+                <i
+                  className="fa-regular fa-circle-check earned"
+                  style={{ color: "#049006" }}
+                ></i>
+              }
+            />
+            <div className="rarity">
+              <div>{getTrophyRarity(trophy?.trophyRare)} </div>
+              <div>{trophy?.trophyEarnedRate}%</div>
+            </div>
+            <img className="type" src={getTrophyTypeIcon(trophy?.trophyType)} />
           </div>
-          <Conditional
-            Condition={trophy?.earned}
-            If={
-              <i
-                className="fa-regular fa-circle-check earned"
-                style={{ color: "#049006" }}
-              ></i>
-            }
-          />
-          <div className="rarity">
-            <div>{getTrophyRarity(trophy?.trophyRare)} </div>
-            <div>{trophy?.trophyEarnedRate}%</div>
-          </div>
-          <img className="type" src={getTrophyTypeIcon(trophy?.trophyType)} />
-        </div>
-        <div className="title">
-          <div className="name">Sub Objectives</div>
-          <div className="actions">
-            <button
-              className="add"
-              onClick={() => setIsAddSubObjectiveModalActive(true)}
-            >
-              <div className="label">Add</div>
-              <i className="fa-solid fa-plus add-icon"></i>
-            </button>
-            <button
-              className={`delete ${Conditional({
-                Condition:
+          <div className="title">
+            <div className="name">Sub Objectives</div>
+            <div className="actions">
+              <button
+                className="add"
+                onClick={() => setIsAddSubObjectiveModalActive(true)}
+              >
+                <div className="label">Add</div>
+                <i className="fa-solid fa-plus add-icon"></i>
+              </button>
+              <button
+                className={`delete ${Conditional({
+                  Condition:
+                    subObjectives.filter(
+                      (subObjective) => subObjective.isComplete
+                    ).length === 0,
+                  If: "disabled",
+                })}`}
+                onClick={() => removeCompletedSubObjectives(subObjectives)}
+                disabled={
                   subObjectives.filter(
                     (subObjective) => subObjective.isComplete
-                  ).length === 0,
-                If: "disabled",
-              })}`}
-              onClick={() => removeCompletedSubObjectives(subObjectives)}
-              disabled={
-                subObjectives.filter((subObjective) => subObjective.isComplete)
-                  .length === 0
-              }
-            >
-              <div className="label">Delete Completed</div>
-              <i className="fa-solid fa-trash-can add-icon"></i>
-            </button>
+                  ).length === 0
+                }
+              >
+                <div className="label">Delete Completed</div>
+                <i className="fa-solid fa-trash-can add-icon"></i>
+              </button>
+            </div>
           </div>
-        </div>
-        <div
-          className={`sub-objectives ${Conditional({
-            Condition: subObjectives.length === 0,
-            If: "empty",
-          })}`}
-        >
-          <Conditional
-            Condition={subObjectives.length === 0}
-            If={<div>No Sub Objectives</div>}
-            Else={subObjectives
-              .sort((a, b) => a.details.localeCompare(b.details))
-              .sort((a, b) => Number(a.isComplete) - Number(b.isComplete))
-              .map((subObjective) => {
-                return (
-                  <div
-                    className={`sub-objective ${Conditional({
-                      Condition: subObjective.isComplete,
-                      If: "complete",
-                    })}`}
-                    key={subObjective.id}
-                  >
-                    <div className="checkbox-container">
-                      <input
-                        onClick={() => updateSubObjective(subObjective)}
-                        defaultChecked={subObjective.isComplete}
-                        className="input-checkbox"
-                        id={subObjective.id}
-                        type="checkbox"
-                        style={{ display: "none" }}
-                      />
-                      <label className="checkbox" htmlFor={subObjective.id}>
-                        <span>
-                          <svg width="12px" height="9px" viewBox="0 0 12 9">
-                            <polyline points="1 5 4 8 11 1"></polyline>
-                          </svg>
-                        </span>
-                      </label>
+          <div
+            className={`sub-objectives ${Conditional({
+              Condition: subObjectives.length === 0,
+              If: "empty",
+            })}`}
+          >
+            <Conditional
+              Condition={subObjectives.length === 0}
+              If={<div>No Sub Objectives</div>}
+              Else={subObjectives
+                .sort((a, b) => a.details.localeCompare(b.details))
+                .sort((a, b) => Number(a.isComplete) - Number(b.isComplete))
+                .map((subObjective) => {
+                  return (
+                    <div
+                      className={`sub-objective ${Conditional({
+                        Condition: subObjective.isComplete,
+                        If: "complete",
+                      })}`}
+                      key={subObjective.id}
+                    >
+                      <div className="checkbox-container">
+                        <input
+                          onClick={() => updateSubObjective(subObjective)}
+                          defaultChecked={subObjective.isComplete}
+                          className="input-checkbox"
+                          id={subObjective.id}
+                          type="checkbox"
+                          style={{ display: "none" }}
+                        />
+                        <label className="checkbox" htmlFor={subObjective.id}>
+                          <span>
+                            <svg width="12px" height="9px" viewBox="0 0 12 9">
+                              <polyline points="1 5 4 8 11 1"></polyline>
+                            </svg>
+                          </span>
+                        </label>
+                      </div>
+                      <div className="text">{subObjective.details}</div>
+                      <i
+                        className="fa-solid fa-trash-can delete-icon"
+                        onClick={() => removeSubObjective(subObjective)}
+                      ></i>
                     </div>
-                    <div className="text">{subObjective.details}</div>
-                    <i
-                      className="fa-solid fa-trash-can delete-icon"
-                      onClick={() => removeSubObjective(subObjective)}
-                    ></i>
-                  </div>
-                );
-              })}
-          />
+                  );
+                })}
+            />
+          </div>
         </div>
       </div>
     </>

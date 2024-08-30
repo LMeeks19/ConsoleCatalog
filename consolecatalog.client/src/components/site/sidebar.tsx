@@ -87,7 +87,12 @@ function SideBar(props: BarProps) {
                 Condition: props.page === "xbox",
                 If: user.xboxGamertag,
                 Else: user.playstationGamertag,
-              })}`
+              })}`,
+              {
+                state: {
+                  userId: user.id,
+                },
+              }
             );
           }}
         >

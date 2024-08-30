@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleCatalog.Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240828215147_create-sub-objective-table")]
-    partial class createsubobjectivetable
+    [Migration("20240830024724_Create-Sub-Objectives-Table")]
+    partial class CreateSubObjectivesTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,6 +44,9 @@ namespace ConsoleCatalog.Server.Migrations
 
                     b.Property<int>("TrophyId")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 

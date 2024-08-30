@@ -131,7 +131,8 @@ function PlaystationGameTrophies() {
                   navigate(`${trophy.trophyId}`, {
                     state: {
                       trophy: trophy,
-                      titleId: location.state.titleId,
+                      titleId: location.state?.titleId,
+                      userId: location.state?.userId
                     },
                   })
                 }

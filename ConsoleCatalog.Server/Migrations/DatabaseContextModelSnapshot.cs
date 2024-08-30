@@ -42,6 +42,9 @@ namespace ConsoleCatalog.Server.Migrations
                     b.Property<int>("TrophyId")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.ToTable("SubObjectives");

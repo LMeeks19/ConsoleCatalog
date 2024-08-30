@@ -257,6 +257,7 @@ function PlaystationProfilesSelected() {
                     onClick={() =>
                       navigate(`${trophyTitle.npCommunicationId}/trophies`, {
                         state: {
+                          userId: location.state?.userId,
                           accountId: selectedPSNProfile?.accountId,
                           titleId: trophyTitle?.npCommunicationId,
                           titleName: trophyTitle?.trophyTitleName,

@@ -230,6 +230,7 @@ export interface Trophy {
 
 export interface SubObjective {
   id?: string;
+  userId: string;
   trophyId: number;
   titleId: string;
   details: string;
