@@ -24,8 +24,8 @@ export async function getSubObjective(id: string): Promise<SubObjective> {
   return await response.json();
 }
 
-export async function getSubObjectives(titleId: string, trophyId: number): Promise<SubObjective[]> {
-  const response = await fetch(`/objectives/getSubObjectives/${titleId}/${trophyId}`);
+export async function getSubObjectives(userId: string, titleId: string, trophyId: number): Promise<SubObjective[]> {
+  const response = await fetch(`/objectives/getSubObjectives/${userId}/${titleId}/${trophyId}`);
   return await response.json();
 }
 

@@ -1,6 +1,6 @@
-import { SetterOrUpdater, useSetRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
 import "../../styling/modal/add-sub-objective-modal.css";
-import { addSubObjectiveModalState } from "../../functions/state";
+import { addSubObjectiveModalState, userState } from "../../functions/state";
 import { useEffect, useState } from "react";
 import Conditional from "../site/if-then-else";
 import { SubObjective } from "../../functions/interfaces";
@@ -17,6 +17,7 @@ function AddSubObjectiveModal(props: AddSubObjectiveModalProps) {
     useState<boolean>(false);
   const [text, setText] = useState<string>("");
   const [isPasted, setIsPasted] = useState<boolean>(false);
+  const user = useRecoilValue(userState);
 
   useEffect(() => {
     function setTaskCreationCount() {
@@ -24,6 +25,7 @@ function AddSubObjectiveModal(props: AddSubObjectiveModalProps) {
         if (mergeIntoSingleTask) {
           setSubObjectives([
             {
+              userId: user.id,
               titleId: props.titleId,
               trophyId: props.trophyId,
               details: text,
@@ -35,6 +37,7 @@ function AddSubObjectiveModal(props: AddSubObjectiveModalProps) {
           setSubObjectives(
             splitText.map((text) => {
               return {
+                userId: user.id,
                 titleId: props.titleId,
                 trophyId: props.trophyId,
                 details: text,

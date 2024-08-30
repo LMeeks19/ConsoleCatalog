@@ -26,11 +26,11 @@ namespace ConsoleCatalog.Server.Controllers
         }
 
         [HttpGet(Name = "GetSubObjectives")]
-        [Route("getSubObjectives/{titleId}/{trophyId}")]
-        public List<SubObjective> GetSubObjectives(string titleId, string trophyId)
+        [Route("getSubObjectives/{userId}/{titleId}/{trophyId}")]
+        public List<SubObjective> GetSubObjectives(string userId, string titleId, string trophyId)
         {
             var subObjectives = _databaseContext.SubObjectives
-                .Where(subObjective => subObjective.TitleId == titleId && subObjective.TrophyId == int.Parse(trophyId))
+                .Where(subObjective => subObjective.UserId == new Guid(userId) && subObjective.TitleId == titleId && subObjective.TrophyId == int.Parse(trophyId))
                 .Select(subObjective => subObjective)
                 .ToList();
             return subObjectives;
@@ -52,7 +52,7 @@ namespace ConsoleCatalog.Server.Controllers
             _databaseContext.SubObjectives.AddRange(subObjectives);
             _databaseContext.SaveChanges();
             var newSubObjectives = _databaseContext.SubObjectives
-                .Where(subObjective => subObjective.TitleId == subObjectives[0].TitleId && subObjective.TrophyId == subObjectives[0].TrophyId)
+                .Where(subObjective => subObjective.UserId == subObjectives[0].UserId && subObjective.TitleId == subObjectives[0].TitleId && subObjective.TrophyId == subObjectives[0].TrophyId)
                 .Select(subObjective => subObjective)
                 .ToList();
             return newSubObjectives;
