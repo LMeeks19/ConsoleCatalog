@@ -1,6 +1,6 @@
 import { GameSummary } from "../../functions/interfaces";
 import {
-  FormatDate,
+  FormatNumberDate,
   getFullSearchImageUrl,
   getRatingColour,
   isPSTitle,
@@ -35,7 +35,7 @@ function GameSearchResult(props: GameSearchResultProps) {
           If={
             <div className="result-release">
               <div className="date">
-                {FormatDate(props.game.first_release_date)}
+                {FormatNumberDate(props.game.first_release_date)}
               </div>
             </div>
           }

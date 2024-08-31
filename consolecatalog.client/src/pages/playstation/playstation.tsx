@@ -40,10 +40,10 @@ function Playstation() {
       if (location.pathname.includes("games")) setActivePage(Pages.Games);
       else if (
         location.pathname.includes("profiles") &&
-        !location.pathname.includes(`${user.playstationGamertag}`)
+        !location.pathname.includes(`${user?.playstationGamertag}`)
       )
         setActivePage(Pages.Profiles);
-      else if (location.pathname.includes(`${user.playstationGamertag}`))
+      else if (location.pathname.includes(`${user?.playstationGamertag}`))
         setActivePage(Pages.MyProfile);
       else if (location.pathname.includes("account"))
         setActivePage(Pages.Account);
@@ -54,7 +54,7 @@ function Playstation() {
     }
     setCurrentPage();
     resetModal();
-  }, []);
+  }, [user]);
 
   return (
     <>

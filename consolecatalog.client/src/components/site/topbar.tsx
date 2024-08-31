@@ -8,7 +8,7 @@ import {
 } from "../../functions/state";
 import { BarProps } from "../../functions/interfaces";
 import { AutoTextSize } from "auto-text-size";
-import SearchBar from "./searchbar";
+import GamesSearchBar from "./games-searchbar";
 import "../../styling/site/topbar.css";
 import Conditional from "./if-then-else";
 
@@ -34,7 +34,7 @@ function TopBar(props: BarProps) {
       >
         <AutoTextSize maxFontSizePx={24}>CONSOLE CATALOG</AutoTextSize>
       </div>
-      <SearchBar />
+      <GamesSearchBar />
       <div className="top-bar-end">
         <div
           className={`top-bar-menu ${Conditional({

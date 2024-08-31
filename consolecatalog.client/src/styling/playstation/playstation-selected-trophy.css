@@ -1,5 +1,6 @@
 .trophy-container {
     height: 100%;
+
     .trophy {
         background-color: #262626;
         border-radius: 25px;
@@ -38,9 +39,17 @@
         }
 
         .earned {
-            font-size: 50px;
+            display: flex;
             margin: auto 0 auto auto;
             padding: 20px;
+
+            .earned-text {
+                margin: auto 20px auto auto;
+            }
+
+            .earned-icon {
+                font-size: 50px;
+            }
         }
 
         .rarity {
@@ -94,10 +103,6 @@
 
                 &.delete {
                     background-color: rgba(255, 0, 0, 0.575);
-
-                    &.disabled {
-                        cursor: not-allowed;
-                    }
                 }
 
                 .label {
@@ -112,17 +117,17 @@
                 }
             }
 
-            button:hover {
+            button:disabled {
+                cursor: not-allowed;
+            }
+
+            button:not(:disabled):hover {
                 &.add {
                     background-color: #363636;
                 }
 
                 &.delete {
                     background-color: rgb(224, 65, 65);
-
-                    &.disabled {
-                        background-color: rgba(255, 0, 0, 0.575) !important;
-                    }
                 }
             }
 
@@ -135,6 +140,13 @@
                 border-color: black;
             }
         }
+    }
+
+    .loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
     }
 
     .sub-objectives {

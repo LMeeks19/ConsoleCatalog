@@ -6,7 +6,7 @@ function ModalSearchBar(props: ModalSearchBarProps) {
   const setIsGameSearchModalActive = useSetRecoilState(gameSearchModalState);
 
   return (
-    <div className="search">
+    <div className="modal-search">
       <div className="search-input">
         <input
           autoFocus={true}

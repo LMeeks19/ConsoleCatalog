@@ -2,26 +2,30 @@
     gap: 10px;
     display: flex;
     flex-direction: column;
+    height: 100%;
+
+    .empty, .loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
 
     .title {
         padding: 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin: auto 0 auto 0;
         border-bottom: 1px solid #404040;
+        flex-wrap: wrap;
 
         .name {
             font-size: 30px;
+            text-wrap: nowrap;
         }
 
-        .select-container {
+        .actions-container {
             display: flex;
-
-            .label {
-                margin: auto;
-                font-size: 20px;
-            }
 
             &.disabled {
                 pointer-events: none;
@@ -32,11 +36,11 @@
                 width: 160px;
                 margin: auto;
 
-                &.disabled {
-                    pointer-events: none;
+                select:disabled {
+                    cursor: not-allowed;
                 }
 
-                select:hover {
+                select:not(:disabled):hover {
                     background-color: #363636;
                 }
 
@@ -89,6 +93,10 @@
                 border-top: var(--size) solid white;
                 top: 55%;
             }
+
+            .custom-select:has(select:disabled) {
+                cursor: not-allowed;
+            }
         }
     }
 
@@ -101,10 +109,10 @@
         width: 100%;
         border: 2px solid #262626;
         transition: border-color .5s;
+        cursor: pointer;
 
         &.earned {
             opacity: 50%;
-            pointer-events: none;
         }
 
         .image {
@@ -129,9 +137,17 @@
         }
 
         .earned {
-            font-size: 50px;
+            display: flex;
             margin: auto 0 auto auto;
             padding: 20px;
+
+            .earned-text {
+                margin: auto 20px auto auto;
+            }
+
+            .earned-icon {
+                font-size: 50px;
+            }
         }
 
         .rarity {
@@ -153,8 +169,7 @@
         }
     }
 
-    .trophy:not(.earned):hover {
+    .trophy:hover {
         border: 2px solid white;
-        cursor: pointer;
     }
 }

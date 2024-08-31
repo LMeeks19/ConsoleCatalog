@@ -1,5 +1,3 @@
-import { TrophyTypeString } from "./enums";
-
 export interface LoginDetails {
   username: string | null;
   password: string | null;
@@ -224,6 +222,7 @@ export interface Trophy {
   trophyType: string;
 
   earned: boolean;
+  earnedDateTime?: string;
   trophyEarnedRate: string;
   trophyRare: number;
 }
