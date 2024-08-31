@@ -4,11 +4,14 @@ import {
   addSubObjectiveModalState,
   gameSearchModalState,
   sidebarState,
-  userState,
 } from "../../functions/state";
 import Playstation from "./playstation";
 import { useLocation } from "react-router-dom";
-import { getTrophyRarity, getTrophyTypeIcon } from "../../functions/methods";
+import {
+  FormatStringDate,
+  getTrophyRarity,
+  getTrophyTypeIcon,
+} from "../../functions/methods";
 import "../../styling/playstation/playstation-selected-trophy.css";
 import { useEffect, useState } from "react";
 import { SubObjective } from "../../functions/interfaces";
@@ -20,6 +23,8 @@ import {
 } from "../../functions/server";
 import Modal from "../../components/modal/modal";
 import AddSubObjectiveModal from "../../components/modal/add-sub-objective-modal";
+import SearchBar from "../../components/site/search-bar";
+import { BeatLoader } from "react-spinners";
 
 function PlaystationSelectedTrophy() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -31,15 +36,19 @@ function PlaystationSelectedTrophy() {
   const [isAddSubObjectiveModalActive, setIsAddSubObjectiveModalActive] =
     useRecoilState(addSubObjectiveModalState);
   const isGameSearchModalActive = useRecoilValue(gameSearchModalState);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function fetchSubObjectives() {
+      setIsLoading(true);
       const fetchedSubObjectives = await getSubObjectives(
         location.state.userId,
         location.state.titleId,
         trophy.trophyId
       );
       setSubObjectives(fetchedSubObjectives);
+      setIsLoading(false);
     }
     fetchSubObjectives();
   }, []);
@@ -115,10 +124,15 @@ function PlaystationSelectedTrophy() {
             <Conditional
               Condition={trophy?.earned}
               If={
-                <i
-                  className="fa-regular fa-circle-check earned"
-                  style={{ color: "#049006" }}
-                ></i>
+                <div className="earned">
+                  <div className="earned-text">
+                    {FormatStringDate(trophy?.earnedDateTime)}
+                  </div>
+                  <i
+                    className="fa-regular fa-circle-check earned-icon"
+                    style={{ color: "#049006" }}
+                  ></i>
+                </div>
               }
             />
             <div className="rarity">
@@ -130,21 +144,23 @@ function PlaystationSelectedTrophy() {
           <div className="title">
             <div className="name">Sub Objectives</div>
             <div className="actions">
+              <SearchBar
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                placeholder="Search Sub Objectives..."
+                width="600"
+                disabled={isLoading || subObjectives.length === 0}
+              />
               <button
                 className="add"
                 onClick={() => setIsAddSubObjectiveModalActive(true)}
+                disabled={trophy?.earned}
               >
                 <div className="label">Add</div>
                 <i className="fa-solid fa-plus add-icon"></i>
               </button>
               <button
-                className={`delete ${Conditional({
-                  Condition:
-                    subObjectives.filter(
-                      (subObjective) => subObjective.isComplete
-                    ).length === 0,
-                  If: "disabled",
-                })}`}
+                className="delete"
                 onClick={() => removeCompletedSubObjectives(subObjectives)}
                 disabled={
                   subObjectives.filter(
@@ -157,54 +173,83 @@ function PlaystationSelectedTrophy() {
               </button>
             </div>
           </div>
-          <div
-            className={`sub-objectives ${Conditional({
-              Condition: subObjectives.length === 0,
-              If: "empty",
-            })}`}
-          >
-            <Conditional
-              Condition={subObjectives.length === 0}
-              If={<div>No Sub Objectives</div>}
-              Else={subObjectives
-                .sort((a, b) => a.details.localeCompare(b.details))
-                .sort((a, b) => Number(a.isComplete) - Number(b.isComplete))
-                .map((subObjective) => {
-                  return (
-                    <div
-                      className={`sub-objective ${Conditional({
-                        Condition: subObjective.isComplete,
-                        If: "complete",
-                      })}`}
-                      key={subObjective.id}
-                    >
-                      <div className="checkbox-container">
-                        <input
-                          onClick={() => updateSubObjective(subObjective)}
-                          defaultChecked={subObjective.isComplete}
-                          className="input-checkbox"
-                          id={subObjective.id}
-                          type="checkbox"
-                          style={{ display: "none" }}
-                        />
-                        <label className="checkbox" htmlFor={subObjective.id}>
-                          <span>
-                            <svg width="12px" height="9px" viewBox="0 0 12 9">
-                              <polyline points="1 5 4 8 11 1"></polyline>
-                            </svg>
-                          </span>
-                        </label>
-                      </div>
-                      <div className="text">{subObjective.details}</div>
-                      <i
-                        className="fa-solid fa-trash-can delete-icon"
-                        onClick={() => removeSubObjective(subObjective)}
-                      ></i>
-                    </div>
-                  );
-                })}
-            />
-          </div>
+          <Conditional
+            Condition={isLoading}
+            If={
+              <div className="loader">
+                <BeatLoader speedMultiplier={0.5} color="white" size={20} />
+              </div>
+            }
+            Else={
+              <div
+                className={`sub-objectives ${Conditional({
+                  Condition:
+                    subObjectives.length === 0 ||
+                    subObjectives.filter((subObjectives) =>
+                      subObjectives.details.includes(searchTerm)
+                    ).length === 0,
+                  If: "empty",
+                })}`}
+              >
+                <Conditional
+                  Condition={
+                    subObjectives.length === 0 ||
+                    subObjectives.filter((subObjectives) =>
+                      subObjectives.details.includes(searchTerm)
+                    ).length === 0
+                  }
+                  If={<div>No Sub Objectives</div>}
+                  Else={subObjectives
+                    .filter((subObjecitve) =>
+                      subObjecitve.details.includes(searchTerm)
+                    )
+                    .sort((a, b) => a.details.localeCompare(b.details))
+                    .sort((a, b) => Number(a.isComplete) - Number(b.isComplete))
+                    .map((subObjective) => {
+                      return (
+                        <div
+                          className={`sub-objective ${Conditional({
+                            Condition: subObjective.isComplete,
+                            If: "complete",
+                          })}`}
+                          key={subObjective.id}
+                        >
+                          <div className="checkbox-container">
+                            <input
+                              onClick={() => updateSubObjective(subObjective)}
+                              defaultChecked={subObjective.isComplete}
+                              className="input-checkbox"
+                              id={subObjective.id}
+                              type="checkbox"
+                              style={{ display: "none" }}
+                            />
+                            <label
+                              className="checkbox"
+                              htmlFor={subObjective.id}
+                            >
+                              <span>
+                                <svg
+                                  width="12px"
+                                  height="9px"
+                                  viewBox="0 0 12 9"
+                                >
+                                  <polyline points="1 5 4 8 11 1"></polyline>
+                                </svg>
+                              </span>
+                            </label>
+                          </div>
+                          <div className="text">{subObjective.details}</div>
+                          <i
+                            className="fa-solid fa-trash-can delete-icon"
+                            onClick={() => removeSubObjective(subObjective)}
+                          ></i>
+                        </div>
+                      );
+                    })}
+                />
+              </div>
+            }
+          />
         </div>
       </div>
     </>

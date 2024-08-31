@@ -1,6 +1,6 @@
 import { GameSummary } from "../../functions/interfaces";
 import {
-  FormatDate,
+  FormatNumberDate,
   getFullCardImageUrl,
   getRatingColour,
   isPSTitle,
@@ -60,7 +60,7 @@ function GameCard(props: GameCardProps) {
             <i className="fa-regular fa-image fa-2xl card-image"></i>
             <div className="card-info-release">
               <div className="date">
-                {FormatDate(props.game.first_release_date)}
+                {FormatNumberDate(props.game.first_release_date)}
               </div>
             </div>
           </div>
@@ -73,7 +73,7 @@ function GameCard(props: GameCardProps) {
             ></img>
             <div className="card-info-release">
               <div className="date">
-                {FormatDate(props.game.first_release_date)}
+                {FormatNumberDate(props.game.first_release_date)}
               </div>
             </div>
           </div>

@@ -65,6 +65,7 @@
             .side-bar-item-text {
                 font-weight: 500;
                 font-size: larger;
+                text-wrap: nowrap;
             }
 
             .side-bar-item-icon {

@@ -10,7 +10,14 @@ import {
 } from "../../functions/external-server";
 import { TitleTrophies, Trophy } from "../../functions/interfaces";
 import "../../styling/playstation/playstation-game-trophies.css";
-import { getTrophyType, getTrophyRarity, getTrophyTypeIcon } from "../../functions/methods";
+import {
+  getTrophyType,
+  getTrophyRarity,
+  getTrophyTypeIcon,
+  FormatStringDate,
+} from "../../functions/methods";
+import SearchBar from "../../components/site/search-bar";
+import { BeatLoader } from "react-spinners";
 
 function PlaystationGameTrophies() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -20,6 +27,8 @@ function PlaystationGameTrophies() {
   );
   const [sortBy, setSortBy] = useState<number>(0);
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   function mergeTrophyArrays(
     titleTrophies: Trophy[],
@@ -36,6 +45,7 @@ function PlaystationGameTrophies() {
       return {
         ...titleTrophy!,
         earned: earnedTrophy.earned,
+        earnedDateTime: earnedTrophy.earnedDateTime,
         trophyEarnedRate: earnedTrophy.trophyEarnedRate,
         trophyRare: earnedTrophy.trophyRare,
       } as Trophy;
@@ -46,6 +56,7 @@ function PlaystationGameTrophies() {
 
   useEffect(() => {
     async function fetchEarnedTitleTrophies() {
+      setIsLoading(true);
       let accountId = location.state?.accountId;
       let titleId = location.state?.titleId;
       let platform = location.state.platform;
@@ -62,6 +73,7 @@ function PlaystationGameTrophies() {
           earnedTrophies.trophies
         ),
       });
+      setIsLoading(false);
     }
     fetchEarnedTitleTrophies();
   }, []);
@@ -103,11 +115,19 @@ function PlaystationGameTrophies() {
         <div className="trophies">
           <div className="title">
             <div className="name">{location.state.titleName} Trophies</div>
-            <div className="select-container">
+            <div className="actions-container">
+              <SearchBar
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                placeholder="Search Trophies..."
+                width="600"
+                disabled={isLoading}
+              />
               <div className="custom-select">
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(Number(e.target.value))}
+                  disabled={isLoading}
                 >
                   <option value={0}>None</option>
                   <option value={1}>Type</option>
@@ -119,49 +139,87 @@ function PlaystationGameTrophies() {
               </div>
             </div>
           </div>
-          {sortedTrophies()?.map((trophy) => {
-            return (
-              <div
-                key={trophy.trophyId}
-                className={`trophy ${Conditional({
-                  Condition: trophy.earned,
-                  If: "earned",
-                })}`}
-                onClick={() =>
-                  navigate(`${trophy.trophyId}`, {
-                    state: {
-                      trophy: trophy,
-                      titleId: location.state?.titleId,
-                      userId: location.state?.userId
-                    },
-                  })
-                }
-              >
-                <img className="image" src={trophy.trophyIconUrl}></img>
-                <div className="details">
-                  <div className="name">{trophy.trophyName}</div>
-                  <div className="description">{trophy.trophyDetail}</div>
-                </div>
-                <Conditional
-                  Condition={trophy.earned}
-                  If={
-                    <i
-                      className="fa-regular fa-circle-check earned"
-                      style={{ color: "#049006" }}
-                    ></i>
-                  }
-                />
-                <div className="rarity">
-                  <div>{getTrophyRarity(trophy.trophyRare)} </div>
-                  <div>{trophy.trophyEarnedRate}%</div>
-                </div>
-                <img
-                  className="type"
-                  src={getTrophyTypeIcon(trophy.trophyType)}
-                />
+          <Conditional
+            Condition={isLoading}
+            If={
+              <div className="loader">
+                <BeatLoader speedMultiplier={0.5} color="white" size={20} />
               </div>
-            );
-          })}
+            }
+            Else={
+              <Conditional
+                Condition={
+                  sortedTrophies()?.filter((trophy) =>
+                    trophy.trophyName.includes(searchTerm)
+                  ).length === 0
+                }
+                If={<div className="empty">No Trophies</div>}
+                Else={
+                  <>
+                    {sortedTrophies()
+                      ?.filter((trophy) =>
+                        trophy.trophyName
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase())
+                      )
+                      .map((trophy) => {
+                        return (
+                          <div
+                            key={trophy.trophyId}
+                            className={`trophy ${Conditional({
+                              Condition: trophy.earned,
+                              If: "earned",
+                            })}`}
+                            onClick={() =>
+                              navigate(`${trophy.trophyId}`, {
+                                state: {
+                                  trophy: trophy,
+                                  titleId: location.state?.titleId,
+                                  userId: location.state?.userId,
+                                },
+                              })
+                            }
+                          >
+                            <img
+                              className="image"
+                              src={trophy.trophyIconUrl}
+                            ></img>
+                            <div className="details">
+                              <div className="name">{trophy.trophyName}</div>
+                              <div className="description">
+                                {trophy.trophyDetail}
+                              </div>
+                            </div>
+                            <Conditional
+                              Condition={trophy.earned}
+                              If={
+                                <div className="earned">
+                                  <div className="earned-text">
+                                    {FormatStringDate(trophy.earnedDateTime)}
+                                  </div>
+                                  <i
+                                    className="fa-regular fa-circle-check earned-icon"
+                                    style={{ color: "#049006" }}
+                                  ></i>
+                                </div>
+                              }
+                            />
+                            <div className="rarity">
+                              <div>{getTrophyRarity(trophy.trophyRare)} </div>
+                              <div>{trophy.trophyEarnedRate}%</div>
+                            </div>
+                            <img
+                              className="type"
+                              src={getTrophyTypeIcon(trophy.trophyType)}
+                            />
+                          </div>
+                        );
+                      })}
+                  </>
+                }
+              />
+            }
+          />
         </div>
       </div>
     </>

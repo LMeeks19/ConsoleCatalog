@@ -1,9 +1,9 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import { gameSearchModalState, sidebarState } from "../../functions/state";
-import "../../styling/site/searchbar.css";
+import "../../styling/site/games-searchbar.css";
 import Conditional from "./if-then-else";
 
-function SearchBar() {
+function GamesSearchBar() {
   const isSidebarActive = useRecoilValue(sidebarState);
   const [isGameSearchModalActive, setIsGamesSearchModalActive] =
     useRecoilState(gameSearchModalState);
@@ -31,4 +31,4 @@ function SearchBar() {
   );
 }
 
-export default SearchBar;
+export default GamesSearchBar;

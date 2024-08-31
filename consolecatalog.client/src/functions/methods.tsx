@@ -61,8 +61,14 @@ export function getTrophyRarity(rarity: number) {
   return "Common";
 }
 
-export function FormatDate(date: number | undefined) {
+export function FormatNumberDate(date: number | undefined): string {
   if (date !== undefined) return format(date * 1000, "do MMMM yyyy");
+  return "";
+}
+
+export function FormatStringDate(date: string | undefined): string {
+  if (date !== undefined) return format(date, "do MMMM yyyy");
+  return "";
 }
 
 var LANGUAGE_BY_LOCALE = {
@@ -501,8 +507,8 @@ var LANGUAGE_BY_LOCALE = {
   yo_NG: "Yoruba (Nigeria)",
   yo: "Yoruba",
   zu_ZA: "Zulu (South Africa)",
-  zu: "Zulu"
-}
+  zu: "Zulu",
+};
 
 export const languagesArray = Object.entries(LANGUAGE_BY_LOCALE).map((key) => {
   return { countryCode: key[0].replace("_", "-"), fullName: key[1] };

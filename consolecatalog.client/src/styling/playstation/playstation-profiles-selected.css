@@ -116,6 +116,7 @@
             border-radius: 25px;
             display: flex;
             flex-direction: column;
+            z-index: 0;
 
             .progress {
                 height: 279px;

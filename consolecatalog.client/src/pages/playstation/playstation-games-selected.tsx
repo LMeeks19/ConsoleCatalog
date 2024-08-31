@@ -7,7 +7,7 @@ import { getTitleById } from "../../functions/external-server";
 import { COVER_BIG_URL, SCREENSHOT_MED_URL } from "../../functions/utils";
 import "react-multi-carousel/lib/styles.css";
 import "../../styling/playstation/playstation-games-selected.css";
-import { FormatDate, getRatingColour } from "../../functions/methods";
+import { FormatStringDate, getRatingColour } from "../../functions/methods";
 import { BeatLoader } from "react-spinners";
 import { Game } from "../../functions/interfaces";
 import Conditional from "../../components/site/if-then-else";
@@ -106,7 +106,7 @@ function PlaystationGamesSelected() {
                       Condition={selectedGame.first_release_date !== undefined}
                       If={
                         <div className="info-release-date">
-                          {FormatDate(selectedGame.first_release_date)}
+                          {FormatStringDate(selectedGame.first_release_date)}
                         </div>
                       }
                       Else={<div className="info-release-date">Unknown</div>}
