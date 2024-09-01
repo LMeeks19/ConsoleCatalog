@@ -124,8 +124,8 @@ export interface Platform {
   name: string;
 }
 
-export interface Profile {
-  psnProfile: PSNProfile;
+export interface PSNProfileObject {
+  profile: PSNProfile;
 }
 
 export interface PSNProfile {
@@ -233,5 +233,10 @@ export interface Trophy {
   earnedDateTime?: string;
   trophyEarnedRate: string;
   trophyRare: number;
+
+  trophyProgressTargetValue?: string;
+  progress?: string;
+  progressRate?: number;
+  progressedDateTime?: string;
 }
 

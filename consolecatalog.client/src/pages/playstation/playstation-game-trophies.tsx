@@ -15,9 +15,11 @@ import {
   getTrophyRarity,
   getTrophyTypeIcon,
   FormatStringDate,
+  getProgressColour,
 } from "../../functions/methods";
 import SearchBar from "../../components/site/search-bar";
 import { BeatLoader } from "react-spinners";
+import ProgressBar from "@ramonak/react-progress-bar";
 
 function PlaystationGameTrophies() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -48,6 +50,9 @@ function PlaystationGameTrophies() {
         earnedDateTime: earnedTrophy.earnedDateTime,
         trophyEarnedRate: earnedTrophy.trophyEarnedRate,
         trophyRare: earnedTrophy.trophyRare,
+        progress: earnedTrophy.progress,
+        progressRate: earnedTrophy.progressRate,
+        progressedDateTime: earnedTrophy.progressedDateTime,
       } as Trophy;
     });
 
@@ -195,12 +200,49 @@ function PlaystationGameTrophies() {
                               If={
                                 <div className="earned">
                                   <div className="earned-text">
+                                    <div>Completed:</div>
                                     {FormatStringDate(trophy.earnedDateTime)}
                                   </div>
                                   <i
                                     className="fa-regular fa-circle-check earned-icon"
                                     style={{ color: "#049006" }}
                                   ></i>
+                                </div>
+                              }
+                            />
+                            <Conditional
+                              Condition={
+                                !trophy.earned && trophy.progress !== undefined
+                              }
+                              If={
+                                <div className="progress">
+                                  <Conditional
+                                    Condition={
+                                      trophy.progressedDateTime !== undefined
+                                    }
+                                    If={
+                                      <div className="progress-text">
+                                        <div>Last Progressed:</div>
+                                        {FormatStringDate(
+                                          trophy.progressedDateTime
+                                        )}
+                                      </div>
+                                    }
+                                  />
+                                  <div className="progress-value">
+                                    <div>
+                                      {trophy.progress}/
+                                      {trophy.trophyProgressTargetValue}
+                                    </div>
+                                    <ProgressBar
+                                      completed={trophy.progressRate!}
+                                      baseBgColor="#161616"
+                                      bgColor={getProgressColour(
+                                        trophy.progressRate!
+                                      )}
+                                      labelAlignment="outside"
+                                    />
+                                  </div>
                                 </div>
                               }
                             />

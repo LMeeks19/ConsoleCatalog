@@ -9,6 +9,7 @@ import Playstation from "./playstation";
 import { useLocation } from "react-router-dom";
 import {
   FormatStringDate,
+  getProgressColour,
   getTrophyRarity,
   getTrophyTypeIcon,
 } from "../../functions/methods";
@@ -25,6 +26,7 @@ import Modal from "../../components/modal/modal";
 import AddSubObjectiveModal from "../../components/modal/add-sub-objective-modal";
 import SearchBar from "../../components/site/search-bar";
 import { BeatLoader } from "react-spinners";
+import ProgressBar from "@ramonak/react-progress-bar";
 
 function PlaystationSelectedTrophy() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -126,12 +128,40 @@ function PlaystationSelectedTrophy() {
               If={
                 <div className="earned">
                   <div className="earned-text">
-                    {FormatStringDate(trophy?.earnedDateTime)}
+                    <div>Completed:</div>
+                    {FormatStringDate(trophy.earnedDateTime)}
                   </div>
                   <i
                     className="fa-regular fa-circle-check earned-icon"
                     style={{ color: "#049006" }}
                   ></i>
+                </div>
+              }
+            />
+            <Conditional
+              Condition={!trophy?.earned && trophy?.progress !== undefined}
+              If={
+                <div className="progress">
+                  <Conditional
+                    Condition={trophy?.progressedDateTime !== undefined}
+                    If={
+                      <div className="progress-text">
+                        <div>Last Progressed:</div>
+                        {FormatStringDate(trophy?.progressedDateTime)}
+                      </div>
+                    }
+                  />
+                  <div className="progress-value">
+                    <div>
+                      {trophy.progress}/{trophy?.trophyProgressTargetValue}
+                    </div>
+                    <ProgressBar
+                      completed={trophy?.progressRate}
+                      baseBgColor="#161616"
+                      bgColor={getProgressColour(trophy?.progressRate)}
+                      labelAlignment="outside"
+                    />
+                  </div>
                 </div>
               }
             />

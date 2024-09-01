@@ -4,7 +4,8 @@
     flex-direction: column;
     height: 100%;
 
-    .empty, .loader {
+    .empty,
+    .loader {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -104,12 +105,12 @@
         background-color: #262626;
         border-radius: 25px;
         display: flex;
-        gap: 10px;
         height: 125px;
         width: 100%;
         border: 2px solid #262626;
         transition: border-color .5s;
         cursor: pointer;
+        gap: 20px;
 
         &.earned {
             opacity: 50%;
@@ -127,6 +128,11 @@
             flex-direction: column !important;
             justify-content: space-between;
 
+            .name,
+            .description {
+                text-wrap: nowrap;
+            }
+
             .name {
                 font-size: 28px;
             }
@@ -136,13 +142,24 @@
             }
         }
 
-        .earned {
+        .earned,
+        .progress {
             display: flex;
             margin: auto 0 auto auto;
-            padding: 20px;
+            gap: 30px;
 
-            .earned-text {
-                margin: auto 20px auto auto;
+            .earned-text,
+            .progress-text,
+            .progress-value {
+                display: flex;
+                flex-direction: column;
+                text-align: center;
+                margin: auto 0 auto auto;
+                text-wrap: nowrap;
+            }
+
+            .progress-value {
+                width: 200px;
             }
 
             .earned-icon {
@@ -155,16 +172,18 @@
             font-size: 18px;
             text-align: center;
             width: 100px;
+            text-wrap: nowrap;
         }
 
         .type {
             height: 80px;
             width: 80px;
             margin: auto 0 auto 0;
-            padding: 20px;
+            padding-right: 20px;
         }
 
-        .earned~.rarity {
+        .earned~.rarity,
+        .progress~.rarity {
             margin: auto 0 auto 0;
         }
     }

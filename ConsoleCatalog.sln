@@ -3,14 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleCatalog.Server", "ConsoleCatalog.Server\ConsoleCatalog.Server.csproj", "{3C7A7297-6AEF-442B-985A-ACA2BFF5C193}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleCatalog.Internal_Server", "ConsoleCatalog.Internal_Server\ConsoleCatalog.Internal_Server.csproj", "{3C7A7297-6AEF-442B-985A-ACA2BFF5C193}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4B3E2123-DE3E-4F02-93AE-CEA6B5B5EEE2} = {4B3E2123-DE3E-4F02-93AE-CEA6B5B5EEE2}
 	EndProjectSection
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "consolecatalog.client", "consolecatalog.client\consolecatalog.client.esproj", "{2F9C2E69-26B9-4891-8909-042F0E7EA19D}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ConsoleCatalog.Client", "ConsoleCatalog.Client\ConsoleCatalog.Client.esproj", "{2F9C2E69-26B9-4891-8909-042F0E7EA19D}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "ConsoleCatalog.PSN_API", "ConsoleCatalog.PSN_API\ConsoleCatalog.PSN_API.njsproj", "{4B3E2123-DE3E-4F02-93AE-CEA6B5B5EEE2}"
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "ConsoleCatalog.External_Server", "ConsoleCatalog.External_Server\ConsoleCatalog.External_Server.njsproj", "{4B3E2123-DE3E-4F02-93AE-CEA6B5B5EEE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
