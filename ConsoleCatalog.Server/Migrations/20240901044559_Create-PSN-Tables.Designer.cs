@@ -4,6 +4,7 @@ using ConsoleCatalog.Server.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleCatalog.Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240901044559_Create-PSN-Tables")]
+    partial class CreatePSNTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +48,7 @@ namespace ConsoleCatalog.Server.Migrations
 
                     b.HasIndex("PSNProfileID");
 
-                    b.ToTable("AvatarUrls", (string)null);
+                    b.ToTable("AvatarUrls");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.ConsoleAvailability", b =>
@@ -62,7 +65,7 @@ namespace ConsoleCatalog.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ConsoleAvailabilities", (string)null);
+                    b.ToTable("ConsoleAvailabilities");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.PSNProfile", b =>
@@ -145,7 +148,7 @@ namespace ConsoleCatalog.Server.Migrations
 
                     b.HasIndex("TrophyTitleObjectId");
 
-                    b.ToTable("PSNProfiles", (string)null);
+                    b.ToTable("PSNProfiles");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.PersonalDetail", b =>
@@ -166,7 +169,7 @@ namespace ConsoleCatalog.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PersonalDetails", (string)null);
+                    b.ToTable("PersonalDetails");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.Presence", b =>
@@ -194,7 +197,7 @@ namespace ConsoleCatalog.Server.Migrations
 
                     b.HasIndex("PSNProfileId");
 
-                    b.ToTable("Presences", (string)null);
+                    b.ToTable("Presences");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.TrophiesObject", b =>
@@ -220,7 +223,7 @@ namespace ConsoleCatalog.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TrophiesObjects", (string)null);
+                    b.ToTable("TrophiesObjects");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.Trophy", b =>
@@ -278,7 +281,7 @@ namespace ConsoleCatalog.Server.Migrations
 
                     b.HasIndex("TrophiesObjectId");
 
-                    b.ToTable("Trophies", (string)null);
+                    b.ToTable("Trophies");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.TrophySummary", b =>
@@ -302,7 +305,7 @@ namespace ConsoleCatalog.Server.Migrations
 
                     b.HasIndex("EarnedTrophiesId");
 
-                    b.ToTable("TrophySummaries", (string)null);
+                    b.ToTable("TrophySummaries");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.TrophyTitle", b =>
@@ -373,7 +376,7 @@ namespace ConsoleCatalog.Server.Migrations
 
                     b.HasIndex("TrophyTitleObjectId");
 
-                    b.ToTable("TrophyTitles", (string)null);
+                    b.ToTable("TrophyTitles");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.TrophyTitleObject", b =>
@@ -395,7 +398,7 @@ namespace ConsoleCatalog.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TrophyTitleObjects", (string)null);
+                    b.ToTable("TrophyTitleObjects");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.TrophyTypes", b =>
@@ -420,7 +423,7 @@ namespace ConsoleCatalog.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TrophyTypes", (string)null);
+                    b.ToTable("TrophyTypes");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.SubObjective", b =>
@@ -448,7 +451,7 @@ namespace ConsoleCatalog.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SubObjectives", (string)null);
+                    b.ToTable("SubObjectives");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.User", b =>
@@ -473,7 +476,7 @@ namespace ConsoleCatalog.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.AvatarUrl", b =>

@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace ConsoleCatalog.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateSubObjectivesTable : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,6 +26,21 @@ namespace ConsoleCatalog.Server.Migrations
                 {
                     table.PrimaryKey("PK_SubObjectives", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PlaystationGamertag = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    XboxGamertag = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
         }
 
         /// <inheritdoc />
@@ -32,6 +48,9 @@ namespace ConsoleCatalog.Server.Migrations
         {
             migrationBuilder.DropTable(
                 name: "SubObjectives");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

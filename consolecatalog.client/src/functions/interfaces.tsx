@@ -11,99 +11,13 @@ export interface RegisterDetails {
   confirm_password: string | null;
 }
 
-export interface User {
-  id: string;
-  username: string;
-  playstationGamertag: string | null;
-  xboxGamertag: string | null;
-  password: string;
-}
-
-export interface Profile {
-  profile: PSNProfile;
-}
-
-export interface PSNProfile {
-  aboutMe: string;
-  accountId: string;
-  avatarUrls: AvatarUrl[];
-  blocking: boolean;
-  consoleAvailability: ConsoleAvailability;
-  following: false;
-  friendRelation: string;
-  isOfficiallyVerified: boolean;
-  languagesUsed: string[];
-  npId: string;
-  onlineId: string;
-  personalDetail: PersonalDetail;
-  personalDetailSharing: string;
-  personalDetailSharingRequestMessageFlag: boolean;
-  plus: number;
-  presences: Presence[];
-  primaryOnlineStatus: string;
-  requestMessageFlag: boolean;
-  trophySummary: TrophySummary;
-  trophyTitles: PSNProfileTrophyTitleObject;
-}
-
-export interface PSNProfileTrophyTitleObject {
-  nextOffset: number;
-  previousOffset: number;
-  totalItemCount: number;
-  trophyTitles: TrophyTitle[];
-}
-
-export interface TrophyTitle {
-  definedTrophies: DefinedTrophies;
-  earnedTrophies: EarnedTrophies;
-  hasTrophyGroups: boolean;
-  hiddenFlag: boolean;
-  lastUpdatedDateTime: Date;
-  npCommunicationId: string;
-  npServiceName: string;
-  progress: number;
-  trophyGroupCount: number;
-  trophySetVersion: string;
-  trophyTitleDetail: string;
-  trophyTitleIconUrl: string;
-  trophyTitleName: string;
-  trophyTitlePlatform: string;
-}
-
-export interface AvatarUrl {
-  avatarUrl: string;
-  size: string;
-}
-
-export interface ConsoleAvailability {
-  availabilityStatus: string;
-}
-
-export interface PersonalDetail {
-  firstName: string;
-  lastName: string;
-}
-
-export interface Presence {
-  hasBroadcastData: boolean;
-  lastOnlineDate: Date;
-  onlineStatus: string;
-}
-
-export interface TrophySummary {
-  earnedTrophies: EarnedTrophies;
-  level: number;
-  progress: number;
-}
-
-export interface EarnedTrophies extends TrophyTypes {}
-export interface DefinedTrophies extends TrophyTypes {}
-
-export interface TrophyTypes {
-  bronze: number;
-  gold: number;
-  platinum: number;
-  silver: number;
+export interface SubObjective {
+  id?: string;
+  userId: string;
+  trophyId: number;
+  titleId: string;
+  details: string;
+  isComplete: boolean;
 }
 
 export interface FormError {
@@ -119,6 +33,14 @@ export interface BarProps {
 export interface SelectedDate {
   month: number;
   year: number;
+}
+
+export interface User {
+  id: string;
+  username: string;
+  playstationGamertag: string | null;
+  xboxGamertag: string | null;
+  password: string;
 }
 
 export interface GameSummary {
@@ -202,6 +124,93 @@ export interface Platform {
   name: string;
 }
 
+export interface Profile {
+  psnProfile: PSNProfile;
+}
+
+export interface PSNProfile {
+  aboutMe: string;
+  accountId: string;
+  avatarUrls: AvatarUrl[];
+  blocking: boolean;
+  consoleAvailability: ConsoleAvailability;
+  following: false;
+  friendRelation: string;
+  isOfficiallyVerified: boolean;
+  languagesUsed: string[];
+  npId: string;
+  onlineId: string;
+  personalDetail: PersonalDetail;
+  personalDetailSharing: string;
+  personalDetailSharingRequestMessageFlag: boolean;
+  plus: number;
+  presences: Presence[];
+  primaryOnlineStatus: string;
+  requestMessageFlag: boolean;
+  trophySummary: TrophySummary;
+  trophyTitles: TrophyTitleObject;
+}
+
+export interface TrophyTitleObject {
+  nextOffset: number;
+  previousOffset: number;
+  totalItemCount: number;
+  trophyTitles: TrophyTitle[];
+}
+
+export interface TrophyTitle {
+  definedTrophies: DefinedTrophies;
+  earnedTrophies: EarnedTrophies;
+  hasTrophyGroups: boolean;
+  hiddenFlag: boolean;
+  lastUpdatedDateTime: Date;
+  npCommunicationId: string;
+  npServiceName: string;
+  progress: number;
+  trophyGroupCount: number;
+  trophySetVersion: string;
+  trophyTitleDetail: string;
+  trophyTitleIconUrl: string;
+  trophyTitleName: string;
+  trophyTitlePlatform: string;
+}
+
+export interface AvatarUrl {
+  avatarUrl: string;
+  size: string;
+}
+
+export interface ConsoleAvailability {
+  availabilityStatus: string;
+}
+
+export interface PersonalDetail {
+  firstName: string;
+  lastName: string;
+}
+
+export interface Presence {
+  hasBroadcastData: boolean;
+  lastOnlineDate: Date;
+  onlineStatus: string;
+}
+
+export interface TrophySummary {
+  earnedTrophies: EarnedTrophies;
+  level: number;
+  progress: number;
+}
+
+export interface EarnedTrophies extends TrophyTypes {}
+export interface DefinedTrophies extends TrophyTypes {}
+
+export interface TrophyTypes {
+  bronze: number;
+  gold: number;
+  platinum: number;
+  silver: number;
+}
+
 export interface TitleTrophies {
   hasTrophyGroups: boolean;
   totelItemCount: number;
@@ -209,7 +218,6 @@ export interface TitleTrophies {
   trophySetVersion: string;
   
   lastUpdatedDateTime: Date;
-  rarestTrophies: Trophy[];
 }
 
 export interface Trophy {
@@ -227,11 +235,3 @@ export interface Trophy {
   trophyRare: number;
 }
 
-export interface SubObjective {
-  id?: string;
-  userId: string;
-  trophyId: number;
-  titleId: string;
-  details: string;
-  isComplete: boolean;
-}

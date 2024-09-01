@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleCatalog.Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240803000607_InitialCreate")]
+    [Migration("20240901035207_Initial-Create")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -25,6 +25,34 @@ namespace ConsoleCatalog.Server.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ConsoleCatalog.Server.Models.SubObjective", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsComplete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TitleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TrophyId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SubObjectives");
+                });
+
             modelBuilder.Entity("ConsoleCatalog.Server.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -35,7 +63,7 @@ namespace ConsoleCatalog.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PlaystationGamertah")
+                    b.Property<string>("PlaystationGamertag")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")

@@ -33,7 +33,7 @@ function PlaystationProfilesSelected() {
   useEffect(() => {
     async function fetchPSNProfile() {
       let username = location.pathname.substring(59, location.pathname.length);
-      const profile = (await getPSNProfile(username)).profile;
+      const profile = (await getPSNProfile(username)).psnProfile;
       const profileTrophyTitles = await getPSNProfileTitles(
         profile.accountId,
         0
