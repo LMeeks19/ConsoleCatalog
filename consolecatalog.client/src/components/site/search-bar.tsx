@@ -1,5 +1,5 @@
 import { SetterOrUpdater } from "recoil";
-import "../../styling/site/search-bar.css";
+import "../../style/site/search-bar.css";
 
 function SearchBar(props: SearchBarProps) {
   return (

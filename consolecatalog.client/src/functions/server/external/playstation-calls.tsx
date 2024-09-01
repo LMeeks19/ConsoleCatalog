@@ -2,9 +2,9 @@ import {
   Game,
   GameSummary,
   Profile,
-  PSNProfileTrophyTitleObject,
+  TrophyTitleObject,
   TitleTrophies,
-} from "./interfaces";
+} from "../../interfaces";
 
 const BASE_API_URL = "http://localhost:3000";
 
@@ -30,7 +30,7 @@ export async function getPSNProfile(username: string): Promise<Profile> {
 export async function getPSNProfileTitles(
   accountId: string,
   offset: number
-): Promise<PSNProfileTrophyTitleObject> {
+): Promise<TrophyTitleObject> {
   const response = await fetch(
     `${BASE_API_URL}/playstation/profiles/${accountId}/titles/${offset}`
   );

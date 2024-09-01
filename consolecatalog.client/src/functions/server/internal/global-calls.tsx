@@ -1,4 +1,4 @@
-import { RegisterDetails, SubObjective } from "./interfaces";
+import { RegisterDetails, SubObjective } from "../../interfaces";
 
 export async function getUserByUsername(username: string | null) {
   const response = await fetch(`/user/getUserByUsername/${username}`);

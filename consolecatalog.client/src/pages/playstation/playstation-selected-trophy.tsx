@@ -12,7 +12,7 @@ import {
   getTrophyRarity,
   getTrophyTypeIcon,
 } from "../../functions/methods";
-import "../../styling/playstation/playstation-selected-trophy.css";
+import "../../style/playstation/playstation-selected-trophy.css";
 import { useEffect, useState } from "react";
 import { SubObjective } from "../../functions/interfaces";
 import {
@@ -20,7 +20,7 @@ import {
   deleteSubObjectives,
   getSubObjectives,
   putSubObjective,
-} from "../../functions/server";
+} from "../../functions/server/internal/global-calls";
 import Modal from "../../components/modal/modal";
 import AddSubObjectiveModal from "../../components/modal/add-sub-objective-modal";
 import SearchBar from "../../components/site/search-bar";

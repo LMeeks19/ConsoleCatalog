@@ -43,3 +43,28 @@ Accept: application/json
 
 DELETE {{ConsoleCatalog.Server_HostAddress}}/objectives/deleteSubObjectives/
 Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Server_HostAddress}}/playstation/getProfileById/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Server_HostAddress}}/playstation/getProfileByOnlineId/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Server_HostAddress}}/playstation/getProfileByAccountId/
+Accept: application/json
+
+###
+
+POST {{ConsoleCatalog.Server_HostAddress}}/playstation/postProfile/
+Accept: application/json
+
+###
+
+PUT {{ConsoleCatalog.Server_HostAddress}}/playstation/putProfile/
+Accept: application/json

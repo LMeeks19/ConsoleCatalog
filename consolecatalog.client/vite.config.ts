@@ -50,6 +50,10 @@ export default defineConfig({
             '^/objectives': {
                 target,
                 secure: false
+            },
+            '^/playstation': {
+                target,
+                secure: false
             }
         },
         port: 5173,

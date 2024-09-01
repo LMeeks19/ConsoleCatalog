@@ -7,9 +7,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
   getPSNProfileTrophiesForTitle,
   getPSNTitleTrophies,
-} from "../../functions/external-server";
+} from "../../functions/server/external/playstation-calls";
 import { TitleTrophies, Trophy } from "../../functions/interfaces";
-import "../../styling/playstation/playstation-game-trophies.css";
+import "../../style/playstation/playstation-game-trophies.css";
 import {
   getTrophyType,
   getTrophyRarity,

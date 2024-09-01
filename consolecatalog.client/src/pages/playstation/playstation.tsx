@@ -12,8 +12,8 @@ import {
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Pages } from "../../functions/enums";
-import "../../styling/site/page.css";
-import { getUserById } from "../../functions/server";
+import "../../style/site/page.css";
+import { getUserById } from "../../functions/server/internal/global-calls";
 import Conditional from "../../components/site/if-then-else";
 import Modal from "../../components/modal/modal";
 

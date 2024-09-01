@@ -1,4 +1,4 @@
-import "../../styling/game/game-card.css";
+import "../../style/game/game-card.css";
 import { BeatLoader } from "react-spinners";
 
 function GameCardBlankCollection(props: GameCardBlankCollectionProps) {

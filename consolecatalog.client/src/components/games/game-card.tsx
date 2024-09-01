@@ -5,7 +5,7 @@ import {
   getRatingColour,
   isPSTitle,
 } from "../../functions/methods";
-import "../../styling/game/game-card.css";
+import "../../style/game/game-card.css";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../functions/state";

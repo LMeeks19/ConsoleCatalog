@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   getPSNProfile,
   getPSNProfileTitles,
-} from "../../functions/external-server";
+} from "../../functions/server/external/playstation-calls";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { sidebarState } from "../../functions/state";
@@ -13,7 +13,7 @@ import gold_icon from "../../images/psn-trophy-gold.png";
 import silver_icon from "../../images/psn-trophy-silver.png";
 import bronze_icon from "../../images/psn-trophy-bronze.png";
 import $ from "jquery";
-import "../../styling/playstation/playstation-profiles-selected.css";
+import "../../style/playstation/playstation-profiles-selected.css";
 import { PSNProfile } from "../../functions/interfaces";
 import Conditional from "../../components/site/if-then-else";
 import ProgressBar from "@ramonak/react-progress-bar";

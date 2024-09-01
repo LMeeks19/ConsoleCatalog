@@ -1,10 +1,10 @@
 import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
-import "../../styling/modal/add-sub-objective-modal.css";
+import "../../style/modal/add-sub-objective-modal.css";
 import { addSubObjectiveModalState, userState } from "../../functions/state";
 import { useEffect, useState } from "react";
 import Conditional from "../site/if-then-else";
 import { SubObjective } from "../../functions/interfaces";
-import { postSubObjectives } from "../../functions/server";
+import { postSubObjectives } from "../../functions/server/internal/global-calls";
 
 function AddSubObjectiveModal(props: AddSubObjectiveModalProps) {
   const setIsAddSubObjectiveModalActive = useSetRecoilState(
