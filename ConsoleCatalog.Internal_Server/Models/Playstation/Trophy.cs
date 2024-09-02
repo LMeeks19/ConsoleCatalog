@@ -15,6 +15,10 @@
         public required string EarnedDateTime { get; set; }
         public required string TrophyEarnedRate { get; set; }
         public required int TrophyRare { get; set; }
+        public string? TrophyProgressTargetValue { get; set; }
+        public string? Progress {  get; set; }
+        public int? ProgressRate { get; set; }
+        public string? ProgressDateTime { get; set; }
 
     }
 }
