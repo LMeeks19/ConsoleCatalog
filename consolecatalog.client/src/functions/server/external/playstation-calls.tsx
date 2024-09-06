@@ -20,19 +20,25 @@ export async function getTitles(searchTerm: string): Promise<GameSummary[]> {
   return response.json();
 }
 
-export async function getPSNProfile(username: string): Promise<PSNProfileObject> {
+export async function getPSNProfileByUsername(username: string): Promise<PSNProfileObject> {
   const response = await fetch(
     `${BASE_API_URL}/playstation/profiles/${username}`
   );
   return response.json();
 }
 
+export async function getPSNProfileByAccountId(accountId: string): Promise<PSNProfileObject> {
+  const response = await fetch(
+    `${BASE_API_URL}/playstation/${accountId}/profiles`
+  );
+  return response.json();
+}
+
 export async function getPSNProfileTitles(
   accountId: string,
-  offset: number
 ): Promise<TrophyTitleObject> {
   const response = await fetch(
-    `${BASE_API_URL}/playstation/profiles/${accountId}/titles/${offset}`
+    `${BASE_API_URL}/playstation/profiles/${accountId}/titles`
   );
   return response.json();
 }

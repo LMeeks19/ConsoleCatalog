@@ -104,12 +104,11 @@ app.get("/playstation/profiles/:accountId/friends", async (req, res) => {
   res.send(friendsIds);
 });
 
-app.get("/playstation/profiles/:accountId/titles/:offset", async (req, res) => {
+app.get("/playstation/profiles/:accountId/titles", async (req, res) => {
   try {
     const userTitles = await getUserTitles(
       { accessToken: psn_auth?.accessToken },
-      req.params.accountId,
-      { limit: 10, offset: req.params.offset }
+      req.params.accountId
     );
 
     res.send(userTitles);

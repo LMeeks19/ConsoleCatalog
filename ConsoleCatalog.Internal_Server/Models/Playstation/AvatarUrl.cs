@@ -2,9 +2,9 @@
 {
     public class AvatarUrl
     {
-        public required int Id { get; set; }
-        public required int PSNProfileID { get; set; }
-        public required string Url {  get; set; }
-        public required string Size { get; set; }
+        public int Id { get; set; }
+        public int PSNProfileId { get; set; }
+        public string avatarUrl {  get; set; }
+        public string Size { get; set; }
     }
 }

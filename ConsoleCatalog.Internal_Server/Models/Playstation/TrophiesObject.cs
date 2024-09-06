@@ -2,11 +2,11 @@
 {
     public class TrophiesObject
     {
-        public required int Id { get; set; }
-        public required bool HasTrophyGroups { get; set; }
-        public required int TotalItemCount { get; set; }
-        public virtual Trophy[] Trophies { get; set; }
-        public required string TrophySetVersion { get; set; }
-        public required DateTime LastUpdatedDateTime { get; set; }
+        public int Id { get; set; }
+        public bool HasTrophyGroups { get; set; }
+        public int TotalItemCount { get; set; }
+        public virtual List<Trophy> Trophies { get; set; }
+        public string TrophySetVersion { get; set; }
+        public DateTime LastUpdatedDateTime { get; set; }
     }
 }

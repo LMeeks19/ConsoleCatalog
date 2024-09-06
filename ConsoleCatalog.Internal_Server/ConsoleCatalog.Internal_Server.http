@@ -68,3 +68,8 @@ Accept: application/json
 
 PUT {{ConsoleCatalog.Server_HostAddress}}/playstation/putProfile/
 Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Server_HostAddress}}/playstation/getProfileTitles/
+Accept: application/json

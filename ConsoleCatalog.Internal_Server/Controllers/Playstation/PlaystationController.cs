@@ -29,13 +29,18 @@ namespace ConsoleCatalog.Server.Controllers.Playstation
                 .Include(p => p.PersonalDetail)
                 .Include(p => p.TrophySummary)
                     .ThenInclude(ts => ts.EarnedTrophies)
-                .Include(p => p.TrophyTitleObject)
-                    .ThenInclude(tto => tto.TrophyTitles)
+                .Include(p => p.TrophyTitles)
+                    .ThenInclude(tt => tt.TrophyTitles)
                         .ThenInclude(tt => tt.DefinedTrophies)
-                .Include(p => p.TrophyTitleObject)
-                    .ThenInclude(tto => tto.TrophyTitles)
+                .Include(p => p.TrophyTitles)
+                    .ThenInclude(tt => tt.TrophyTitles)
                         .ThenInclude(tt => tt.EarnedTrophies)
                 .SingleOrDefault(p => p.Id == Id);
+
+            if (profile != null)
+                profile.TrophyTitles.TrophyTitles = profile.TrophyTitles.TrophyTitles
+                    .Take(10)
+                    .ToList();
 
             return profile;
         }
@@ -51,14 +56,19 @@ namespace ConsoleCatalog.Server.Controllers.Playstation
                 .Include(p => p.PersonalDetail)
                 .Include(p => p.TrophySummary)
                     .ThenInclude(ts => ts.EarnedTrophies)
-                .Include(p => p.TrophyTitleObject)
-                    .ThenInclude(tto => tto.TrophyTitles)
+                .Include(p => p.TrophyTitles)
+                    .ThenInclude(tt => tt.TrophyTitles)
                         .ThenInclude(tt => tt.DefinedTrophies)
-                .Include(p => p.TrophyTitleObject)
-                    .ThenInclude(tto => tto.TrophyTitles)
+                .Include(p => p.TrophyTitles)
+                    .ThenInclude(tt => tt.TrophyTitles)
                         .ThenInclude(tt => tt.EarnedTrophies)
                 .SingleOrDefault(p => p.OnlineId == onlineId);
 
+            if (profile != null)
+                profile.TrophyTitles.TrophyTitles = profile.TrophyTitles.TrophyTitles
+                    .Take(10)
+                    .ToList();
+            
             return profile;
         }
 
@@ -73,13 +83,18 @@ namespace ConsoleCatalog.Server.Controllers.Playstation
                 .Include(p => p.PersonalDetail)
                 .Include(p => p.TrophySummary)
                     .ThenInclude(ts => ts.EarnedTrophies)
-                .Include(p => p.TrophyTitleObject)
-                    .ThenInclude(tto => tto.TrophyTitles)
+                .Include(p => p.TrophyTitles)
+                    .ThenInclude(tt => tt.TrophyTitles)
                         .ThenInclude(tt => tt.DefinedTrophies)
-                .Include(p => p.TrophyTitleObject)
-                    .ThenInclude(tto => tto.TrophyTitles)
+                .Include(p => p.TrophyTitles)
+                    .ThenInclude(tt => tt.TrophyTitles)
                         .ThenInclude(tt => tt.EarnedTrophies)
                 .SingleOrDefault(p => p.AccountId == accountId);
+
+            if (profile != null)
+                profile.TrophyTitles.TrophyTitles = profile.TrophyTitles.TrophyTitles
+                    .Take(10)
+                    .ToList();
 
             return profile;
         }
@@ -100,6 +115,21 @@ namespace ConsoleCatalog.Server.Controllers.Playstation
             _databaseContext.PSNProfiles.Update(psnProfile);
             _databaseContext.SaveChanges();
             return psnProfile;
+        }
+
+        [HttpPost(Name = "GetProfileTitles")]
+        [Route("getProfileTitles/{trophyTitlesObjectId}/{offset}")]
+        public List<TrophyTitle> GetProfileTitles(int trophyTitlesObjectId, int offset)
+        {
+            var trophyTitles = _databaseContext.TrophyTitles
+                .Include(tt => tt.DefinedTrophies)
+                .Include(tt => tt.EarnedTrophies)
+                .Where(trophyTitle => trophyTitle.TrophyTitleObjectId == trophyTitlesObjectId)
+                .Select(trophyTitle => trophyTitle)
+                .Skip(offset)
+                .Take(10)
+                .ToList();
+            return trophyTitles;
         }
     }
 }

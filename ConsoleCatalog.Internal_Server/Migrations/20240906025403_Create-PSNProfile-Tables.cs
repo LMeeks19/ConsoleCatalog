@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ConsoleCatalog.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class CreatePSNTables : Migration
+    public partial class CreatePSNProfileTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -60,8 +60,6 @@ namespace ConsoleCatalog.Server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NextOffset = table.Column<int>(type: "int", nullable: false),
-                    PreviousOffset = table.Column<int>(type: "int", nullable: false),
                     TotalItemCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -102,7 +100,11 @@ namespace ConsoleCatalog.Server.Migrations
                     Earned = table.Column<bool>(type: "bit", nullable: false),
                     EarnedDateTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TrophyEarnedRate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TrophyRare = table.Column<int>(type: "int", nullable: false)
+                    TrophyRare = table.Column<int>(type: "int", nullable: false),
+                    TrophyProgressTargetValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Progress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProgressRate = table.Column<int>(type: "int", nullable: true),
+                    ProgressDateTime = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -151,7 +153,7 @@ namespace ConsoleCatalog.Server.Migrations
                     Progress = table.Column<int>(type: "int", nullable: false),
                     TrophyGroupCount = table.Column<int>(type: "int", nullable: false),
                     TrophySetVersion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TrophyTitleDetail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TrophyTitleDetail = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TrophyTitleIconUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TrophyTitleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TrophyTitlePlatform = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -172,7 +174,7 @@ namespace ConsoleCatalog.Server.Migrations
                         column: x => x.DefinedTrophiesId,
                         principalTable: "TrophyTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_TrophyTitles_TrophyTypes_EarnedTrophiesId",
                         column: x => x.EarnedTrophiesId,
@@ -204,7 +206,7 @@ namespace ConsoleCatalog.Server.Migrations
                     ConsoleAvailabilityId = table.Column<int>(type: "int", nullable: false),
                     PersonalDetailId = table.Column<int>(type: "int", nullable: false),
                     TrophySummaryId = table.Column<int>(type: "int", nullable: false),
-                    TrophyTitleObjectId = table.Column<int>(type: "int", nullable: false)
+                    TrophyTitlesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -228,8 +230,8 @@ namespace ConsoleCatalog.Server.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PSNProfiles_TrophyTitleObjects_TrophyTitleObjectId",
-                        column: x => x.TrophyTitleObjectId,
+                        name: "FK_PSNProfiles_TrophyTitleObjects_TrophyTitlesId",
+                        column: x => x.TrophyTitlesId,
                         principalTable: "TrophyTitleObjects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -241,16 +243,16 @@ namespace ConsoleCatalog.Server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PSNProfileID = table.Column<int>(type: "int", nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PSNProfileId = table.Column<int>(type: "int", nullable: false),
+                    avatarUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Size = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AvatarUrls", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AvatarUrls_PSNProfiles_PSNProfileID",
-                        column: x => x.PSNProfileID,
+                        name: "FK_AvatarUrls_PSNProfiles_PSNProfileId",
+                        column: x => x.PSNProfileId,
                         principalTable: "PSNProfiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -279,9 +281,9 @@ namespace ConsoleCatalog.Server.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AvatarUrls_PSNProfileID",
+                name: "IX_AvatarUrls_PSNProfileId",
                 table: "AvatarUrls",
-                column: "PSNProfileID");
+                column: "PSNProfileId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Presences_PSNProfileId",
@@ -304,9 +306,9 @@ namespace ConsoleCatalog.Server.Migrations
                 column: "TrophySummaryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PSNProfiles_TrophyTitleObjectId",
+                name: "IX_PSNProfiles_TrophyTitlesId",
                 table: "PSNProfiles",
-                column: "TrophyTitleObjectId");
+                column: "TrophyTitlesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Trophies_TrophiesObjectId",

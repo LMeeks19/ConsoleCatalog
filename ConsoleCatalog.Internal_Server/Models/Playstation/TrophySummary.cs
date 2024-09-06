@@ -2,11 +2,11 @@
 {
     public class TrophySummary
     {
-        public required int Id { get; set; }
-        public required int Level { get; set; }
-        public required int Progress { get; set; }
+        public int Id { get; set; }
+        public int Level { get; set; }
+        public int Progress { get; set; }
 
-        public required int EarnedTrophiesId { get; set; }
+        public int EarnedTrophiesId { get; set; }
         public virtual TrophyTypes EarnedTrophies { get; set; }
 
     }

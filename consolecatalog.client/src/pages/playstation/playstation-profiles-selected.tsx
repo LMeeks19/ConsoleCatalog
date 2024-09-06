@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-  getPSNProfile,
+  getPSNProfileByUsername,
   getPSNProfileTitles,
 } from "../../functions/server/external/playstation-calls";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -20,6 +20,7 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import CustomProgressBar from "../../components/site/custom-progress-bar";
 import ps_plus_icon from "../../images/ps-plus_icon.png";
 import verified_icon from "../../images/verified_icon.png";
+import { getProfileByOnlineId, getProfileTitles } from "../../functions/server/internal/playstation-calls";
 
 function PlaystationProfilesSelected() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -33,12 +34,8 @@ function PlaystationProfilesSelected() {
   useEffect(() => {
     async function fetchPSNProfile() {
       let username = location.pathname.substring(59, location.pathname.length);
-      const profile = (await getPSNProfile(username)).profile;
-      const profileTrophyTitles = await getPSNProfileTitles(
-        profile.accountId,
-        0
-      );
-      setSelectedPSNProfile({ ...profile, trophyTitles: profileTrophyTitles });
+      const profile = (await getProfileByOnlineId(username));
+      setSelectedPSNProfile({ ...profile!});
     }
     fetchPSNProfile();
   }, []);
@@ -66,17 +63,17 @@ function PlaystationProfilesSelected() {
         selectedPSNProfile.trophyTitles?.totalItemCount !==
         selectedPSNProfile.trophyTitles?.trophyTitles.length
       ) {
-        const nextProfileTrophyTitles = await getPSNProfileTitles(
-          selectedPSNProfile.accountId,
-          selectedPSNProfile.trophyTitles.nextOffset
+        const nextProfileTrophyTitles = await getProfileTitles(
+          selectedPSNProfile.trophyTitles.id,
+          selectedPSNProfile.trophyTitles.trophyTitles.length
         );
         setSelectedPSNProfile({
           ...selectedPSNProfile,
           trophyTitles: {
-            ...nextProfileTrophyTitles,
+            ...selectedPSNProfile.trophyTitles,
             trophyTitles: [
               ...selectedPSNProfile.trophyTitles.trophyTitles,
-              ...nextProfileTrophyTitles.trophyTitles,
+              ...nextProfileTrophyTitles,
             ],
           },
         });

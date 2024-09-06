@@ -2,25 +2,25 @@
 {
     public class TrophyTitle
     {
-        public required int Id { get; set; }
-        public required int TrophyTitleObjectId { get; set; }
-        public required bool HasTrophyGroups { get; set; }
-        public required bool HiddenFlag { get; set; }
-        public required DateTime LastUpdatedDateTime { get; set; }
-        public required string NpCommunicationId { get; set; }
-        public required string NpServiceName { get; set; }
-        public required int Progress { get; set; }
-        public required int TrophyGroupCount { get; set; }
-        public required string TrophySetVersion { get; set; }
-        public required string TrophyTitleDetail { get; set; }
-        public required string TrophyTitleIconUrl { get; set; }
-        public required string TrophyTitleName { get; set; }
-        public required string TrophyTitlePlatform { get; set; }
+        public int Id { get; set; }
+        public int TrophyTitleObjectId { get; set; }
+        public bool HasTrophyGroups { get; set; }
+        public bool HiddenFlag { get; set; }
+        public DateTime LastUpdatedDateTime { get; set; }
+        public string NpCommunicationId { get; set; }
+        public string NpServiceName { get; set; }
+        public int Progress { get; set; }
+        public int TrophyGroupCount { get; set; }
+        public string TrophySetVersion { get; set; }
+        public string? TrophyTitleDetail { get; set; }
+        public string TrophyTitleIconUrl { get; set; }
+        public string TrophyTitleName { get; set; }
+        public string TrophyTitlePlatform { get; set; }
 
-        public required int DefinedTrophiesId { get; set; }
-        public required TrophyTypes DefinedTrophies { get; set; }
+        public int DefinedTrophiesId { get; set; }
+        public TrophyTypes DefinedTrophies { get; set; }
 
-        public required int EarnedTrophiesId { get; set; }
-        public required TrophyTypes EarnedTrophies { get; set; }
+        public int EarnedTrophiesId { get; set; }
+        public TrophyTypes EarnedTrophies { get; set; }
     }
 }

@@ -129,6 +129,7 @@ export interface PSNProfileObject {
 }
 
 export interface PSNProfile {
+  id: number;
   aboutMe: string;
   accountId: string;
   avatarUrls: AvatarUrl[];
@@ -152,13 +153,13 @@ export interface PSNProfile {
 }
 
 export interface TrophyTitleObject {
-  nextOffset: number;
-  previousOffset: number;
+  id: number;
   totalItemCount: number;
   trophyTitles: TrophyTitle[];
 }
 
 export interface TrophyTitle {
+  id: number;
   definedTrophies: DefinedTrophies;
   earnedTrophies: EarnedTrophies;
   hasTrophyGroups: boolean;
@@ -176,26 +177,32 @@ export interface TrophyTitle {
 }
 
 export interface AvatarUrl {
+  id: number;
+  psnProfileId: string;
   avatarUrl: string;
   size: string;
 }
 
 export interface ConsoleAvailability {
+  id: number;
   availabilityStatus: string;
 }
 
 export interface PersonalDetail {
+  id: number;
   firstName: string;
   lastName: string;
 }
 
 export interface Presence {
+  id: number;
   hasBroadcastData: boolean;
   lastOnlineDate: Date;
   onlineStatus: string;
 }
 
 export interface TrophySummary {
+  id: number;
   earnedTrophies: EarnedTrophies;
   level: number;
   progress: number;
@@ -205,6 +212,7 @@ export interface EarnedTrophies extends TrophyTypes {}
 export interface DefinedTrophies extends TrophyTypes {}
 
 export interface TrophyTypes {
+  id: number;
   bronze: number;
   gold: number;
   platinum: number;
@@ -212,6 +220,7 @@ export interface TrophyTypes {
 }
 
 export interface TitleTrophies {
+  id: number;
   hasTrophyGroups: boolean;
   totelItemCount: number;
   trophies: Trophy[];
@@ -221,6 +230,7 @@ export interface TitleTrophies {
 }
 
 export interface Trophy {
+  id: number;
   trophyDetail: string;
   trophyGroupId: string;
   trophyHidden: boolean;

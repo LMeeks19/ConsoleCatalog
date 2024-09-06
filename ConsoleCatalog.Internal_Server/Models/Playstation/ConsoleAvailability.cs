@@ -2,7 +2,7 @@
 {
     public class ConsoleAvailability
     {
-        public required int Id { get; set; }
-        public required string AvailabilityStatus {  get; set; }
+        public int Id { get; set; }
+        public string AvailabilityStatus {  get; set; }
     }
 }

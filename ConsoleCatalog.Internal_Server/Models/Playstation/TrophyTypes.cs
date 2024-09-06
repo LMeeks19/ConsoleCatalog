@@ -2,11 +2,11 @@
 {
     public class TrophyTypes
     {
-        public required int Id { get; set; }
-        public required int Platinum { get; set; }
-        public required int Gold { get; set; }
-        public required int Silver { get; set; }
-        public required int Bronze { get; set; }
+        public int Id { get; set; }
+        public int Platinum { get; set; }
+        public int Gold { get; set; }
+        public int Silver { get; set; }
+        public int Bronze { get; set; }
 
     }
 }

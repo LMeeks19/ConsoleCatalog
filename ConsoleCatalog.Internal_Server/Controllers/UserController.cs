@@ -18,41 +18,24 @@ namespace ConsoleCatalog.Server.Controllers
 
         [HttpGet(Name = "GetUserByUsername")]
         [Route("getUserByUsername/{username}")]
-        public User GetUserByUsername(string username)
+        public User? GetUserByUsername(string username)
         {
             var user = _databaseContext.Users.SingleOrDefault(user => user.Username == username);
-
-            if (user == null)
-            {
-                return new User() { Username = null, Password = null };
-            }
-
             return user;
         }
 
         [HttpGet(Name = "GetUserById")]
         [Route("getUserById/{id}")]
-        public User GetUserById(string id)
+        public User? GetUserById(string id)
         {
             var user = _databaseContext.Users.SingleOrDefault(user => user.Id == new Guid(id));
-
-            if (user == null)
-            {
-                return new User() { Username = null, Password = null };
-            }
-
             return user;
         }
 
         [HttpPost(Name = "PostUser")]
-        public User Post ([FromBody] RegisterDetails registerDetails)
+        public User? Post ([FromBody] RegisterDetails registerDetails)
         {
             var user = _databaseContext.Users.SingleOrDefault(user => user.Username == registerDetails.Username);
-
-            if (user != null)
-            {
-                throw new Exception();
-            }
 
             var newUser = new User 
             { 

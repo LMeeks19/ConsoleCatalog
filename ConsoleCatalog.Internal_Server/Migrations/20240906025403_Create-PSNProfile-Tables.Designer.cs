@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleCatalog.Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240902011429_Add-Additional-Trophy-Fields")]
-    partial class AddAdditionalTrophyFields
+    [Migration("20240906025403_Create-PSNProfile-Tables")]
+    partial class CreatePSNProfileTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,20 +33,20 @@ namespace ConsoleCatalog.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("PSNProfileID")
+                    b.Property<int>("PSNProfileId")
                         .HasColumnType("int");
 
                     b.Property<string>("Size")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Url")
+                    b.Property<string>("avatarUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PSNProfileID");
+                    b.HasIndex("PSNProfileId");
 
                     b.ToTable("AvatarUrls");
                 });
@@ -135,7 +135,7 @@ namespace ConsoleCatalog.Server.Migrations
                     b.Property<int>("TrophySummaryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TrophyTitleObjectId")
+                    b.Property<int>("TrophyTitlesId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -146,7 +146,7 @@ namespace ConsoleCatalog.Server.Migrations
 
                     b.HasIndex("TrophySummaryId");
 
-                    b.HasIndex("TrophyTitleObjectId");
+                    b.HasIndex("TrophyTitlesId");
 
                     b.ToTable("PSNProfiles");
                 });
@@ -362,7 +362,6 @@ namespace ConsoleCatalog.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TrophyTitleDetail")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TrophyTitleIconUrl")
@@ -398,12 +397,6 @@ namespace ConsoleCatalog.Server.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("NextOffset")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PreviousOffset")
-                        .HasColumnType("int");
 
                     b.Property<int>("TotalItemCount")
                         .HasColumnType("int");
@@ -495,7 +488,7 @@ namespace ConsoleCatalog.Server.Migrations
                 {
                     b.HasOne("ConsoleCatalog.Server.Models.Playstation.PSNProfile", null)
                         .WithMany("AvatarUrls")
-                        .HasForeignKey("PSNProfileID")
+                        .HasForeignKey("PSNProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -520,9 +513,9 @@ namespace ConsoleCatalog.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ConsoleCatalog.Server.Models.Playstation.TrophyTitleObject", "TrophyTitleObject")
+                    b.HasOne("ConsoleCatalog.Server.Models.Playstation.TrophyTitleObject", "TrophyTitles")
                         .WithMany()
-                        .HasForeignKey("TrophyTitleObjectId")
+                        .HasForeignKey("TrophyTitlesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -532,7 +525,7 @@ namespace ConsoleCatalog.Server.Migrations
 
                     b.Navigation("TrophySummary");
 
-                    b.Navigation("TrophyTitleObject");
+                    b.Navigation("TrophyTitles");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.Presence", b =>
