@@ -1,8 +1,4 @@
 import { useEffect, useState } from "react";
-import {
-  getPSNProfileByUsername,
-  getPSNProfileTitles,
-} from "../../functions/server/external/playstation-calls";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { sidebarState } from "../../functions/state";
@@ -255,6 +251,7 @@ function PlaystationProfilesSelected() {
                       navigate(`${trophyTitle.npCommunicationId}/trophies`, {
                         state: {
                           userId: location.state?.userId,
+                          psnProfileId: selectedPSNProfile?.id,
                           accountId: selectedPSNProfile?.accountId,
                           titleId: trophyTitle?.npCommunicationId,
                           titleName: trophyTitle?.trophyTitleName,

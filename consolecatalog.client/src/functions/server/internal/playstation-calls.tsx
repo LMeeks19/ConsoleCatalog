@@ -1,14 +1,20 @@
-import { PSNProfile, TrophyTitle, TrophyTitleObject } from "../../interfaces";
 import {
-  getPSNProfileByAccountId,
+  EarnedTitleTrophy,
+  ProfileTitleTrophiesProps,
+  PSNProfile,
+  TitleTrophy,
+  Trophy,
+  TrophyTitle,
+  TrophyTitleObject,
+} from "../../interfaces";
+import { mergeTrophyArrays } from "../../methods";
+import {
   getPSNProfileByUsername,
   getPSNProfileTitles,
+  getPSNProfileTrophiesForTitle,
+  getPSNTitleTrophies,
 } from "../external/playstation-calls";
 
-export async function getProfileById(id: string): Promise<PSNProfile> {
-  const response = await fetch(`/playstation/getProfileById/${id}`);
-  return await response.json();
-}
 
 export async function getProfileByOnlineId(
   onlineId: string
@@ -28,21 +34,6 @@ export async function getProfileByOnlineId(
       );
       psnProfile = await postProfile(psn_profile_response.profile);
     }
-  }
-
-  return psnProfile;
-}
-
-export async function getProfileByAccountId(
-  accountId: string
-): Promise<PSNProfile> {
-  const response = await fetch(
-    `/playstation/getProfileByAccountId/${accountId}`
-  );
-  let psnProfile = (await response.json()) as PSNProfile;
-  if (psnProfile === null) {
-    let psn_response = await getPSNProfileByAccountId(accountId);
-    psnProfile = await postProfile(psn_response.profile);
   }
   return psnProfile;
 }
@@ -76,7 +67,118 @@ export async function postProfileTitles(
   return await response.json();
 }
 
-export async function getProfileTitles(trophyTitlesObjectId: number, offset: number): Promise<TrophyTitle[]> {
-  const response = await fetch(`/playstation/getProfileTitles/${trophyTitlesObjectId}/${offset}`);
+export async function getProfileTitles(
+  trophyTitlesObjectId: number,
+  offset: number
+): Promise<TrophyTitle[]> {
+  const response = await fetch(
+    `/playstation/getProfileTitles/${trophyTitlesObjectId}/${offset}`
+  );
+  return await response.json();
+}
+
+export async function getProfileTitleTrophies(
+  psnProfileId: number,
+  titleTrophiesProps: ProfileTitleTrophiesProps
+): Promise<Trophy[]> {
+  try {
+    let titleTrophies = await getTitleTrophies(titleTrophiesProps);
+    let earnedTitileTrophies = await getEarnedTitleTrophies(
+      psnProfileId,
+      titleTrophiesProps
+    );
+    return mergeTrophyArrays(
+      titleTrophies,
+      earnedTitileTrophies,
+      psnProfileId,
+      titleTrophiesProps.titleId
+    );
+  } catch {}
+  return [] as Trophy[];
+}
+
+export async function getTitleTrophies(
+  titleTrophiesProps: ProfileTitleTrophiesProps
+): Promise<TitleTrophy[]> {
+  const response = await fetch(
+    `/playstation/getTitleTrophies/${titleTrophiesProps.titleId}`
+  );
+  let titleTrophies = [] as TitleTrophy[];
+  try {
+    titleTrophies = (await response.json()) as TitleTrophy[];
+  } catch {}
+  if (titleTrophies.length === 0) {
+    let titleTrophies_response = await getPSNTitleTrophies(
+      titleTrophiesProps.titleId,
+      titleTrophiesProps.platform
+    );
+    if (titleTrophies_response !== null) {
+      titleTrophies_response.trophies.forEach((tt) => {
+        tt.titleId = titleTrophiesProps.titleId;
+      });
+      titleTrophies = await postTitleTrophies(
+        titleTrophies_response.trophies as TitleTrophy[]
+      );
+    }
+  }
+  return titleTrophies;
+}
+
+export async function getEarnedTitleTrophies(
+  psnProfileId: number,
+  titleTrophiesProps: ProfileTitleTrophiesProps
+): Promise<EarnedTitleTrophy[]> {
+  const response = await fetch(
+    `/playstation/getEarnedTitleTrophies/${psnProfileId}/${titleTrophiesProps.titleId}`
+  );
+  let earnedTitleTrophies = [] as EarnedTitleTrophy[];
+  try {
+    earnedTitleTrophies = (await response.json()) as EarnedTitleTrophy[];
+  } catch {}
+  if (earnedTitleTrophies.length === 0) {
+    let earnedTitleTrophies_response = await getPSNProfileTrophiesForTitle(
+      titleTrophiesProps.accountId,
+      titleTrophiesProps.titleId,
+      titleTrophiesProps.platform
+    );
+    if (
+      earnedTitleTrophies_response !== null &&
+      earnedTitleTrophies_response.trophies.some(
+        (earnedTrophy) => earnedTrophy.earned
+      )
+    ) {
+      earnedTitleTrophies_response.trophies.forEach((ett) => {
+        ett.psnProfileId = psnProfileId;
+        ett.titleId = titleTrophiesProps.titleId;
+      });
+      earnedTitleTrophies = await postProfileEarnedTitleTrophies(
+        earnedTitleTrophies_response.trophies.filter(
+          (earnedTrophy) => earnedTrophy.earned
+        ) as EarnedTitleTrophy[]
+      );
+    }
+  }
+  return earnedTitleTrophies;
+}
+
+export async function postTitleTrophies(
+  titleTrophies: TitleTrophy[]
+): Promise<TitleTrophy[]> {
+  const response = await fetch(`/playstation/postTitleTrophies`, {
+    method: "POST",
+    body: JSON.stringify(titleTrophies),
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  });
+  return await response.json();
+}
+
+export async function postProfileEarnedTitleTrophies(
+  earnedTitleTrophies: EarnedTitleTrophy[]
+): Promise<EarnedTitleTrophy[]> {
+  const response = await fetch(`/playstation/postEarnedTitleTrophies`, {
+    method: "POST",
+    body: JSON.stringify(earnedTitleTrophies),
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  });
   return await response.json();
 }

@@ -9,4 +9,7 @@
         public int Bronze { get; set; }
 
     }
+
+    public class EarnedTrophyTypes : TrophyTypes {}
+    public class DefinedTrophyTypes : TrophyTypes { }
 }

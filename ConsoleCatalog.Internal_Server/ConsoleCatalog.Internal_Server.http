@@ -46,17 +46,7 @@ Accept: application/json
 
 ###
 
-GET {{ConsoleCatalog.Server_HostAddress}}/playstation/getProfileById/
-Accept: application/json
-
-###
-
 GET {{ConsoleCatalog.Server_HostAddress}}/playstation/getProfileByOnlineId/
-Accept: application/json
-
-###
-
-GET {{ConsoleCatalog.Server_HostAddress}}/playstation/getProfileByAccountId/
 Accept: application/json
 
 ###
@@ -72,4 +62,34 @@ Accept: application/json
 ###
 
 GET {{ConsoleCatalog.Server_HostAddress}}/playstation/getProfileTitles/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Server_HostAddress}}/playstation/getTitleTrophies/
+Accept: application/json
+
+###
+
+POST {{ConsoleCatalog.Server_HostAddress}}/playstation/postTitleTrophies/
+Accept: application/json
+
+###
+
+PUT {{ConsoleCatalog.Server_HostAddress}}/playstation/putTitleTrophies/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Server_HostAddress}}/playstation/getEarnedTitleTrophies/
+Accept: application/json
+
+###
+
+POST {{ConsoleCatalog.Server_HostAddress}}/playstation/postEarnedTitleTrophies/
+Accept: application/json
+
+###
+
+PUT {{ConsoleCatalog.Server_HostAddress}}/playstation/putEarnedTitleTrophies/
 Accept: application/json

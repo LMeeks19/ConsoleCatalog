@@ -2,8 +2,9 @@ import {
   Game,
   GameSummary,
   TrophyTitleObject,
-  TitleTrophies,
+  TitleTrophiesObject,
   PSNProfileObject,
+  EarnedTitleTrophiesObject,
 } from "../../interfaces";
 
 const BASE_API_URL = "http://localhost:3000";
@@ -47,7 +48,7 @@ export async function getPSNProfileTrophiesForTitle(
   accountId: string,
   titleId: string,
   platform: string
-): Promise<TitleTrophies> {
+): Promise<EarnedTitleTrophiesObject> {
   if (platform === "PS5") {
     const response = await fetch(
       `${BASE_API_URL}/playstation/profiles/${accountId}/titles/new/${titleId}/trophies`
@@ -60,7 +61,7 @@ export async function getPSNProfileTrophiesForTitle(
   return response.json();
 }
 
-export async function getPSNTitleTrophies(titleId: string, platform: string): Promise<TitleTrophies> {
+export async function getPSNTitleTrophies(titleId: string, platform: string): Promise<TitleTrophiesObject> {
   if (platform === "PS5") {
     const response = await fetch(
       `${BASE_API_URL}/playstation/titles/new/${titleId}/trophies`

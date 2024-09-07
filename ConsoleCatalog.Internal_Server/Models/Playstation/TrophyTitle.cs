@@ -18,9 +18,9 @@
         public string TrophyTitlePlatform { get; set; }
 
         public int DefinedTrophiesId { get; set; }
-        public TrophyTypes DefinedTrophies { get; set; }
+        public DefinedTrophyTypes DefinedTrophies { get; set; }
 
         public int EarnedTrophiesId { get; set; }
-        public TrophyTypes EarnedTrophies { get; set; }
+        public EarnedTrophyTypes EarnedTrophies { get; set; }
     }
 }

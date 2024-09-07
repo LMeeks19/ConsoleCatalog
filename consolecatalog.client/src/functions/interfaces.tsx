@@ -35,6 +35,12 @@ export interface SelectedDate {
   year: number;
 }
 
+export interface ProfileTitleTrophiesProps {
+  accountId: string;
+  titleId: string;
+  platform: string;
+}
+
 export interface User {
   id: string;
   username: string;
@@ -219,34 +225,58 @@ export interface TrophyTypes {
   silver: number;
 }
 
-export interface TitleTrophies {
-  id: number;
-  hasTrophyGroups: boolean;
-  totelItemCount: number;
-  trophies: Trophy[];
-  trophySetVersion: string;
-  
-  lastUpdatedDateTime: Date;
+export interface TitleTrophiesObject {
+  trophies: TitleTrophy[];
+}
+
+export interface EarnedTitleTrophiesObject {
+  trophies: EarnedTitleTrophy[];
 }
 
 export interface Trophy {
   id: number;
-  trophyDetail: string;
-  trophyGroupId: string;
-  trophyHidden: boolean;
-  trophyIconUrl: string;
+  psnProfileId: number;
+  titleId: string;
   trophyId: number;
-  trophyName: string;
+  trophyHidden: boolean;
   trophyType: string;
-
+  trophyName: string;
+  trophyDetail?: string;
+  trophyIconUrl: string;
+  tropyGroupId: string;
+  trophyProgressTargetValue?: string;
   earned: boolean;
   earnedDateTime?: string;
   trophyEarnedRate: string;
   trophyRare: number;
-
-  trophyProgressTargetValue?: string;
   progress?: string;
   progressRate?: number;
   progressedDateTime?: string;
 }
 
+export interface TitleTrophy {
+  id: number;
+  titleId: string;
+  trophyId: number;
+  trophyHidden: boolean;
+  trophyType: string;
+  trophyName: string;
+  trophyDetail?: string;
+  trophyIconUrl: string;
+  tropyGroupId: string;
+  trophyProgressTargetValue?: string;
+}
+
+export interface EarnedTitleTrophy {
+  id: number;
+  psnProfileId: number;
+  titleId: string;
+  trophyId: number;
+  earned: boolean;
+  earnedDateTime?: string;
+  trophyEarnedRate: string;
+  trophyRare: number;
+  progress?: string;
+  progressRate?: number;
+  progressedDateTime?: string;
+}

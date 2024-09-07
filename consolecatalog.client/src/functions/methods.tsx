@@ -5,6 +5,7 @@ import platinum_icon from "../images/psn-trophy-platinum.png";
 import gold_icon from "../images/psn-trophy-gold.png";
 import silver_icon from "../images/psn-trophy-silver.png";
 import bronze_icon from "../images/psn-trophy-bronze.png";
+import { EarnedTitleTrophy, TitleTrophy, Trophy } from "./interfaces";
 
 export function getFullCardImageUrl(imageId: string) {
   return `${COVER_BIG_URL}/${imageId}.jpg`;
@@ -61,14 +62,45 @@ export function getTrophyRarity(rarity: number) {
   return "Common";
 }
 
-export function FormatNumberDate(date: number | undefined): string {
-  if (date !== undefined) return format(date * 1000, "do MMMM yyyy");
+export function FormatNumberDate(date: number | null | undefined): string {
+  if (date !== null && date !== undefined)
+    return format(date * 1000, "do MMMM yyyy");
   return "";
 }
 
-export function FormatStringDate(date: string | undefined): string {
-  if (date !== undefined) return format(date, "do MMMM yyyy");
+export function FormatStringDate(date: string | null | undefined): string {
+  if (date !== null && date !== undefined) return format(date, "do MMMM yyyy");
   return "";
+}
+
+export function mergeTrophyArrays(
+  titleTrophies: TitleTrophy[],
+  earnedTrophies: EarnedTitleTrophy[],
+  psnProfileId: number,
+  titleId: string
+): Trophy[] {
+  let mergedArray = new Array<Trophy>();
+
+  if (earnedTrophies.length === 0) return titleTrophies as Trophy[];
+
+  mergedArray = titleTrophies?.map((titleTrophy) => {
+    let earnedTitleTrophy = earnedTrophies!.find(
+      (earnedTitleTrophy) => earnedTitleTrophy.trophyId === titleTrophy.trophyId
+    );
+    return {
+      ...titleTrophy!,
+      psnProfileId: psnProfileId,
+      titleId: titleId,
+      earned: earnedTitleTrophy?.earned ?? false,
+      earnedDateTime: earnedTitleTrophy?.earnedDateTime ?? null,
+      trophyEarnedRate: earnedTitleTrophy?.trophyEarnedRate ?? null,
+      trophyRare: earnedTitleTrophy?.trophyRare ?? null,
+      progress: earnedTitleTrophy?.progress ?? null,
+      progressRate: earnedTitleTrophy?.progressRate ?? null,
+      progressedDateTime: earnedTitleTrophy?.progressedDateTime ?? null,
+    } as Trophy;
+  });
+  return mergedArray;
 }
 
 var LANGUAGE_BY_LOCALE = {

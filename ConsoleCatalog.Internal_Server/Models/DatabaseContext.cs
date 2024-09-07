@@ -12,12 +12,13 @@ namespace ConsoleCatalog.Server.Models
         public DbSet<PersonalDetail> PersonalDetails { get; set; }
         public DbSet<Presence> Presences { get; set; }
         public DbSet<PSNProfile> PSNProfiles { get; set; }
-        public DbSet<TrophiesObject> TrophiesObjects { get; set; }
-        public DbSet<Trophy> Trophies { get; set; }
+        public DbSet<TitleTrophy> TitleTrophies { get; set; }
+        public DbSet<EarnedTitleTrophy> EarnedTitleTrophies { get; set; }
         public DbSet<TrophySummary> TrophySummaries { get; set; }
         public DbSet<TrophyTitle> TrophyTitles { get; set; }
         public DbSet<TrophyTitleObject> TrophyTitleObjects { get; set; }
-        public DbSet<TrophyTypes> TrophyTypes { get; set; }
+        public DbSet<DefinedTrophyTypes> DefinedTrophyTypes { get; set; }
+        public DbSet<EarnedTrophyTypes> EarnedTrophyTypes { get; set; }
 
         public DatabaseContext(DbContextOptions options) : base(options) { }
     }

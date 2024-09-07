@@ -7,7 +7,7 @@
         public int Progress { get; set; }
 
         public int EarnedTrophiesId { get; set; }
-        public virtual TrophyTypes EarnedTrophies { get; set; }
+        public virtual EarnedTrophyTypes EarnedTrophies { get; set; }
 
     }
 }

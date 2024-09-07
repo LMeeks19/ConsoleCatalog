@@ -95,7 +95,7 @@ function PlaystationSelectedTrophy() {
             component={
               <AddSubObjectiveModal
                 titleId={location.state?.titleId}
-                trophyId={trophy?.trophyId}
+                trophyId={trophy.trophyId}
                 setSubObjectives={setSubObjectives}
               />
             }
@@ -114,17 +114,17 @@ function PlaystationSelectedTrophy() {
         <div className="trophy-container">
           <div
             className={`trophy ${Conditional({
-              Condition: trophy?.earned,
+              Condition: trophy.earned,
               If: "earned",
             })}`}
           >
-            <img className="image" src={trophy?.trophyIconUrl}></img>
+            <img className="image" src={trophy.trophyIconUrl}></img>
             <div className="details">
-              <div className="name">{trophy?.trophyName}</div>
-              <div className="description">{trophy?.trophyDetail}</div>
+              <div className="name">{trophy.trophyName}</div>
+              <div className="description">{trophy.trophyDetail}</div>
             </div>
             <Conditional
-              Condition={trophy?.earned}
+              Condition={trophy.earned}
               If={
                 <div className="earned">
                   <div className="earned-text">
@@ -139,26 +139,26 @@ function PlaystationSelectedTrophy() {
               }
             />
             <Conditional
-              Condition={!trophy?.earned && trophy?.progress !== undefined}
+              Condition={!trophy.earned && trophy.progress !== null}
               If={
                 <div className="progress">
                   <Conditional
-                    Condition={trophy?.progressedDateTime !== undefined}
+                    Condition={trophy.progressedDateTime !== null}
                     If={
                       <div className="progress-text">
                         <div>Last Progressed:</div>
-                        {FormatStringDate(trophy?.progressedDateTime)}
+                        {FormatStringDate(trophy.progressedDateTime)}
                       </div>
                     }
                   />
                   <div className="progress-value">
                     <div>
-                      {trophy.progress}/{trophy?.trophyProgressTargetValue}
+                      {trophy.progress}/{trophy.trophyProgressTargetValue}
                     </div>
                     <ProgressBar
-                      completed={trophy?.progressRate}
+                      completed={trophy.progressRate}
                       baseBgColor="#161616"
-                      bgColor={getProgressColour(trophy?.progressRate)}
+                      bgColor={getProgressColour(trophy.progressRate)}
                       labelAlignment="outside"
                     />
                   </div>
@@ -167,9 +167,12 @@ function PlaystationSelectedTrophy() {
             />
             <div className="rarity">
               <div>{getTrophyRarity(trophy?.trophyRare)} </div>
-              <div>{trophy?.trophyEarnedRate}%</div>
+              <Conditional
+                Condition={trophy.trophyEarnedRate !== null}
+                If={<div>{trophy.trophyEarnedRate}%</div>}
+              />
             </div>
-            <img className="type" src={getTrophyTypeIcon(trophy?.trophyType)} />
+            <img className="type" src={getTrophyTypeIcon(trophy.trophyType)} />
           </div>
           <div className="title">
             <div className="name">Sub Objectives</div>
@@ -184,7 +187,7 @@ function PlaystationSelectedTrophy() {
               <button
                 className="add"
                 onClick={() => setIsAddSubObjectiveModalActive(true)}
-                disabled={trophy?.earned}
+                disabled={trophy.earned}
               >
                 <div className="label">Add</div>
                 <i className="fa-solid fa-plus add-icon"></i>

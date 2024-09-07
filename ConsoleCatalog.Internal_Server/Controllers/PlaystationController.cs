@@ -3,7 +3,7 @@ using ConsoleCatalog.Server.Models.Playstation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace ConsoleCatalog.Server.Controllers.Playstation
+namespace ConsoleCatalog.Internal_Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -16,33 +16,6 @@ namespace ConsoleCatalog.Server.Controllers.Playstation
         {
             _logger = logger;
             _databaseContext = databaseContext;
-        }
-
-        [HttpGet(Name = "GetProfileById")]
-        [Route("getProfileById/{Id}")]
-        public PSNProfile? GetProfileById(int Id)
-        {
-            var profile = _databaseContext.PSNProfiles
-                .Include(p => p.AvatarUrls)
-                .Include(p => p.Presences)
-                .Include(p => p.ConsoleAvailability)
-                .Include(p => p.PersonalDetail)
-                .Include(p => p.TrophySummary)
-                    .ThenInclude(ts => ts.EarnedTrophies)
-                .Include(p => p.TrophyTitles)
-                    .ThenInclude(tt => tt.TrophyTitles)
-                        .ThenInclude(tt => tt.DefinedTrophies)
-                .Include(p => p.TrophyTitles)
-                    .ThenInclude(tt => tt.TrophyTitles)
-                        .ThenInclude(tt => tt.EarnedTrophies)
-                .SingleOrDefault(p => p.Id == Id);
-
-            if (profile != null)
-                profile.TrophyTitles.TrophyTitles = profile.TrophyTitles.TrophyTitles
-                    .Take(10)
-                    .ToList();
-
-            return profile;
         }
 
         [HttpGet(Name = "GetProfileByOnlineId")]
@@ -63,33 +36,6 @@ namespace ConsoleCatalog.Server.Controllers.Playstation
                     .ThenInclude(tt => tt.TrophyTitles)
                         .ThenInclude(tt => tt.EarnedTrophies)
                 .SingleOrDefault(p => p.OnlineId == onlineId);
-
-            if (profile != null)
-                profile.TrophyTitles.TrophyTitles = profile.TrophyTitles.TrophyTitles
-                    .Take(10)
-                    .ToList();
-            
-            return profile;
-        }
-
-        [HttpGet(Name = "GetProfileByAccountId")]
-        [Route("getProfileByAccountId/{accountId}")]
-        public PSNProfile? GetProfileByAccountId(string accountId)
-        {
-            var profile = _databaseContext.PSNProfiles
-                .Include(p => p.AvatarUrls)
-                .Include(p => p.Presences)
-                .Include(p => p.ConsoleAvailability)
-                .Include(p => p.PersonalDetail)
-                .Include(p => p.TrophySummary)
-                    .ThenInclude(ts => ts.EarnedTrophies)
-                .Include(p => p.TrophyTitles)
-                    .ThenInclude(tt => tt.TrophyTitles)
-                        .ThenInclude(tt => tt.DefinedTrophies)
-                .Include(p => p.TrophyTitles)
-                    .ThenInclude(tt => tt.TrophyTitles)
-                        .ThenInclude(tt => tt.EarnedTrophies)
-                .SingleOrDefault(p => p.AccountId == accountId);
 
             if (profile != null)
                 profile.TrophyTitles.TrophyTitles = profile.TrophyTitles.TrophyTitles
@@ -117,7 +63,7 @@ namespace ConsoleCatalog.Server.Controllers.Playstation
             return psnProfile;
         }
 
-        [HttpPost(Name = "GetProfileTitles")]
+        [HttpGet(Name = "GetProfileTitles")]
         [Route("getProfileTitles/{trophyTitlesObjectId}/{offset}")]
         public List<TrophyTitle> GetProfileTitles(int trophyTitlesObjectId, int offset)
         {
@@ -130,6 +76,64 @@ namespace ConsoleCatalog.Server.Controllers.Playstation
                 .Take(10)
                 .ToList();
             return trophyTitles;
+        }
+
+        [HttpGet(Name = "GetTitleTrophies")]
+        [Route("getTitleTrophies/{titleId}")]
+        public List<TitleTrophy>? GetTitleTrophies(string titleId)
+        {
+            var titleTrophies = _databaseContext.TitleTrophies
+                .Where(titleTrophy => titleTrophy.TitleId == titleId)
+                .Select(titleTrophy => titleTrophy)
+                .ToList();
+            return titleTrophies;
+        }
+
+        [HttpPost(Name = "PostTitleTrophies")]
+        [Route("postTitleTrophies")]
+        public List<TitleTrophy> PostTitleTrophies([FromBody] List<TitleTrophy> titleTrophies)
+        {
+            _databaseContext.TitleTrophies.AddRange(titleTrophies);
+            _databaseContext.SaveChanges();
+            return titleTrophies;
+        }
+
+        [HttpPut(Name = "PutTitleTrophies")]
+        [Route("putTitleTrophies")]
+        public List<TitleTrophy> PutTitleTrophies([FromBody] List<TitleTrophy> titleTrophies)
+        {
+            _databaseContext.TitleTrophies.UpdateRange(titleTrophies);
+            _databaseContext.SaveChanges();
+            return titleTrophies;
+        }
+
+        [HttpGet(Name = "GetEarnedTitleTrophies")]
+        [Route("getEarnedTitleTrophies/{psnProfileId}/{titleId}")]
+        public List<EarnedTitleTrophy>? GetEarnedTitleTrophies(int psnProfileId, string titleId)
+        {
+            var earnedtitleTrophies = _databaseContext.EarnedTitleTrophies
+                .Where(earnedtitleTrophy => earnedtitleTrophy.PSNProfileId == psnProfileId && earnedtitleTrophy.TitleId == titleId)
+                .Select(earnedtitleTrophy => earnedtitleTrophy)
+                .ToList();
+            return earnedtitleTrophies;
+        }
+
+        [HttpPost(Name = "PostEarnedTitleTrophies")]
+        [Route("postEarnedTitleTrophies")]
+        public List<EarnedTitleTrophy> PostEarnedTitleTrophies([FromBody] List<EarnedTitleTrophy> earnedTitleTrophies)
+        {
+            _databaseContext.EarnedTitleTrophies.AddRange(earnedTitleTrophies);
+            _databaseContext.SaveChanges();
+            return earnedTitleTrophies;
+        }
+
+        [HttpPut(Name = "PutEarnedTitleTrophies")]
+        [Route("putEarnedTitleTrophies")]
+        public List<EarnedTitleTrophy> PutEarnedTitleTrophies([FromBody] List<EarnedTitleTrophy> earnedTitleTrophies)
+        {
+            _databaseContext.EarnedTitleTrophies.UpdateRange(earnedTitleTrophies);
+            _databaseContext.SaveChanges();
+            return earnedTitleTrophies;
         }
     }
 }
