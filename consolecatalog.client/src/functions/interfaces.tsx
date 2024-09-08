@@ -38,6 +38,7 @@ export interface SelectedDate {
 export interface ProfileTitleTrophiesProps {
   accountId: string;
   titleId: string;
+  trophyGroupId: string;
   platform: string;
 }
 
@@ -140,8 +141,6 @@ export interface PSNProfile {
   accountId: string;
   avatarUrls: AvatarUrl[];
   blocking: boolean;
-  consoleAvailabilityId: number;
-  consoleAvailability: ConsoleAvailability;
   following: false;
   friendRelation: string;
   isOfficiallyVerified: boolean;
@@ -153,7 +152,6 @@ export interface PSNProfile {
   personalDetailSharing: string;
   personalDetailSharingRequestMessageFlag: boolean;
   plus: number;
-  presences: Presence[];
   primaryOnlineStatus: string;
   requestMessageFlag: boolean;
   trophySummaryId: number;
@@ -194,22 +192,10 @@ export interface AvatarUrl {
   size: string;
 }
 
-export interface ConsoleAvailability {
-  id: number;
-  availabilityStatus: string;
-}
-
 export interface PersonalDetail {
   id: number;
   firstname: string;
   lastname: string;
-}
-
-export interface Presence {
-  id: number;
-  hasBroadcastData: boolean;
-  lastOnlineDate: Date;
-  onlineStatus: string;
 }
 
 export interface TrophySummary {
@@ -276,6 +262,7 @@ export interface EarnedTitleTrophy {
   id: number;
   psnProfileId: number;
   titleId: string;
+  trophyGroupId: string;
   trophyId: number;
   earned: boolean;
   earnedDateTime?: string;
@@ -284,4 +271,63 @@ export interface EarnedTitleTrophy {
   progress?: string;
   progressRate?: number;
   progressedDateTime?: string;
+}
+
+export interface TrophyGroupObject {
+  id: number;
+  definedTrophies: DefinedTrophies;
+  npCommunicationId: string;
+  trophyGroups: TrophyGroup[];
+  trophyTitleIconUrl: string;
+  trophyTitleName: string;
+  earnedTrophies: EarnedTrophies;
+  lastUpdatedDateTime: string;
+  progress: number;
+  trophyTitlePlatform: string;
+}
+
+export interface TrophyGroup {
+  id: number;
+  earnedTrophies: EarnedTrophies;
+  lastUpdatedDateTime: string;
+  trophyGroupId: string;
+  definedTrophies: DefinedTrophies;
+  trophyGroupIconUrl: string;
+  trophyGroupName: string;
+  progress: number;
+}
+
+export interface DefinedTrophyGroupObject {
+  id: number;
+  definedTrophies: DefinedTrophies;
+  npCommunicationId: string;
+  trophyGroups: DefinedTrophyGroup[];
+  trophyTitleIconUrl: string;
+  trophyTitleName: string;
+  trophyTitlePlatform: string;
+}
+
+export interface DefinedTrophyGroup {
+  id: number;
+  definedTrophies: DefinedTrophies;
+  trophyGroupIconUrl: string;
+  trophyGroupId: string;
+  trophyGroupName: string;
+}
+
+export interface EarnedTrophyGroupObject {
+  id: number;
+  earnedTrophies: EarnedTrophies;
+  npCommunicationId: string;
+  lastUpdatedDateTime: string;
+  progress: number;
+  trophyGroups: EarnedTrophyGroup[];
+}
+
+export interface EarnedTrophyGroup {
+  id: number;
+  earnedTrophies: EarnedTrophies;
+  lastUpdatedDateTime: string;
+  progress: number;
+  trophyGroupId: string;
 }

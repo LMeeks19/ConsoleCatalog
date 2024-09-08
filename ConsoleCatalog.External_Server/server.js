@@ -118,14 +118,14 @@ app.get("/playstation/profiles/:accountId/titles", async (req, res) => {
 });
 
 app.get(
-  "/playstation/profiles/:accountId/titles/new/:titleId/trophies",
+  "/playstation/profiles/:accountId/titles/new/:titleId/groups/:trophyGroupId/trophies",
   async (req, res) => {
     try {
       const userTrophiesForTitles = await getUserTrophiesEarnedForTitle(
         { accessToken: psn_auth?.accessToken },
         req.params.accountId,
         req.params.titleId,
-        "all"
+        req.params.trophyGroupId
       );
       res.send(userTrophiesForTitles);
     } catch {
@@ -135,14 +135,14 @@ app.get(
 );
 
 app.get(
-  "/playstation/profiles/:accountId/titles/old/:titleId/trophies",
+  "/playstation/profiles/:accountId/titles/old/:titleId/groups/:trophyGroupId/trophies",
   async (req, res) => {
     try {
       const userTrophiesForTitles = await getUserTrophiesEarnedForTitle(
         { accessToken: psn_auth?.accessToken },
         req.params.accountId,
         req.params.titleId,
-        "all",
+        req.params.trophyGroupId,
         { npServiceName: "trophy" }
       );
       res.send(userTrophiesForTitles);
@@ -153,12 +153,26 @@ app.get(
 );
 
 app.get(
-  "/playstation/profiles/:accountId/titles/:titleId/trophy/group",
+  "/playstation/profiles/:accountId/titles/new/:titleId/groups",
   async (req, res) => {
     const userTrophyGroupForTitles = await getUserTrophyGroupEarningsForTitle(
       { accessToken: psn_auth?.accessToken },
       req.params.accountId,
       req.params.titleId
+    );
+
+    res.send(userTrophyGroupForTitles);
+  }
+);
+
+app.get(
+  "/playstation/profiles/:accountId/titles/old/:titleId/groups",
+  async (req, res) => {
+    const userTrophyGroupForTitles = await getUserTrophyGroupEarningsForTitle(
+      { accessToken: psn_auth?.accessToken },
+      req.params.accountId,
+      req.params.titleId,
+      { npServiceName: "trophy" }
     );
 
     res.send(userTrophyGroupForTitles);
@@ -174,52 +188,56 @@ app.get("/playstation/profiles/:accountId/trophy/summary", async (req, res) => {
   res.send(userTrophyProfileSummary);
 });
 
-app.get("/playstation/titles/new/:titleId/trophies", async (req, res) => {
-  try {
-    const titleTrophies = await getTitleTrophies(
-      { accessToken: psn_auth?.accessToken },
-      req.params.titleId,
-      "all"
-    );
+app.get(
+  "/playstation/titles/new/:titleId/groups/:trophyGroupId/trophies",
+  async (req, res) => {
+    try {
+      const titleTrophies = await getTitleTrophies(
+        { accessToken: psn_auth?.accessToken },
+        req.params.titleId,
+        req.params.trophyGroupId
+      );
 
-    res.send(titleTrophies);
-  } catch {
-    res.send();
+      res.send(titleTrophies);
+    } catch {
+      res.send();
+    }
   }
-});
+);
 
-app.get("/playstation/titles/old/:titleId/trophies", async (req, res) => {
-  try {
-    const titleTrophies = await getTitleTrophies(
-      { accessToken: psn_auth?.accessToken },
-      req.params.titleId,
-      "all",
-      {
-        npServiceName: "trophy",
-      }
-    );
+app.get(
+  "/playstation/titles/old/:titleId/groups/:trophyGorupId/trophies",
+  async (req, res) => {
+    try {
+      const titleTrophies = await getTitleTrophies(
+        { accessToken: psn_auth?.accessToken },
+        req.params.titleId,
+        req.params.trophyGorupId,
+        {
+          npServiceName: "trophy",
+        }
+      );
 
-    res.send(titleTrophies);
-  } catch {
-    res.send();
+      res.send(titleTrophies);
+    } catch {
+      res.send();
+    }
   }
-});
+);
 
-app.get("/playstation/PS5/:titleId/trophy/groups", async (req, res) => {
+app.get("/playstation/titles/new/:titleId/groups", async (req, res) => {
   const titleTrophyGroups = await getTitleTrophyGroups(
     { accessToken: psn_auth?.accessToken },
-    req.params.titleId,
-    "all"
+    req.params.titleId
   );
 
   res.send(titleTrophyGroups);
 });
 
-app.get("/playstation/PS4/:titleId/trophy/groups", async (req, res) => {
+app.get("/playstation/titles/old/:titleId/groups", async (req, res) => {
   const titleTrophyGroups = await getTitleTrophyGroups(
     { accessToken: psn_auth?.accessToken },
     req.params.titleId,
-    "all",
     {
       npServiceName: "trophy",
     }

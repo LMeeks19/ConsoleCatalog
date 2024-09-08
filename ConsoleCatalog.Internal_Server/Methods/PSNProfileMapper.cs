@@ -12,9 +12,6 @@ namespace ConsoleCatalog.Internal_Server.Methods
 
             updatedPSNProfile.AvatarUrls = MapAvatarUrls(psnProfile.AvatarUrls, existingPSNProfile.AvatarUrls, updatedPSNProfile.Id);
 
-            updatedPSNProfile.ConsoleAvailabilityId = existingPSNProfile.ConsoleAvailabilityId;
-            updatedPSNProfile.ConsoleAvailability = MapConsoleAvailability(psnProfile.ConsoleAvailability, existingPSNProfile.ConsoleAvailability);
-
             updatedPSNProfile.PersonalDetailId = existingPSNProfile.PersonalDetailId;
             updatedPSNProfile.PersonalDetail = MapPersonalDetail(psnProfile.PersonalDetail, existingPSNProfile.PersonalDetail);
 
@@ -36,13 +33,6 @@ namespace ConsoleCatalog.Internal_Server.Methods
                 avatarUrl.PSNProfileId = psnProfileId;
             });
             return updatedAvatarUrls;
-        }
-
-        public ConsoleAvailability MapConsoleAvailability(ConsoleAvailability consoleAvailability, ConsoleAvailability existingConsoleAvailability)
-        {
-            var updatedConsoleAvailability = consoleAvailability;
-            updatedConsoleAvailability.Id = existingConsoleAvailability.Id;
-            return updatedConsoleAvailability;
         }
 
         public PersonalDetail MapPersonalDetail(PersonalDetail personalDetail, PersonalDetail existingPersonalDetail)

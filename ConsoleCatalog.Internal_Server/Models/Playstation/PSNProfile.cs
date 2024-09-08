@@ -19,9 +19,6 @@
         public string PrimaryOnlineStatus { get; set; }
         public bool RequestMessageFlag { get; set; }
 
-        public int ConsoleAvailabilityId { get; set; }
-        public ConsoleAvailability ConsoleAvailability { get; set; }
-
         public int PersonalDetailId { get; set; }
         public virtual PersonalDetail PersonalDetail { get; set; }
 

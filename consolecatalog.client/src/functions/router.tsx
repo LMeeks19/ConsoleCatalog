@@ -11,6 +11,7 @@ import PlaystationGamesSelected from "../pages/playstation/playstation-games-sel
 import PlaystationProfilesSelected from "../pages/playstation/playstation-profiles-selected";
 import PlaystationGameTrophies from "../pages/playstation/playstation-game-trophies";
 import PlaystationSelectedTrophy from "../pages/playstation/playstation-selected-trophy";
+import PlaystationGameTrophyGroups from "../pages/playstation/playstation-game-trophy-groups";
 
 export const router = createBrowserRouter([
   {
@@ -42,11 +43,15 @@ export const router = createBrowserRouter([
     element: <PlaystationProfilesSelected />,
   },
   {
-    path: "/:userId/playstation/profiles/:username/:gameId/trophies",
+    path: "/:userId/playstation/profiles/:username/:gameId/groups",
+    element: <PlaystationGameTrophyGroups />,
+  },
+  {
+    path: "/:userId/playstation/profiles/:username/:gameId/groups/:groupId/trophies",
     element: <PlaystationGameTrophies />,
   },
   {
-    path: "/:userId/playstation/profiles/:username/:gameId/trophies/:trophyId",
+    path: "/:userId/playstation/profiles/:username/:gameId/groups/:groupId/trophies/:trophyId",
     element: <PlaystationSelectedTrophy />,
   },
   {

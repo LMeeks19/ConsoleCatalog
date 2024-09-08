@@ -15,7 +15,6 @@ import {
   getPSNTitleTrophies,
 } from "../external/playstation-calls";
 
-
 export async function getProfileByOnlineId(
   onlineId: string
 ): Promise<PSNProfile | null> {
@@ -101,7 +100,7 @@ export async function getTitleTrophies(
   titleTrophiesProps: ProfileTitleTrophiesProps
 ): Promise<TitleTrophy[]> {
   const response = await fetch(
-    `/playstation/getTitleTrophies/${titleTrophiesProps.titleId}`
+    `/playstation/getTitleTrophies/${titleTrophiesProps.titleId}/groups/${titleTrophiesProps.trophyGroupId}`
   );
   let titleTrophies = [] as TitleTrophy[];
   try {
@@ -110,7 +109,8 @@ export async function getTitleTrophies(
   if (titleTrophies.length === 0) {
     let titleTrophies_response = await getPSNTitleTrophies(
       titleTrophiesProps.titleId,
-      titleTrophiesProps.platform
+      titleTrophiesProps.platform,
+      titleTrophiesProps.trophyGroupId
     );
     if (titleTrophies_response !== null) {
       titleTrophies_response.trophies.forEach((tt) => {
@@ -129,7 +129,7 @@ export async function getEarnedTitleTrophies(
   titleTrophiesProps: ProfileTitleTrophiesProps
 ): Promise<EarnedTitleTrophy[]> {
   const response = await fetch(
-    `/playstation/getEarnedTitleTrophies/${psnProfileId}/${titleTrophiesProps.titleId}`
+    `/playstation/getEarnedTitleTrophies/${psnProfileId}/titles/${titleTrophiesProps.titleId}/groups/${titleTrophiesProps.trophyGroupId}`
   );
   let earnedTitleTrophies = [] as EarnedTitleTrophy[];
   try {
@@ -139,7 +139,8 @@ export async function getEarnedTitleTrophies(
     let earnedTitleTrophies_response = await getPSNProfileTrophiesForTitle(
       titleTrophiesProps.accountId,
       titleTrophiesProps.titleId,
-      titleTrophiesProps.platform
+      titleTrophiesProps.platform,
+      titleTrophiesProps.trophyGroupId
     );
     if (
       earnedTitleTrophies_response !== null &&
@@ -150,6 +151,7 @@ export async function getEarnedTitleTrophies(
       earnedTitleTrophies_response.trophies.forEach((ett) => {
         ett.psnProfileId = psnProfileId;
         ett.titleId = titleTrophiesProps.titleId;
+        ett.trophyGroupId = titleTrophiesProps.trophyGroupId
       });
       earnedTitleTrophies = await postProfileEarnedTitleTrophies(
         earnedTitleTrophies_response.trophies.filter(

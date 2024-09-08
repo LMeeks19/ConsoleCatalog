@@ -19,6 +19,7 @@
         public int Id { get; set; }
         public int PSNProfileId { get; set; }
         public string TitleId { get; set; }
+        public string TrophyGroupId { get; set; }
         public int TrophyId { get; set; }
         public bool Earned { get; set; }
         public string? EarnedDateTime { get; set; }

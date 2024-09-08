@@ -5,7 +5,7 @@ import platinum_icon from "../images/psn-trophy-platinum.png";
 import gold_icon from "../images/psn-trophy-gold.png";
 import silver_icon from "../images/psn-trophy-silver.png";
 import bronze_icon from "../images/psn-trophy-bronze.png";
-import { EarnedTitleTrophy, TitleTrophy, Trophy } from "./interfaces";
+import { DefinedTrophyGroup, DefinedTrophyGroupObject, EarnedTitleTrophy, EarnedTrophyGroup, EarnedTrophyGroupObject, TitleTrophy, Trophy, TrophyGroup, TrophyGroupObject } from "./interfaces";
 
 export function getFullCardImageUrl(imageId: string) {
   return `${COVER_BIG_URL}/${imageId}.jpg`;
@@ -73,6 +73,12 @@ export function FormatStringDate(date: string | null | undefined): string {
   return "";
 }
 
+export function GetTrophyGroupName(trophyGroupId: string) {
+  if (trophyGroupId === "default")
+    return "Base Game";
+  return `DLC ${Number(trophyGroupId)}`
+}
+
 export function mergeTrophyArrays(
   titleTrophies: TitleTrophy[],
   earnedTrophies: EarnedTitleTrophy[],
@@ -101,6 +107,41 @@ export function mergeTrophyArrays(
     } as Trophy;
   });
   return mergedArray;
+}
+
+export function mergeTrophyGroupObjects(
+  definedTrophyGroupObject: DefinedTrophyGroupObject,
+  earnedTrophyGroupObject: EarnedTrophyGroupObject
+) {
+  let mergedTrophyGroupObject = {
+    ...definedTrophyGroupObject,
+    lastUpdatedDateTime: earnedTrophyGroupObject.lastUpdatedDateTime,
+    progress: earnedTrophyGroupObject.progress,
+    earnedTrophies: earnedTrophyGroupObject.earnedTrophies,
+    trophyGroups: mergeTrophyGroups(
+      definedTrophyGroupObject.trophyGroups,
+      earnedTrophyGroupObject.trophyGroups
+    ),
+  } as TrophyGroupObject;
+  return mergedTrophyGroupObject;
+}
+
+export function mergeTrophyGroups(
+  definedTrophyGroups: DefinedTrophyGroup[],
+  earnedTrophyGroups: EarnedTrophyGroup[]
+): TrophyGroup[] {
+  let mergedTrophyGroups = definedTrophyGroups.map((trophyGroup) => {
+    let earnedTrophyGroup = earnedTrophyGroups.find(
+      (etg) => etg.trophyGroupId === trophyGroup.trophyGroupId
+    );
+    return {
+      ...trophyGroup,
+      earnedTrophies: earnedTrophyGroup?.earnedTrophies,
+      lastUpdatedDateTime: earnedTrophyGroup?.lastUpdatedDateTime,
+      progress: earnedTrophyGroup?.progress,
+    } as TrophyGroup;
+  });
+  return mergedTrophyGroups;
 }
 
 var LANGUAGE_BY_LOCALE = {

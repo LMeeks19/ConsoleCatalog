@@ -93,3 +93,13 @@ Accept: application/json
 
 PUT {{ConsoleCatalog.Server_HostAddress}}/playstation/putEarnedTitleTrophies/
 Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Server_HostAddress}}/playstation/getDefinedTrophyGroupObject/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Server_HostAddress}}/playstationgetEarnedTrophyGroupObject/
+Accept: application/json

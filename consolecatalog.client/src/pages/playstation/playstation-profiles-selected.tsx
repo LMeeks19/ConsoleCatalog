@@ -10,7 +10,7 @@ import silver_icon from "../../images/psn-trophy-silver.png";
 import bronze_icon from "../../images/psn-trophy-bronze.png";
 import $ from "jquery";
 import "../../style/playstation/playstation-profiles-selected.css";
-import { AvatarUrl, PSNProfile, TrophyTitle } from "../../functions/interfaces";
+import { PSNProfile } from "../../functions/interfaces";
 import Conditional from "../../components/site/if-then-else";
 import ProgressBar from "@ramonak/react-progress-bar";
 import CustomProgressBar from "../../components/site/custom-progress-bar";
@@ -303,13 +303,12 @@ function PlaystationProfilesSelected() {
                         )
                       }
                       onClick={() =>
-                        navigate(`${trophyTitle.npCommunicationId}/trophies`, {
+                        navigate(`${trophyTitle.npCommunicationId}/groups`, {
                           state: {
                             userId: location.state?.userId,
                             psnProfileId: selectedPSNProfile?.id,
                             accountId: selectedPSNProfile?.accountId,
                             titleId: trophyTitle?.npCommunicationId,
-                            titleName: trophyTitle?.trophyTitleName,
                             platform: trophyTitle?.trophyTitlePlatform,
                           },
                         })

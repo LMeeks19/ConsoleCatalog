@@ -6,24 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ConsoleCatalog.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class CreatePSNProfileTables : Migration
+    public partial class CreatePSNTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "ConsoleAvailabilities",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AvailabilityStatus = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ConsoleAvailabilities", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "DefinedTrophyTypes",
                 columns: table => new
@@ -48,6 +35,7 @@ namespace ConsoleCatalog.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PSNProfileId = table.Column<int>(type: "int", nullable: false),
                     TitleId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TrophyGroupId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TrophyId = table.Column<int>(type: "int", nullable: false),
                     Earned = table.Column<bool>(type: "bit", nullable: false),
                     EarnedDateTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -212,7 +200,6 @@ namespace ConsoleCatalog.Server.Migrations
                     Plus = table.Column<int>(type: "int", nullable: false),
                     PrimaryOnlineStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RequestMessageFlag = table.Column<bool>(type: "bit", nullable: false),
-                    ConsoleAvailabilityId = table.Column<int>(type: "int", nullable: false),
                     PersonalDetailId = table.Column<int>(type: "int", nullable: false),
                     TrophySummaryId = table.Column<int>(type: "int", nullable: false),
                     TrophyTitlesId = table.Column<int>(type: "int", nullable: false)
@@ -220,12 +207,6 @@ namespace ConsoleCatalog.Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PSNProfiles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PSNProfiles_ConsoleAvailabilities_ConsoleAvailabilityId",
-                        column: x => x.ConsoleAvailabilityId,
-                        principalTable: "ConsoleAvailabilities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PSNProfiles_PersonalDetails_PersonalDetailId",
                         column: x => x.PersonalDetailId,
@@ -271,11 +252,6 @@ namespace ConsoleCatalog.Server.Migrations
                 name: "IX_AvatarUrls_PSNProfileId",
                 table: "AvatarUrls",
                 column: "PSNProfileId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PSNProfiles_ConsoleAvailabilityId",
-                table: "PSNProfiles",
-                column: "ConsoleAvailabilityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PSNProfiles_PersonalDetailId",
@@ -333,9 +309,6 @@ namespace ConsoleCatalog.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "DefinedTrophyTypes");
-
-            migrationBuilder.DropTable(
-                name: "ConsoleAvailabilities");
 
             migrationBuilder.DropTable(
                 name: "PersonalDetails");

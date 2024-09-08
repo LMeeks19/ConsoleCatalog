@@ -1,4 +1,5 @@
 ﻿using ConsoleCatalog.Internal_Server.Methods;
+using ConsoleCatalog.Internal_Server.Models.Playstation;
 using ConsoleCatalog.Server.Models;
 using ConsoleCatalog.Server.Models.Playstation;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,6 @@ namespace ConsoleCatalog.Internal_Server.Controllers
         {
             var profile = await _databaseContext.PSNProfiles
                 .Include(p => p.AvatarUrls)
-                .Include(p => p.ConsoleAvailability)
                 .Include(p => p.PersonalDetail)
                 .Include(p => p.TrophySummary)
                     .ThenInclude(ts => ts.EarnedTrophies)
@@ -60,7 +60,6 @@ namespace ConsoleCatalog.Internal_Server.Controllers
         {
             var psnProfileToUpdate = await _databaseContext.PSNProfiles
                 .Include(p => p.AvatarUrls)
-                .Include(p => p.ConsoleAvailability)
                 .Include(p => p.PersonalDetail)
                 .Include(p => p.TrophySummary)
                     .ThenInclude(ts => ts.EarnedTrophies)
@@ -101,11 +100,11 @@ namespace ConsoleCatalog.Internal_Server.Controllers
         }
 
         [HttpGet(Name = "GetTitleTrophies")]
-        [Route("getTitleTrophies/{titleId}")]
-        public async Task<List<TitleTrophy>?> GetTitleTrophies(string titleId)
+        [Route("getTitleTrophies/{titleId}/groups/{trophyGroupId}")]
+        public async Task<List<TitleTrophy>?> GetTitleTrophies(string titleId, string trophyGroupId)
         {
             var titleTrophies = await _databaseContext.TitleTrophies
-                .Where(titleTrophy => titleTrophy.TitleId == titleId)
+                .Where(titleTrophy => titleTrophy.TitleId == titleId && titleTrophy.TrophyGroupId == trophyGroupId)
                 .Select(titleTrophy => titleTrophy)
                 .ToListAsync();
             return titleTrophies;
@@ -131,11 +130,11 @@ namespace ConsoleCatalog.Internal_Server.Controllers
         }
 
         [HttpGet(Name = "GetEarnedTitleTrophies")]
-        [Route("getEarnedTitleTrophies/{psnProfileId}/{titleId}")]
-        public async Task<List<EarnedTitleTrophy>?> GetEarnedTitleTrophies(int psnProfileId, string titleId)
+        [Route("getEarnedTitleTrophies/{psnProfileId}/titles/{titleId}/groups/{trophyGroupId}")]
+        public async Task<List<EarnedTitleTrophy>?> GetEarnedTitleTrophies(int psnProfileId, string titleId, string trophyGroupId)
         {
-            var earnedtitleTrophies = await _databaseContext.EarnedTitleTrophies
-                .Where(earnedtitleTrophy => earnedtitleTrophy.PSNProfileId == psnProfileId && earnedtitleTrophy.TitleId == titleId)
+            var earnedtitleTrophies = await _databaseContext.EarnedTitleTrophies 
+                .Where(earnedtitleTrophy => earnedtitleTrophy.PSNProfileId == psnProfileId && earnedtitleTrophy.TitleId == titleId && earnedtitleTrophy.TrophyGroupId == trophyGroupId)
                 .Select(earnedtitleTrophy => earnedtitleTrophy)
                 .ToListAsync();
             return earnedtitleTrophies;
@@ -157,6 +156,32 @@ namespace ConsoleCatalog.Internal_Server.Controllers
             _databaseContext.EarnedTitleTrophies.UpdateRange(earnedTitleTrophies);
             await _databaseContext.SaveChangesAsync();
             return earnedTitleTrophies;
+        }
+
+        [HttpGet(Name = "GetDefinedTrophyGroupObject")]
+        [Route("getDefinedTrophyGroupObject/{titleId}/groups")]
+        public async Task<DefinedTrophyGroupObject>? GetDefinedTrophyGroupObject(string titleId)
+        {
+            var definedTrophyGroupObject = await _databaseContext.DefinedTrophyGroupObjects
+                .Include(etgo => etgo.DefinedTrophies)
+                .Include(etgo => etgo.TrophyGroups)
+                    .ThenInclude(tg => tg.DefinedTrophies)
+                .SingleAsync(etgo => etgo.NpCommunicationId == titleId);
+
+            return definedTrophyGroupObject;
+        }
+
+        [HttpGet(Name = "GetEarnedTrophyGroupObject")]
+        [Route("getEarnedTrophyGroupObject/{psnProfileId}/{titleId}/groups")]
+        public async Task<EarnedTrophyGroupObject>? GetEarnedTrophyGroupObject(int psnProfileId, string titleId)
+        {
+            var earnedTrophyGroupObject = await _databaseContext.EarnedTrophyGroupObjects
+                .Include(etgo => etgo.EarnedTrophies)
+                .Include(etgo => etgo.TrophyGroups)
+                    .ThenInclude(tg => tg.EarnedTrophies)
+                .SingleAsync(etgo => etgo.PSNProfileId == psnProfileId && etgo.NpCommunicationId == titleId);
+
+            return earnedTrophyGroupObject;
         }
     }
 }

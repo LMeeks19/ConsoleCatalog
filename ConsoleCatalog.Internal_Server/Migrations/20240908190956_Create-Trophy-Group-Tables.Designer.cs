@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleCatalog.Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240908011850_Create-PSNProfile-Tables")]
-    partial class CreatePSNProfileTables
+    [Migration("20240908190956_Create-Trophy-Group-Tables")]
+    partial class CreateTrophyGroupTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,147 @@ namespace ConsoleCatalog.Server.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Playstation.DefinedTrophyGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DefinedTrophiesId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DefinedTrophyGroupObjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TrophyGroupIconUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrophyGroupId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrophyGroupName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TrophyGroupObjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DefinedTrophiesId");
+
+                    b.HasIndex("DefinedTrophyGroupObjectId");
+
+                    b.ToTable("DefinedTrophyGroups");
+                });
+
+            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Playstation.DefinedTrophyGroupObject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DefinedTrophiesId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NpCommunicationId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrophyTitleIconUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrophyTitleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrophyTitlePlatform")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DefinedTrophiesId");
+
+                    b.ToTable("DefinedTrophyGroupObjects");
+                });
+
+            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Playstation.EarnedTrophyGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("EarnedTrophiesId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EarnedTrophyGroupObjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastUpdatedDateTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Progress")
+                        .HasColumnType("float");
+
+                    b.Property<string>("TrophyGroupId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TrophyGroupObjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EarnedTrophiesId");
+
+                    b.HasIndex("EarnedTrophyGroupObjectId");
+
+                    b.ToTable("EarnedTrophyGroups");
+                });
+
+            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Playstation.EarnedTrophyGroupObject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("EarnedTrophiesId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastUpdatedDateTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NpCommunicationId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PSNProfileId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Progress")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EarnedTrophiesId");
+
+                    b.ToTable("EarnedTrophyGroupObjects");
+                });
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.AvatarUrl", b =>
                 {
@@ -49,23 +190,6 @@ namespace ConsoleCatalog.Server.Migrations
                     b.HasIndex("PSNProfileId");
 
                     b.ToTable("AvatarUrls");
-                });
-
-            modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.ConsoleAvailability", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AvailabilityStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ConsoleAvailabilities");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.DefinedTrophyTypes", b =>
@@ -127,6 +251,10 @@ namespace ConsoleCatalog.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TrophyGroupId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("TrophyId")
                         .HasColumnType("int");
 
@@ -182,9 +310,6 @@ namespace ConsoleCatalog.Server.Migrations
                     b.Property<bool>("Blocking")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ConsoleAvailabilityId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("Following")
                         .HasColumnType("bit");
 
@@ -234,8 +359,6 @@ namespace ConsoleCatalog.Server.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ConsoleAvailabilityId");
 
                     b.HasIndex("PersonalDetailId");
 
@@ -475,6 +598,58 @@ namespace ConsoleCatalog.Server.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Playstation.DefinedTrophyGroup", b =>
+                {
+                    b.HasOne("ConsoleCatalog.Server.Models.Playstation.DefinedTrophyTypes", "DefinedTrophies")
+                        .WithMany()
+                        .HasForeignKey("DefinedTrophiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ConsoleCatalog.Internal_Server.Models.Playstation.DefinedTrophyGroupObject", null)
+                        .WithMany("TrophyGroups")
+                        .HasForeignKey("DefinedTrophyGroupObjectId");
+
+                    b.Navigation("DefinedTrophies");
+                });
+
+            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Playstation.DefinedTrophyGroupObject", b =>
+                {
+                    b.HasOne("ConsoleCatalog.Server.Models.Playstation.DefinedTrophyTypes", "DefinedTrophies")
+                        .WithMany()
+                        .HasForeignKey("DefinedTrophiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DefinedTrophies");
+                });
+
+            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Playstation.EarnedTrophyGroup", b =>
+                {
+                    b.HasOne("ConsoleCatalog.Server.Models.Playstation.EarnedTrophyTypes", "EarnedTrophies")
+                        .WithMany()
+                        .HasForeignKey("EarnedTrophiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ConsoleCatalog.Internal_Server.Models.Playstation.EarnedTrophyGroupObject", null)
+                        .WithMany("TrophyGroups")
+                        .HasForeignKey("EarnedTrophyGroupObjectId");
+
+                    b.Navigation("EarnedTrophies");
+                });
+
+            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Playstation.EarnedTrophyGroupObject", b =>
+                {
+                    b.HasOne("ConsoleCatalog.Server.Models.Playstation.EarnedTrophyTypes", "EarnedTrophies")
+                        .WithMany()
+                        .HasForeignKey("EarnedTrophiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EarnedTrophies");
+                });
+
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.AvatarUrl", b =>
                 {
                     b.HasOne("ConsoleCatalog.Server.Models.Playstation.PSNProfile", null)
@@ -486,12 +661,6 @@ namespace ConsoleCatalog.Server.Migrations
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.PSNProfile", b =>
                 {
-                    b.HasOne("ConsoleCatalog.Server.Models.Playstation.ConsoleAvailability", "ConsoleAvailability")
-                        .WithMany()
-                        .HasForeignKey("ConsoleAvailabilityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ConsoleCatalog.Server.Models.Playstation.PersonalDetail", "PersonalDetail")
                         .WithMany()
                         .HasForeignKey("PersonalDetailId")
@@ -509,8 +678,6 @@ namespace ConsoleCatalog.Server.Migrations
                         .HasForeignKey("TrophyTitlesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ConsoleAvailability");
 
                     b.Navigation("PersonalDetail");
 
@@ -553,6 +720,16 @@ namespace ConsoleCatalog.Server.Migrations
                     b.Navigation("DefinedTrophies");
 
                     b.Navigation("EarnedTrophies");
+                });
+
+            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Playstation.DefinedTrophyGroupObject", b =>
+                {
+                    b.Navigation("TrophyGroups");
+                });
+
+            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Playstation.EarnedTrophyGroupObject", b =>
+                {
+                    b.Navigation("TrophyGroups");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.PSNProfile", b =>

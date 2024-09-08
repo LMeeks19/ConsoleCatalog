@@ -35,11 +35,13 @@ function PlaystationGameTrophies() {
       let psnProfileId = location.state.psnProfileId;
       let accountId = location.state.accountId;
       let titleId = location.state.titleId;
+      let trophyGroupId = location.state.trophyGroupId;
       let platform = location.state.platform;
       let titleTrophies = await getProfileTitleTrophies(psnProfileId, {
         accountId: accountId,
         titleId: titleId,
         platform: platform,
+        trophyGroupId: trophyGroupId,
       });
       setEarnedTrophies(titleTrophies);
       setIsLoading(false);
@@ -173,13 +175,16 @@ function PlaystationGameTrophies() {
                             />
                             <Conditional
                               Condition={
-                                !trophy.earned && trophy.progress !== null
+                                !trophy.earned &&
+                                trophy.progress !== null &&
+                                trophy.progress !== undefined
                               }
                               If={
                                 <div className="progress">
                                   <Conditional
                                     Condition={
-                                      trophy.progressedDateTime !== null
+                                      trophy.progressedDateTime !== null &&
+                                      trophy.progressedDateTime !== undefined
                                     }
                                     If={
                                       <div className="progress-text">
@@ -211,7 +216,10 @@ function PlaystationGameTrophies() {
                             <div className="rarity">
                               <div>{getTrophyRarity(trophy.trophyRare)}</div>
                               <Conditional
-                                Condition={trophy.trophyEarnedRate !== null}
+                                Condition={
+                                  trophy.trophyEarnedRate !== null &&
+                                  trophy.trophyEarnedRate !== undefined
+                                }
                                 If={<div>{trophy.trophyEarnedRate}%</div>}
                               />
                             </div>
