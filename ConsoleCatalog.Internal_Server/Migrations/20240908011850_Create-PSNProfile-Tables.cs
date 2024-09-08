@@ -267,36 +267,9 @@ namespace ConsoleCatalog.Server.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Presences",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PSNProfileId = table.Column<int>(type: "int", nullable: false),
-                    HasBroadcastData = table.Column<bool>(type: "bit", nullable: false),
-                    LastOnlineDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OnlineStatus = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Presences", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Presences_PSNProfiles_PSNProfileId",
-                        column: x => x.PSNProfileId,
-                        principalTable: "PSNProfiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AvatarUrls_PSNProfileId",
                 table: "AvatarUrls",
-                column: "PSNProfileId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Presences_PSNProfileId",
-                table: "Presences",
                 column: "PSNProfileId");
 
             migrationBuilder.CreateIndex(
@@ -348,9 +321,6 @@ namespace ConsoleCatalog.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "EarnedTitleTrophies");
-
-            migrationBuilder.DropTable(
-                name: "Presences");
 
             migrationBuilder.DropTable(
                 name: "TitleTrophies");

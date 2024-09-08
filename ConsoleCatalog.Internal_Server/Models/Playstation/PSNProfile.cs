@@ -16,7 +16,6 @@
         public string PersonalDetailSharing { get; set; }
         public bool PersonalDetailSharingRequestMessageFlag { get; set; }
         public int Plus { get; set; }
-        public virtual List<Presence> Presences { get; set; }
         public string PrimaryOnlineStatus { get; set; }
         public bool RequestMessageFlag { get; set; }
 

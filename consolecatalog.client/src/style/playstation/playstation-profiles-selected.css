@@ -1,3 +1,10 @@
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
 .profile-container {
 
     .details-container {
@@ -53,6 +60,27 @@
                     width: 100px !important;
                     gap: 20px;
 
+                    .update-button {
+                        height: inherit;
+                        background-color: #161616;
+                        padding: 7.5px 10px 7.5px 10px;
+                        font-size: 18px;
+                        border-color: transparent;
+                    }
+            
+                    .update-button:hover {
+                        background-color: #363636;
+                    }
+            
+                    .update-button:focus,
+                    .update-button:focus-visible {
+                        outline: transparent;
+                    }
+            
+                    .update-button:active {
+                        border-color: black;
+                    }
+    
                     .verified,
                     .ps-plus-icon {
                         height: 40px !important;

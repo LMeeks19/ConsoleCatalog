@@ -140,6 +140,7 @@ export interface PSNProfile {
   accountId: string;
   avatarUrls: AvatarUrl[];
   blocking: boolean;
+  consoleAvailabilityId: number;
   consoleAvailability: ConsoleAvailability;
   following: false;
   friendRelation: string;
@@ -147,6 +148,7 @@ export interface PSNProfile {
   languagesUsed: string[];
   npId: string;
   onlineId: string;
+  personalDetailId: number;
   personalDetail: PersonalDetail;
   personalDetailSharing: string;
   personalDetailSharingRequestMessageFlag: boolean;
@@ -154,7 +156,9 @@ export interface PSNProfile {
   presences: Presence[];
   primaryOnlineStatus: string;
   requestMessageFlag: boolean;
+  trophySummaryId: number;
   trophySummary: TrophySummary;
+  trophyTitlesId: number;
   trophyTitles: TrophyTitleObject;
 }
 
@@ -166,6 +170,7 @@ export interface TrophyTitleObject {
 
 export interface TrophyTitle {
   id: number;
+  trophyTitleObjectId: number;
   definedTrophies: DefinedTrophies;
   earnedTrophies: EarnedTrophies;
   hasTrophyGroups: boolean;
@@ -196,8 +201,8 @@ export interface ConsoleAvailability {
 
 export interface PersonalDetail {
   id: number;
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
 }
 
 export interface Presence {

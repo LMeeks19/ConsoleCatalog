@@ -264,34 +264,6 @@ namespace ConsoleCatalog.Server.Migrations
                     b.ToTable("PersonalDetails");
                 });
 
-            modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.Presence", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("HasBroadcastData")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("LastOnlineDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("OnlineStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PSNProfileId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PSNProfileId");
-
-                    b.ToTable("Presences");
-                });
-
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.TitleTrophy", b =>
                 {
                     b.Property<int>("Id")
@@ -544,15 +516,6 @@ namespace ConsoleCatalog.Server.Migrations
                     b.Navigation("TrophyTitles");
                 });
 
-            modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.Presence", b =>
-                {
-                    b.HasOne("ConsoleCatalog.Server.Models.Playstation.PSNProfile", null)
-                        .WithMany("Presences")
-                        .HasForeignKey("PSNProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.TrophySummary", b =>
                 {
                     b.HasOne("ConsoleCatalog.Server.Models.Playstation.EarnedTrophyTypes", "EarnedTrophies")
@@ -592,8 +555,6 @@ namespace ConsoleCatalog.Server.Migrations
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.PSNProfile", b =>
                 {
                     b.Navigation("AvatarUrls");
-
-                    b.Navigation("Presences");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Server.Models.Playstation.TrophyTitleObject", b =>

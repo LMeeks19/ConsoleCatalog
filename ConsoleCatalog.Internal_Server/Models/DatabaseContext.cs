@@ -10,7 +10,6 @@ namespace ConsoleCatalog.Server.Models
         public DbSet<AvatarUrl> AvatarUrls { get; set; }
         public DbSet<ConsoleAvailability> ConsoleAvailabilities { get; set; }
         public DbSet<PersonalDetail> PersonalDetails { get; set; }
-        public DbSet<Presence> Presences { get; set; }
         public DbSet<PSNProfile> PSNProfiles { get; set; }
         public DbSet<TitleTrophy> TitleTrophies { get; set; }
         public DbSet<EarnedTitleTrophy> EarnedTitleTrophies { get; set; }

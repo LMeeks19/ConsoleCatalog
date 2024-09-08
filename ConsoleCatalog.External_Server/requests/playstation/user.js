@@ -1,7 +1,7 @@
 import { call, buildRequestUrl, USER_BASE_URL } from "./utils.js";
 
 export const getProfileFromUserName = async (authorization, userName) => {
-  const url = `https://us-prof.np.community.playstation.net/userProfile/v1/users/${userName}/profile2?fields=npId,onlineId,accountId,avatarUrls,plus,aboutMe,languagesUsed,trophySummary(@default,level,progress,earnedTrophies),isOfficiallyVerified,personalDetail(@default,profilePictureUrls),personalDetailSharing,personalDetailSharingRequestMessageFlag,primaryOnlineStatus,presences(@default,@titleInfo,platform,lastOnlineDate,hasBroadcastData),requestMessageFlag,blocking,friendRelation,following,consoleAvailability`;
+  const url = `https://us-prof.np.community.playstation.net/userProfile/v1/users/${userName}/profile2?fields=npId,onlineId,accountId,avatarUrls,plus,aboutMe,languagesUsed,trophySummary(@default,level,progress,earnedTrophies),isOfficiallyVerified,personalDetail(@default,profilePictureUrls),personalDetailSharing,personalDetailSharingRequestMessageFlag,primaryOnlineStatus,requestMessageFlag,blocking,friendRelation,following,consoleAvailability`;
 
   const response = await call({ url }, authorization);
 
