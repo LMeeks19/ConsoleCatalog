@@ -7,7 +7,7 @@ import {
 } from "../../functions/state";
 import { Pages } from "../../functions/enums";
 import { BarProps } from "../../functions/interfaces";
-import "../../styling/site/sidebar.css";
+import "../../style/site/sidebar.css";
 import Conditional from "./if-then-else";
 
 function SideBar(props: BarProps) {

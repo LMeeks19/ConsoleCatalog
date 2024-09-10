@@ -7,7 +7,7 @@ import GameCard from "../../components/games/game-card";
 import { AutoTextSize } from "auto-text-size";
 import { Month, Year } from "../../functions/enums";
 import GameCardBlankCollection from "../../components/games/game-card-blank";
-import "../../styling/playstation/playstation-games-browse.css";
+import "../../style/playstation/playstation-games-browse.css";
 import Conditional from "../../components/site/if-then-else";
 
 function PlaystationGamesBrowse() {

@@ -9,7 +9,7 @@ import {
 import { BarProps } from "../../functions/interfaces";
 import { AutoTextSize } from "auto-text-size";
 import GamesSearchBar from "./games-searchbar";
-import "../../styling/site/topbar.css";
+import "../../style/site/topbar.css";
 import Conditional from "./if-then-else";
 
 function TopBar(props: BarProps) {

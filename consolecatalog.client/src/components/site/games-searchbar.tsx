@@ -1,6 +1,6 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import { gameSearchModalState, sidebarState } from "../../functions/state";
-import "../../styling/site/games-searchbar.css";
+import "../../style/site/games-searchbar.css";
 import Conditional from "./if-then-else";
 
 function GamesSearchBar() {

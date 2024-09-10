@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import GameSearchResult from "../games/game-search-result";
 import ModalSearchBar from "./modal-search-bar";
 import GameSearchResultBlank from "../games/game-search-result-blank";
-import { getTitles } from "../../functions/external-server";
+import { getTitles } from "../../functions/server/external/playstation-calls";
 import { BeatLoader } from "react-spinners";
-import "../../styling/modal/game-search-modal.css";
+import "../../style/modal/game-search-modal.css";
 import Conditional from "../site/if-then-else";
 
 function GamesSearchModal() {

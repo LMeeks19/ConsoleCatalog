@@ -1,0 +1,216 @@
+.trophies {
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+
+    .empty,
+    .loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .title {
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #404040;
+        flex-wrap: wrap;
+
+        .name {
+            font-size: 30px;
+            text-wrap: nowrap;
+        }
+
+        .actions-container {
+            display: flex;
+            gap: 20px;
+
+            &.disabled {
+                pointer-events: none;
+            }
+
+            .custom-select {
+                position: relative;
+                width: 160px;
+                margin: auto;
+
+                select:disabled {
+                    cursor: not-allowed;
+                }
+
+                select:not(:disabled):hover {
+                    background-color: #363636;
+                }
+
+                select:active {
+                    border: 1px solid black;
+                }
+            }
+
+            .custom-select:first-child {
+                margin-right: 5px;
+            }
+
+            .custom-select:last-child {
+                margin-left: 5px;
+            }
+
+            .custom-select select {
+                appearance: none;
+                width: 100%;
+                padding: 10px;
+                font-size: 18px;
+                font-family: inherit;
+                background-color: #262626;
+                border: 1px solid transparent;
+                border-radius: 7.5px;
+                cursor: pointer;
+                outline: none;
+                transition: border-color 0.25s;
+            }
+
+            .custom-select::before,
+            .custom-select::after {
+                --size: 0.3rem;
+                position: absolute;
+                content: "";
+                right: 1rem;
+                pointer-events: none;
+            }
+
+            .custom-select::before {
+                border-left: var(--size) solid transparent;
+                border-right: var(--size) solid transparent;
+                border-bottom: var(--size) solid white;
+                top: 40%;
+            }
+
+            .custom-select::after {
+                border-left: var(--size) solid transparent;
+                border-right: var(--size) solid transparent;
+                border-top: var(--size) solid white;
+                top: 55%;
+            }
+
+            .custom-select:has(select:disabled) {
+                cursor: not-allowed;
+            }
+
+            .update-button {
+                height: inherit;
+                background-color: #262626;
+                padding: 7.5px 12.5px 7.5px 12.5px;
+                font-size: 18px;
+                border-color: transparent;
+                border-radius: 7.5px;
+            }
+
+            .update-button:hover {
+                background-color: #363636;
+            }
+
+            .update-button:focus,
+            .update-button:focus-visible {
+                outline: transparent;
+            }
+
+            .update-button:active {
+                border-color: black;
+            }
+        }
+    }
+
+    .trophy {
+        background-color: #262626;
+        border-radius: 25px;
+        display: flex;
+        height: 125px;
+        width: 100%;
+        border: 2px solid #262626;
+        transition: border-color .5s;
+        cursor: pointer;
+        gap: 20px;
+
+        &.earned {
+            opacity: 50%;
+        }
+
+        .image {
+            width: 125px;
+            border-radius: 25px 0 0 25px;
+        }
+
+        .details {
+            padding: 20px;
+
+            display: flex;
+            flex-direction: column !important;
+            justify-content: space-between;
+
+            .name,
+            .description {
+                text-wrap: nowrap;
+            }
+
+            .name {
+                font-size: 28px;
+            }
+
+            .description {
+                font-size: 18px;
+            }
+        }
+
+        .earned,
+        .progress {
+            display: flex;
+            margin: auto 0 auto auto;
+            gap: 30px;
+
+            .earned-text,
+            .progress-text,
+            .progress-value {
+                display: flex;
+                flex-direction: column;
+                text-align: center;
+                margin: auto 0 auto auto;
+                text-wrap: nowrap;
+            }
+
+            .progress-value {
+                width: 200px;
+            }
+
+            .earned-icon {
+                font-size: 50px;
+            }
+        }
+
+        .rarity {
+            margin: auto 0 auto auto;
+            font-size: 18px;
+            text-align: center;
+            width: 100px;
+            text-wrap: nowrap;
+        }
+
+        .type {
+            height: 80px;
+            width: 80px;
+            margin: auto 0 auto 0;
+            padding-right: 20px;
+        }
+
+        .earned~.rarity,
+        .progress~.rarity {
+            margin: auto 0 auto 0;
+        }
+    }
+
+    .trophy:hover {
+        border: 2px solid white;
+    }
+}

@@ -4,103 +4,89 @@ import { sidebarState } from "../../functions/state";
 import Conditional from "../../components/site/if-then-else";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  getPSNProfileTrophiesForTitle,
-  getPSNTitleTrophies,
-} from "../../functions/external-server";
-import { TitleTrophies, Trophy } from "../../functions/interfaces";
-import "../../styling/playstation/playstation-game-trophies.css";
+import "../../style/playstation/playstation-game-trophies.css";
 import {
   getTrophyType,
   getTrophyRarity,
   getTrophyTypeIcon,
   FormatStringDate,
+  getProgressColour,
 } from "../../functions/methods";
 import SearchBar from "../../components/site/search-bar";
 import { BeatLoader } from "react-spinners";
+import ProgressBar from "@ramonak/react-progress-bar";
+import {
+  getProfileTitleTrophies,
+  putTitleTrophies,
+} from "../../functions/server/internal/playstation-calls";
+import { Trophy } from "../../functions/interfaces";
 
 function PlaystationGameTrophies() {
   const isSidebarActive = useRecoilValue(sidebarState);
   const location = useLocation();
-  const [userEarnedTrophies, setUserEarnedTrophies] = useState<TitleTrophies>(
-    {} as TitleTrophies
+  const [earnedTrophies, setEarnedTrophies] = useState<Trophy[]>(
+    [] as Trophy[]
   );
   const [sortBy, setSortBy] = useState<number>(0);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  function mergeTrophyArrays(
-    titleTrophies: Trophy[],
-    earnedTrophies: Trophy[]
-  ): Trophy[] {
-    let mergedArray = new Array<Trophy>();
-
-    if (earnedTrophies.length === 0) return titleTrophies;
-
-    mergedArray = earnedTrophies?.map((earnedTrophy) => {
-      let titleTrophy = titleTrophies!.find(
-        (titleTrophy) => titleTrophy.trophyId === earnedTrophy.trophyId
-      );
-      return {
-        ...titleTrophy!,
-        earned: earnedTrophy.earned,
-        earnedDateTime: earnedTrophy.earnedDateTime,
-        trophyEarnedRate: earnedTrophy.trophyEarnedRate,
-        trophyRare: earnedTrophy.trophyRare,
-      } as Trophy;
-    });
-
-    return mergedArray;
-  }
+  let psnProfileId = location.state.psnProfileId;
+  let accountId = location.state.accountId;
+  let titleId = location.state.titleId;
+  let trophyGroupId = location.state.trophyGroupId;
+  let platform = location.state.platform;
 
   useEffect(() => {
     async function fetchEarnedTitleTrophies() {
       setIsLoading(true);
-      let accountId = location.state?.accountId;
-      let titleId = location.state?.titleId;
-      let platform = location.state.platform;
-      let titleTrophies = await getPSNTitleTrophies(titleId, platform);
-      let earnedTrophies = await getPSNProfileTrophiesForTitle(
-        accountId,
-        titleId,
-        platform
-      );
-      setUserEarnedTrophies({
-        ...earnedTrophies,
-        trophies: mergeTrophyArrays(
-          titleTrophies.trophies,
-          earnedTrophies.trophies
-        ),
+      let titleTrophies = await getProfileTitleTrophies(psnProfileId, {
+        accountId: accountId,
+        titleId: titleId,
+        platform: platform,
+        trophyGroupId: trophyGroupId,
       });
+      setEarnedTrophies(titleTrophies);
       setIsLoading(false);
     }
     fetchEarnedTitleTrophies();
   }, []);
 
-  function sortedTrophies() {
-    let trophies = userEarnedTrophies.trophies?.map((trophy) => {
+  function sortedTrophies(): Trophy[] {
+    let trophies = earnedTrophies.map((trophy) => {
       return trophy;
     });
 
     if (sortBy === 0) return trophies;
     if (sortBy === 1)
-      return trophies.sort(
+      trophies = trophies.sort(
         (a, b) => getTrophyType(a.trophyType) - getTrophyType(b.trophyType)
       );
     if (sortBy === 2)
-      return trophies.sort(
-        (a, b) => Number(a.trophyEarnedRate) - Number(b.trophyEarnedRate)
+      trophies = trophies.sort((a, b) =>
+        a.trophyName.localeCompare(b.trophyName)
       );
 
     if (sortBy === 3)
-      return trophies.sort((a, b) => a.trophyName.localeCompare(b.trophyName));
+      trophies = trophies.sort((a, b) => Number(b.earned) - Number(a.earned));
 
     if (sortBy === 4)
-      return trophies.sort((a, b) => Number(b.earned) - Number(a.earned));
+      trophies = trophies.sort((a, b) => Number(a.earned) - Number(b.earned));
+    return trophies;
+  }
 
-    if (sortBy === 5)
-      return trophies.sort((a, b) => Number(a.earned) - Number(b.earned));
+  async function updateTrophies() {
+    setIsLoading(true);
+    let updatedEarnedTrophies = await putTitleTrophies(
+      psnProfileId,
+      accountId,
+      titleId,
+      platform,
+      trophyGroupId
+    );
+    setEarnedTrophies(updatedEarnedTrophies);
+    setIsLoading(false);
   }
 
   return (
@@ -131,12 +117,12 @@ function PlaystationGameTrophies() {
                 >
                   <option value={0}>None</option>
                   <option value={1}>Type</option>
-                  <option value={2}>Rarity</option>
-                  <option value={3}>Alphabetical</option>
-                  <option value={4}>Completed</option>
-                  <option value={5}>Uncompleted</option>
+                  <option value={2}>Alphabetical</option>
+                  <option value={3}>Completed</option>
+                  <option value={4}>Uncompleted</option>
                 </select>
               </div>
+              <button className="update-button" onClick={() => updateTrophies()}>Update</button>
             </div>
           </div>
           <Conditional
@@ -149,7 +135,7 @@ function PlaystationGameTrophies() {
             Else={
               <Conditional
                 Condition={
-                  sortedTrophies()?.filter((trophy) =>
+                  sortedTrophies().filter((trophy) =>
                     trophy.trophyName.includes(searchTerm)
                   ).length === 0
                 }
@@ -157,7 +143,7 @@ function PlaystationGameTrophies() {
                 Else={
                   <>
                     {sortedTrophies()
-                      ?.filter((trophy) =>
+                      .filter((trophy) =>
                         trophy.trophyName
                           .toLowerCase()
                           .includes(searchTerm.toLowerCase())
@@ -174,8 +160,8 @@ function PlaystationGameTrophies() {
                               navigate(`${trophy.trophyId}`, {
                                 state: {
                                   trophy: trophy,
-                                  titleId: location.state?.titleId,
-                                  userId: location.state?.userId,
+                                  titleId: location.state.titleId,
+                                  userId: location.state.userId,
                                 },
                               })
                             }
@@ -195,6 +181,7 @@ function PlaystationGameTrophies() {
                               If={
                                 <div className="earned">
                                   <div className="earned-text">
+                                    <div>Completed:</div>
                                     {FormatStringDate(trophy.earnedDateTime)}
                                   </div>
                                   <i
@@ -204,10 +191,57 @@ function PlaystationGameTrophies() {
                                 </div>
                               }
                             />
+                            <Conditional
+                              Condition={
+                                !trophy.earned &&
+                                trophy.progress !== null &&
+                                trophy.progress !== undefined
+                              }
+                              If={
+                                <div className="progress">
+                                  <Conditional
+                                    Condition={
+                                      trophy.progressedDateTime !== null &&
+                                      trophy.progressedDateTime !== undefined
+                                    }
+                                    If={
+                                      <div className="progress-text">
+                                        <div>Last Progressed:</div>
+                                        {FormatStringDate(
+                                          trophy.progressedDateTime
+                                        )}
+                                      </div>
+                                    }
+                                  />
+                                  <div className="progress-value">
+                                    <div>
+                                      {trophy.progress}/
+                                      {trophy.trophyProgressTargetValue}
+                                    </div>
+                                    <ProgressBar
+                                      completed={trophy.progressRate!}
+                                      baseBgColor="#161616"
+                                      bgColor={getProgressColour(
+                                        trophy.progressRate!
+                                      )}
+                                      labelAlignment="outside"
+                                    />
+                                  </div>
+                                </div>
+                              }
+                            />
+
                             <div className="rarity">
-                              <div>{getTrophyRarity(trophy.trophyRare)} </div>
-                              <div>{trophy.trophyEarnedRate}%</div>
+                              <div>{getTrophyRarity(trophy.trophyRare)}</div>
+                              <Conditional
+                                Condition={
+                                  trophy.trophyEarnedRate !== null &&
+                                  trophy.trophyEarnedRate !== undefined
+                                }
+                                If={<div>{trophy.trophyEarnedRate}%</div>}
+                              />
                             </div>
+
                             <img
                               className="type"
                               src={getTrophyTypeIcon(trophy.trophyType)}

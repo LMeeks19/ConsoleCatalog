@@ -1,5 +1,5 @@
 import { MouseEvent, useEffect, useState } from "react";
-import "../styling/login.css";
+import "../style/login.css";
 import Background from "./site/background";
 import { useNavigate } from "react-router-dom";
 import {
@@ -12,7 +12,7 @@ import {
   validateUserLogin,
   validateUserRegistrationPassword,
 } from "../functions/validation";
-import { getUserByUsername, postUser } from "../functions/server";
+import { getUserByUsername, postUser } from "../functions/server/internal/global-calls";
 import { useSetRecoilState } from "recoil";
 import { userState } from "../functions/state";
 import { ActiveLoginTab } from "../functions/enums";

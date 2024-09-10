@@ -4,7 +4,7 @@ import xbox_logo from "../../images/xbox_logo.jpg";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { activePageState, userState } from "../../functions/state";
 import { Pages } from "../../functions/enums";
-import "../../styling/site/background.css";
+import "../../style/site/background.css";
 
 function Background() {
   const navigate = useNavigate();

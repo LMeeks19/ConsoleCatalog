@@ -9,7 +9,7 @@ import { Pages } from "../../functions/enums";
 import { activePageState, gameSearchModalState } from "../../functions/state";
 import GamesSearchModal from "../../components/modal/game-search-modal";
 import Modal from "../../components/modal/modal";
-import "../../styling/site/page.css";
+import "../../style/site/page.css";
 import Conditional from "../../components/site/if-then-else";
 
 function Xbox() {

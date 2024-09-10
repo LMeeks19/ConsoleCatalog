@@ -1,6 +1,6 @@
 import { SetterOrUpdater, useSetRecoilState } from "recoil";
 import { gameSearchModalState } from "../../functions/state";
-import "../../styling/modal/modal-search-bar.css";
+import "../../style/modal/modal-search-bar.css";
 
 function ModalSearchBar(props: ModalSearchBarProps) {
   const setIsGameSearchModalActive = useSetRecoilState(gameSearchModalState);
