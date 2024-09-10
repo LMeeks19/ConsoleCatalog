@@ -20,7 +20,7 @@ function GameSearchResult(props: GameSearchResultProps) {
       className="result"
       key={props.game.id}
       onClick={() => {
-        navigate(`/${user.id}/playstation/games/${props.game.id}`);
+        navigate(`/playstation/games/${props.game.id}`);
       }}
     >
       <Conditional

@@ -30,7 +30,7 @@ function TopBar(props: BarProps) {
     >
       <div
         className={`top-bar-title ${props.page}`}
-        onClick={() => navigate(`/${user.id}`)}
+        onClick={() => navigate("/")}
       >
         <AutoTextSize maxFontSizePx={24}>CONSOLE CATALOG</AutoTextSize>
       </div>

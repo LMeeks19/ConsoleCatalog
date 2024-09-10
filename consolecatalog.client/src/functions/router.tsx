@@ -15,55 +15,55 @@ import PlaystationGameTrophyGroups from "../pages/playstation/playstation-game-t
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/login",
     element: <Login />,
   },
   {
-    path: "/:userId",
+    path: "/",
     element: <Background />
   },
   {
-    path: "/:userId/playstation",
+    path: "/playstation",
     element: <PlaystationHome />,
   },
   {
-    path: "/:userId/playstation/games/browse",
+    path: "/playstation/games",
     element: <PlaystationGamesBrowse />,
   },
   {
-    path: "/:userId/playstation/games/:id",
+    path: "/playstation/games/:id",
     element: <PlaystationGamesSelected />,
   },
   {
-    path: "/:userId/playstation/profiles/browse",
+    path: "/playstation/profiles",
     element: <PlaystationProfilesBrowse />,
   },
   {
-    path: "/:userId/playstation/profiles/:username",
+    path: "/playstation/profiles/:username",
     element: <PlaystationProfilesSelected />,
   },
   {
-    path: "/:userId/playstation/profiles/:username/:gameId/groups",
+    path: "/playstation/profiles/:username/:gameId/groups",
     element: <PlaystationGameTrophyGroups />,
   },
   {
-    path: "/:userId/playstation/profiles/:username/:gameId/groups/:groupId/trophies",
+    path: "/playstation/profiles/:username/:gameId/groups/:groupId/trophies",
     element: <PlaystationGameTrophies />,
   },
   {
-    path: "/:userId/playstation/profiles/:username/:gameId/groups/:groupId/trophies/:trophyId",
+    path: "/playstation/profiles/:username/:gameId/groups/:groupId/trophies/:trophyId",
     element: <PlaystationSelectedTrophy />,
   },
   {
-    path: "/:userId/xbox",
+    path: "/xbox",
     element: <XboxHome />,
   },
   {
-    path: "/:userId/xbox/games/browse",
+    path: "/xbox/games",
     element: <XboxGamesBrowse />,
   },
   {
-    path: "/:userId/xbox/profiles/browse",
+    path: "/xbox/profiles",
     element: <XboxProfilesBrowse />,
   },
 ]);
