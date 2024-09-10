@@ -43,12 +43,14 @@ app.listen(PORT, async () => {
     console.log("Authentication with the PSN API was successful");
   } catch (ex) {
     console.log("Authentication with the PSN API failed");
+    console.log(ex.message);
   }
   try {
     games_auth = await authenticateGames();
     console.log("Authentication with the Games API was successful");
   } catch (ex) {
     console.log("Authentication with the Games API failed");
+    console.log(ex.message);
   }
 });
 

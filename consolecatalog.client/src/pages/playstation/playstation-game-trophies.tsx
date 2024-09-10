@@ -15,7 +15,10 @@ import {
 import SearchBar from "../../components/site/search-bar";
 import { BeatLoader } from "react-spinners";
 import ProgressBar from "@ramonak/react-progress-bar";
-import { getProfileTitleTrophies } from "../../functions/server/internal/playstation-calls";
+import {
+  getProfileTitleTrophies,
+  putTitleTrophies,
+} from "../../functions/server/internal/playstation-calls";
 import { Trophy } from "../../functions/interfaces";
 
 function PlaystationGameTrophies() {
@@ -29,14 +32,15 @@ function PlaystationGameTrophies() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  let psnProfileId = location.state.psnProfileId;
+  let accountId = location.state.accountId;
+  let titleId = location.state.titleId;
+  let trophyGroupId = location.state.trophyGroupId;
+  let platform = location.state.platform;
+
   useEffect(() => {
     async function fetchEarnedTitleTrophies() {
       setIsLoading(true);
-      let psnProfileId = location.state.psnProfileId;
-      let accountId = location.state.accountId;
-      let titleId = location.state.titleId;
-      let trophyGroupId = location.state.trophyGroupId;
-      let platform = location.state.platform;
       let titleTrophies = await getProfileTitleTrophies(psnProfileId, {
         accountId: accountId,
         titleId: titleId,
@@ -72,6 +76,19 @@ function PlaystationGameTrophies() {
     return trophies;
   }
 
+  async function updateTrophies() {
+    setIsLoading(true);
+    let updatedEarnedTrophies = await putTitleTrophies(
+      psnProfileId,
+      accountId,
+      titleId,
+      platform,
+      trophyGroupId
+    );
+    setEarnedTrophies(updatedEarnedTrophies);
+    setIsLoading(false);
+  }
+
   return (
     <>
       <Playstation />
@@ -105,6 +122,7 @@ function PlaystationGameTrophies() {
                   <option value={4}>Uncompleted</option>
                 </select>
               </div>
+              <button className="update-button" onClick={() => updateTrophies()}>Update</button>
             </div>
           </div>
           <Conditional

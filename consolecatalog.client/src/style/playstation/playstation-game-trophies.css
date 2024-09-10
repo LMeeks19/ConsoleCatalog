@@ -2,7 +2,6 @@
     gap: 10px;
     display: flex;
     flex-direction: column;
-    height: 100%;
 
     .empty,
     .loader {
@@ -27,6 +26,7 @@
 
         .actions-container {
             display: flex;
+            gap: 20px;
 
             &.disabled {
                 pointer-events: none;
@@ -97,6 +97,28 @@
 
             .custom-select:has(select:disabled) {
                 cursor: not-allowed;
+            }
+
+            .update-button {
+                height: inherit;
+                background-color: #262626;
+                padding: 7.5px 12.5px 7.5px 12.5px;
+                font-size: 18px;
+                border-color: transparent;
+                border-radius: 7.5px;
+            }
+
+            .update-button:hover {
+                background-color: #363636;
+            }
+
+            .update-button:focus,
+            .update-button:focus-visible {
+                outline: transparent;
+            }
+
+            .update-button:active {
+                border-color: black;
             }
         }
     }

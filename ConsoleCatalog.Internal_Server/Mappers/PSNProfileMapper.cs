@@ -1,9 +1,11 @@
-﻿using ConsoleCatalog.Server.Models.Playstation;
+﻿using ConsoleCatalog.Internal_Server.Mappers;
+using ConsoleCatalog.Server.Models.Playstation;
 
 namespace ConsoleCatalog.Internal_Server.Methods
 {
     public class PSNProfileMapper
     {
+        public readonly PSNTrophyTypesMapper psnTrophyTypesMapper = new();
         public PSNProfile MapProfile(PSNProfile psnProfile, PSNProfile existingPSNProfile)
         {
             var updatedPSNProfile = psnProfile;
@@ -47,7 +49,7 @@ namespace ConsoleCatalog.Internal_Server.Methods
             var updatedTrophySummary = trophySummary;
             updatedTrophySummary.Id = existingTrophySummary.Id;
             updatedTrophySummary.EarnedTrophiesId = existingTrophySummary.EarnedTrophiesId; 
-            updatedTrophySummary.EarnedTrophies = MapEarnedTrophyTypes(trophySummary.EarnedTrophies, existingTrophySummary.EarnedTrophies);
+            updatedTrophySummary.EarnedTrophies = psnTrophyTypesMapper.MapEarnedTrophyTypes(trophySummary.EarnedTrophies, existingTrophySummary.EarnedTrophies);
             return updatedTrophySummary;
         }
 
@@ -67,25 +69,11 @@ namespace ConsoleCatalog.Internal_Server.Methods
                 var existingTrophyTitle = existingTrophyTitles.Single(existingTrophyTitle => existingTrophyTitle.NpCommunicationId == trophyTitle.NpCommunicationId);
                 trophyTitle.Id = existingTrophyTitle.Id;
                 trophyTitle.DefinedTrophiesId = existingTrophyTitle.DefinedTrophiesId;
-                trophyTitle.DefinedTrophies = MapDefinedTrophyTypes(trophyTitle.DefinedTrophies, existingTrophyTitle.DefinedTrophies);
+                trophyTitle.DefinedTrophies = psnTrophyTypesMapper.MapDefinedTrophyTypes(trophyTitle.DefinedTrophies, existingTrophyTitle.DefinedTrophies);
                 trophyTitle.EarnedTrophiesId = existingTrophyTitle.EarnedTrophiesId;
-                trophyTitle.EarnedTrophies = MapEarnedTrophyTypes(trophyTitle.EarnedTrophies, existingTrophyTitle.EarnedTrophies);
+                trophyTitle.EarnedTrophies = psnTrophyTypesMapper.MapEarnedTrophyTypes(trophyTitle.EarnedTrophies, existingTrophyTitle.EarnedTrophies);
             });
             return updatedTrophyTitles;
-        }
-
-        public EarnedTrophyTypes MapEarnedTrophyTypes(EarnedTrophyTypes earnedTrophyTypes, EarnedTrophyTypes existingEarnedTrophyTypes)
-        {
-            var updatedEarnedTrophyTypes = earnedTrophyTypes;
-            updatedEarnedTrophyTypes.Id = existingEarnedTrophyTypes.Id;
-            return updatedEarnedTrophyTypes;
-        }
-
-        public DefinedTrophyTypes MapDefinedTrophyTypes(DefinedTrophyTypes definedTrophyTypes, DefinedTrophyTypes existingDefinedTrophyTypes)
-        {
-            var updatedDefinedTrophyTypes = definedTrophyTypes;
-            updatedDefinedTrophyTypes.Id = existingDefinedTrophyTypes.Id;
-            return updatedDefinedTrophyTypes;
         }
     }
 }

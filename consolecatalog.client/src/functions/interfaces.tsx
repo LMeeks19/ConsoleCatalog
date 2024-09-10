@@ -317,6 +317,7 @@ export interface DefinedTrophyGroup {
 
 export interface EarnedTrophyGroupObject {
   id: number;
+  psnProfileId: number
   earnedTrophies: EarnedTrophies;
   npCommunicationId: string;
   lastUpdatedDateTime: string;

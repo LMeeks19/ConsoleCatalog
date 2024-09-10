@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleCatalog.Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240908190956_Create-Trophy-Group-Tables")]
-    partial class CreateTrophyGroupTables
+    [Migration("20240909191925_Add-TrophyGroupTables")]
+    partial class AddTrophyGroupTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,7 +36,7 @@ namespace ConsoleCatalog.Server.Migrations
                     b.Property<int>("DefinedTrophiesId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DefinedTrophyGroupObjectId")
+                    b.Property<int>("DefinedTrophyGroupObjectId")
                         .HasColumnType("int");
 
                     b.Property<string>("TrophyGroupIconUrl")
@@ -50,9 +50,6 @@ namespace ConsoleCatalog.Server.Migrations
                     b.Property<string>("TrophyGroupName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TrophyGroupObjectId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -108,22 +105,18 @@ namespace ConsoleCatalog.Server.Migrations
                     b.Property<int>("EarnedTrophiesId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("EarnedTrophyGroupObjectId")
+                    b.Property<int>("EarnedTrophyGroupObjectId")
                         .HasColumnType("int");
 
                     b.Property<string>("LastUpdatedDateTime")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Progress")
-                        .HasColumnType("float");
+                    b.Property<int>("Progress")
+                        .HasColumnType("int");
 
                     b.Property<string>("TrophyGroupId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TrophyGroupObjectId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -146,7 +139,6 @@ namespace ConsoleCatalog.Server.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("LastUpdatedDateTime")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NpCommunicationId")
@@ -156,8 +148,8 @@ namespace ConsoleCatalog.Server.Migrations
                     b.Property<int>("PSNProfileId")
                         .HasColumnType("int");
 
-                    b.Property<double>("Progress")
-                        .HasColumnType("float");
+                    b.Property<int>("Progress")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -608,7 +600,9 @@ namespace ConsoleCatalog.Server.Migrations
 
                     b.HasOne("ConsoleCatalog.Internal_Server.Models.Playstation.DefinedTrophyGroupObject", null)
                         .WithMany("TrophyGroups")
-                        .HasForeignKey("DefinedTrophyGroupObjectId");
+                        .HasForeignKey("DefinedTrophyGroupObjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("DefinedTrophies");
                 });
@@ -634,7 +628,9 @@ namespace ConsoleCatalog.Server.Migrations
 
                     b.HasOne("ConsoleCatalog.Internal_Server.Models.Playstation.EarnedTrophyGroupObject", null)
                         .WithMany("TrophyGroups")
-                        .HasForeignKey("EarnedTrophyGroupObjectId");
+                        .HasForeignKey("EarnedTrophyGroupObjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("EarnedTrophies");
                 });

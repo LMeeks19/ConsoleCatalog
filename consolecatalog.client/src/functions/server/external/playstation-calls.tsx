@@ -113,7 +113,7 @@ export async function getTrophiesGroupsForTitle(
     return response.json();
   }
   const response = await fetch(
-    `${BASE_API_URL}/playstation/titles/old/${titleId}/grpups`
+    `${BASE_API_URL}/playstation/titles/old/${titleId}/groups`
   );
   return response.json();
 }

@@ -101,5 +101,25 @@ Accept: application/json
 
 ###
 
-GET {{ConsoleCatalog.Server_HostAddress}}/playstationgetEarnedTrophyGroupObject/
+GET {{ConsoleCatalog.Server_HostAddress}}/playstation/getEarnedTrophyGroupObject/
+Accept: application/json
+
+###
+
+POST {{ConsoleCatalog.Server_HostAddress}}/playstation/postDefinedTrophyGroupObject/
+Accept: application/json
+
+###
+
+POST {{ConsoleCatalog.Server_HostAddress}}/playstation/postEarnedTrophyGroupObject/
+Accept: application/json
+
+###
+
+PUT {{ConsoleCatalog.Server_HostAddress}}/playstation/putDefinedTrophyGroupObject/
+Accept: application/json
+
+###
+
+PUT {{ConsoleCatalog.Server_HostAddress}}/playstation/putEarnedTrophyGroupObject/
 Accept: application/json

@@ -4,16 +4,11 @@ import { sidebarState } from "../../functions/state";
 import Playstation from "./playstation";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  getPSNProfileTrophiesGroupsForTitle,
-  getTrophiesGroupsForTitle,
-} from "../../functions/server/external/playstation-calls";
 import { TrophyGroupObject } from "../../functions/interfaces";
 import {
   FormatStringDate,
   getProgressColour,
   GetTrophyGroupName,
-  mergeTrophyGroupObjects,
 } from "../../functions/methods";
 import { BeatLoader } from "react-spinners";
 import "../../style/playstation/playstation-game-trophy-groups.css";
@@ -22,6 +17,7 @@ import platinum_icon from "../../images/psn-trophy-platinum.png";
 import gold_icon from "../../images/psn-trophy-gold.png";
 import silver_icon from "../../images/psn-trophy-silver.png";
 import bronze_icon from "../../images/psn-trophy-bronze.png";
+import { getProfileTrophyGroups, putTitleTrophies, putTrophyGroupObject } from "../../functions/server/internal/playstation-calls";
 
 function PlaystationGameTrophyGroups() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -32,30 +28,27 @@ function PlaystationGameTrophyGroups() {
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  const psnProfileId = location.state.psnProfileId;
+  const accountId = location.state.accountId;
+  const titleId = location.state.titleId;
+  const platform = location.state.platform;
+
   useEffect(() => {
     async function fetchTrophyGroups() {
       setIsLoading(true);
-      let accountId = location.state.accountId;
-      let titleId = location.state.titleId;
-      let platform = location.state.platform;
-      const definedTrophyGroups = await getTrophiesGroupsForTitle(
-        titleId,
-        platform
-      );
-      const earnedTrophyGroups = await getPSNProfileTrophiesGroupsForTitle(
-        accountId,
-        titleId,
-        platform
-      );
-      let mergedTrophyGroups = mergeTrophyGroupObjects(
-        definedTrophyGroups,
-        earnedTrophyGroups
-      );
-      setTrophyGroupObject(mergedTrophyGroups);
+      const profileTrophyGroups = await getProfileTrophyGroups(psnProfileId, accountId, titleId, platform);
+      setTrophyGroupObject(profileTrophyGroups);
       setIsLoading(false);
     }
     fetchTrophyGroups();
   }, []);
+
+  async function updateTrophyGroups() {
+    setIsLoading(true);
+    let updatedTrophyGroupObject = await putTrophyGroupObject(psnProfileId, accountId, trophyGroupObject.npCommunicationId, trophyGroupObject.trophyTitlePlatform);
+    setTrophyGroupObject(updatedTrophyGroupObject);
+    setIsLoading(false);
+  }
 
   return (
     <>
@@ -86,7 +79,7 @@ function PlaystationGameTrophyGroups() {
                     <div className="date-container">
                       <Conditional
                         Condition={
-                          trophyGroupObject.lastUpdatedDateTime !== undefined
+                          trophyGroupObject.lastUpdatedDateTime !== null
                         }
                         If={
                           <div className="date">
@@ -96,7 +89,7 @@ function PlaystationGameTrophyGroups() {
                           </div>
                         }
                       />
-                      <button className="update-button">Update</button>
+                      <button className="update-button" onClick={() => updateTrophyGroups()}>Update</button>
                     </div>
                   </div>
                   <div className="trophy-group-object-progress">
@@ -175,7 +168,7 @@ function PlaystationGameTrophyGroups() {
                           </div>
                           <Conditional
                             Condition={
-                              trophyGroup.lastUpdatedDateTime !== undefined
+                              trophyGroup.lastUpdatedDateTime !== null
                             }
                             If={
                               <div className="date">

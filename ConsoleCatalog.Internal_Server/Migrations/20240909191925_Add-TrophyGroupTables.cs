@@ -5,7 +5,7 @@
 namespace ConsoleCatalog.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateTrophyGroupTables : Migration
+    public partial class AddTrophyGroupTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,8 +42,8 @@ namespace ConsoleCatalog.Server.Migrations
                     PSNProfileId = table.Column<int>(type: "int", nullable: false),
                     EarnedTrophiesId = table.Column<int>(type: "int", nullable: false),
                     NpCommunicationId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastUpdatedDateTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Progress = table.Column<double>(type: "float", nullable: false)
+                    LastUpdatedDateTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Progress = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -62,12 +62,11 @@ namespace ConsoleCatalog.Server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TrophyGroupObjectId = table.Column<int>(type: "int", nullable: false),
+                    DefinedTrophyGroupObjectId = table.Column<int>(type: "int", nullable: false),
                     DefinedTrophiesId = table.Column<int>(type: "int", nullable: false),
                     TrophyGroupIconUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TrophyGroupId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TrophyGroupName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DefinedTrophyGroupObjectId = table.Column<int>(type: "int", nullable: true)
+                    TrophyGroupName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,13 +75,14 @@ namespace ConsoleCatalog.Server.Migrations
                         name: "FK_DefinedTrophyGroups_DefinedTrophyGroupObjects_DefinedTrophyGroupObjectId",
                         column: x => x.DefinedTrophyGroupObjectId,
                         principalTable: "DefinedTrophyGroupObjects",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DefinedTrophyGroups_DefinedTrophyTypes_DefinedTrophiesId",
                         column: x => x.DefinedTrophiesId,
                         principalTable: "DefinedTrophyTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -91,12 +91,11 @@ namespace ConsoleCatalog.Server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TrophyGroupObjectId = table.Column<int>(type: "int", nullable: false),
+                    EarnedTrophyGroupObjectId = table.Column<int>(type: "int", nullable: false),
                     EarnedTrophiesId = table.Column<int>(type: "int", nullable: false),
-                    LastUpdatedDateTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Progress = table.Column<double>(type: "float", nullable: false),
-                    TrophyGroupId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EarnedTrophyGroupObjectId = table.Column<int>(type: "int", nullable: true)
+                    LastUpdatedDateTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Progress = table.Column<int>(type: "int", nullable: false),
+                    TrophyGroupId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -105,13 +104,14 @@ namespace ConsoleCatalog.Server.Migrations
                         name: "FK_EarnedTrophyGroups_EarnedTrophyGroupObjects_EarnedTrophyGroupObjectId",
                         column: x => x.EarnedTrophyGroupObjectId,
                         principalTable: "EarnedTrophyGroupObjects",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_EarnedTrophyGroups_EarnedTrophyTypes_EarnedTrophiesId",
                         column: x => x.EarnedTrophiesId,
                         principalTable: "EarnedTrophyTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(
