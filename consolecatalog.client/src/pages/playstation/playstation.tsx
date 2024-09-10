@@ -3,7 +3,7 @@ import xbox_icon from "../../images/xbox_icon.png";
 import TopBar from "../../components/site/topbar";
 import SideBar from "../../components/site/sidebar";
 import GamesSearchModal from "../../components/modal/game-search-modal";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   activePageState,
   gameSearchModalState,
@@ -13,7 +13,6 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Pages } from "../../functions/enums";
 import "../../style/site/page.css";
-import { getUserById } from "../../functions/server/internal/global-calls";
 import Conditional from "../../components/site/if-then-else";
 import Modal from "../../components/modal/modal";
 
@@ -21,19 +20,8 @@ function Playstation() {
   const [isGameSearchModalActive, setIsGameSearchModalActive] =
     useRecoilState(gameSearchModalState);
   const setActivePage = useSetRecoilState(activePageState);
-  const [user, setUser] = useRecoilState(userState);
+  const user = useRecoilValue(userState);
   const location = useLocation();
-
-  useEffect(() => {
-    async function fetchUser() {
-      if (user.id === undefined) {
-        let userId = location.pathname.slice(1, 37);
-        const userDetails = await getUserById(userId);
-        setUser(userDetails);
-      }
-    }
-    fetchUser();
-  }, []);
 
   useEffect(() => {
     function setCurrentPage() {

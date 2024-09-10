@@ -32,7 +32,7 @@ function SideBar(props: BarProps) {
           onClick={() => {
             setActivePage(Pages.Home);
             setIsSidebarActive(!isSidebarActive);
-            navigate(`/${user.id}/${props.page}`);
+            navigate(`/${props.page}`);
           }}
         >
           <p className="side-bar-item-text">HOME</p>
@@ -48,7 +48,7 @@ function SideBar(props: BarProps) {
           onClick={() => {
             setActivePage(Pages.Games);
             setIsSidebarActive(!isSidebarActive);
-            navigate(`/${user.id}/${props.page}/games/browse`);
+            navigate(`/${props.page}/games`);
           }}
         >
           <p className="side-bar-item-text">GAMES</p>
@@ -64,7 +64,7 @@ function SideBar(props: BarProps) {
           onClick={() => {
             setActivePage(Pages.Profiles);
             setIsSidebarActive(!isSidebarActive);
-            navigate(`/${user.id}/${props.page}/profiles/browse`);
+            navigate(`/${props.page}/profiles`);
           }}
         >
           <p className="side-bar-item-text">PROFILES</p>
@@ -83,7 +83,7 @@ function SideBar(props: BarProps) {
             setActivePage(Pages.MyProfile);
             setIsSidebarActive(!isSidebarActive);
             navigate(
-              `/${user.id}/${props.page}/profiles/${Conditional({
+              `/${props.page}/profiles/${Conditional({
                 Condition: props.page === "xbox",
                 If: user.xboxGamertag,
                 Else: user.playstationGamertag,
@@ -91,6 +91,11 @@ function SideBar(props: BarProps) {
               {
                 state: {
                   userId: user.id,
+                  username: Conditional({
+                    Condition: props.page === "xbox",
+                    If: user.xboxGamertag,
+                    Else: user.playstationGamertag,
+                  }),
                 },
               }
             );
@@ -122,7 +127,7 @@ function SideBar(props: BarProps) {
             setActivePage(Pages.Home);
             setIsSidebarActive(!isSidebarActive);
             navigate(
-              `/${user.id}/${Conditional({
+              `/${Conditional({
                 Condition: props.page === "xbox",
                 If: "playstation",
                 Else: "xbox",
@@ -151,7 +156,7 @@ function SideBar(props: BarProps) {
           onClick={() => {
             setActivePage(Pages.Home);
             setIsSidebarActive(!isSidebarActive);
-            navigate(`/${user.id}`);
+            navigate("/");
           }}
         >
           <p className="side-bar-item-text">RETURN</p>

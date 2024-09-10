@@ -22,13 +22,12 @@ function PlaystationGamesSelected() {
   useEffect(() => {
     async function fetchSelectedGame() {
       setIsLoading(true);
-      var gameId = location.pathname.slice(56, 62);
-      const game = await getTitleById(gameId);
+      const game = await getTitleById(location.state.gameId);
       setSelectedGame(game[0]);
       setIsLoading(false);
     }
     fetchSelectedGame();
-  }, [location.pathname]);
+  }, []);
 
   function getAgeRatingTags() {
     const unique_tags = new Array<string>();

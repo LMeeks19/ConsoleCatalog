@@ -40,8 +40,7 @@ function PlaystationProfilesSelected() {
   useEffect(() => {
     async function fetchPSNProfile() {
       setIsLoading(true);
-      let username = location.pathname.substring(59, location.pathname.length);
-      const profile = await getProfileByOnlineId(username);
+      const profile = await getProfileByOnlineId(location.state.username);
       setSelectedPSNProfile({ ...profile! });
       setIsLoading(false);
     }
