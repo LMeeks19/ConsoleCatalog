@@ -11,7 +11,7 @@ Accept: application/json
 
 ###
 
-POST {{ConsoleCatalog.Server_HostAddress}}/user/
+POST {{ConsoleCatalog.Server_HostAddress}}/user/postUser
 Accept: application/json
 
 ###

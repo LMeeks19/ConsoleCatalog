@@ -33,7 +33,8 @@ namespace ConsoleCatalog.Server.Controllers
         }
 
         [HttpPost(Name = "PostUser")]
-        public User? Post ([FromBody] RegisterDetails registerDetails)
+        [Route("postUser")]
+        public User? PostUser ([FromBody] RegisterDetails registerDetails)
         {
             var user = _databaseContext.Users.SingleOrDefault(user => user.Username == registerDetails.Username);
 

@@ -1,7 +1,0 @@
-.results {
-    display: flex;
-    flex-direction: column;
-    max-height: 562px;
-    overflow-x: hidden;
-    overflow-y: auto;
-}

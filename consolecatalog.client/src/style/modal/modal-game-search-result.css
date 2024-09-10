@@ -9,16 +9,6 @@
     border: 1px solid #202020;
     flex-wrap: wrap;
 
-    &.blank {
-        cursor: default;
-        pointer-events: none;
-        justify-content: center;
-        align-items: center;
-        font-size: large;
-        height: 128px;
-        margin: 0;
-    }
-
     img {
         border-color: transparent !important;
     }

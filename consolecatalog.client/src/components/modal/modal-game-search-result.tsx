@@ -5,14 +5,11 @@ import {
   getRatingColour,
   isPSTitle,
 } from "../../functions/methods";
-import "../../style/game/game-search-result.css";
+import "../../style/modal/modal-game-search-result.css";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../functions/state";
 import Conditional from "../site/if-then-else";
 
-function GameSearchResult(props: GameSearchResultProps) {
-  const user = useRecoilValue(userState);
+function ModalGameSearchResult(props: GameSearchResultProps) {
   const navigate = useNavigate();
 
   return (
@@ -69,7 +66,7 @@ function GameSearchResult(props: GameSearchResultProps) {
   );
 }
 
-export default GameSearchResult;
+export default ModalGameSearchResult;
 
 interface GameSearchResultProps {
   game: GameSummary;

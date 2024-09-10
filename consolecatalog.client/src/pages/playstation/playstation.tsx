@@ -2,7 +2,7 @@ import playstation_icon from "../../images/playstation_icon.png";
 import xbox_icon from "../../images/xbox_icon.png";
 import TopBar from "../../components/site/topbar";
 import SideBar from "../../components/site/sidebar";
-import GamesSearchModal from "../../components/modal/game-search-modal";
+import GlobalSearchModal from "../../components/modal/global-search-modal";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   activePageState,
@@ -28,10 +28,10 @@ function Playstation() {
       if (location.pathname.includes("games")) setActivePage(Pages.Games);
       else if (
         location.pathname.includes("profiles") &&
-        !location.pathname.includes(`${user?.playstationGamertag}`)
+        !location.pathname.includes(`${user.playstationGamertag}`)
       )
         setActivePage(Pages.Profiles);
-      else if (location.pathname.includes(`${user?.playstationGamertag}`))
+      else if (location.pathname.includes(`${user.playstationGamertag}`))
         setActivePage(Pages.MyProfile);
       else if (location.pathname.includes("account"))
         setActivePage(Pages.Account);
@@ -48,7 +48,7 @@ function Playstation() {
     <>
       <Conditional
         Condition={isGameSearchModalActive}
-        If={<Modal component={<GamesSearchModal />} />}
+        If={<Modal component={<GlobalSearchModal page="playstation" />} />}
       />
       <TopBar page="playstation" icon={playstation_icon} />
       <SideBar page="playstation" icon={xbox_icon} />

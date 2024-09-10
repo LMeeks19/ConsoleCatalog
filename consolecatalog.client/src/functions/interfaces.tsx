@@ -317,7 +317,7 @@ export interface DefinedTrophyGroup {
 
 export interface EarnedTrophyGroupObject {
   id: number;
-  psnProfileId: number
+  psnProfileId: number;
   earnedTrophies: EarnedTrophies;
   npCommunicationId: string;
   lastUpdatedDateTime: string;
@@ -331,4 +331,27 @@ export interface EarnedTrophyGroup {
   lastUpdatedDateTime: string;
   progress: number;
   trophyGroupId: string;
+}
+
+export interface UniversalSearchObject {
+  profiles: UniversalSearchProfiles;
+}
+
+export interface UniversalSearchProfiles {
+  domainResponses: DomainRseponse[];
+}
+
+export interface DomainRseponse {
+  results: ProfileResults[];
+}
+
+export interface ProfileResults {
+  socialMetadata: PSNProfileSummary;
+}
+
+export interface PSNProfileSummary {
+  accountId: string;
+  onlineId: string;
+  avatarUrl: string;
+  profilePicUrl: string;
 }

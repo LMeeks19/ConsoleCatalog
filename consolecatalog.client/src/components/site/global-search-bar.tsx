@@ -1,9 +1,9 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import { gameSearchModalState, sidebarState } from "../../functions/state";
-import "../../style/site/games-searchbar.css";
+import "../../style/site/global-search-bar.css";
 import Conditional from "./if-then-else";
 
-function GamesSearchBar() {
+function GlobalSearchBar() {
   const isSidebarActive = useRecoilValue(sidebarState);
   const [isGameSearchModalActive, setIsGamesSearchModalActive] =
     useRecoilState(gameSearchModalState);
@@ -21,7 +21,7 @@ function GamesSearchBar() {
           id="searchTerm"
           name="searchTerm"
           type="text"
-          placeholder="Search Games..."
+          placeholder="Search..."
           autoComplete="off"
           onClick={() => setIsGamesSearchModalActive(true)}
         />
@@ -31,4 +31,4 @@ function GamesSearchBar() {
   );
 }
 
-export default GamesSearchBar;
+export default GlobalSearchBar;

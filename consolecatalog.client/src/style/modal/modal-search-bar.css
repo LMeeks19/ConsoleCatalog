@@ -1,7 +1,6 @@
 .modal-search {
     display: flex;
     flex-direction: row;
-    margin-bottom: 20px;
     border: 1px solid #202020;
 
     .search-input {
