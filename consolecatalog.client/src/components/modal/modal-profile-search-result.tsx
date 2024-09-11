@@ -9,7 +9,11 @@ function ModalProfileSearchResult(props: ProfileSearchResultProps) {
     <div
       className="result"
       onClick={() => {
-        navigate(`/playstation/profiles/${props.profile.onlineId}`);
+        navigate(`/playstation/profiles/${props.profile.onlineId}`, {
+          state: {
+            username: props.profile.onlineId,
+          },
+        });
       }}
     >
       <img src={props.profile.avatarUrl ?? props.profile.profilePicUrl}></img>

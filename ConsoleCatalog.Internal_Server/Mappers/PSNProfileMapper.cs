@@ -1,5 +1,5 @@
 ﻿using ConsoleCatalog.Internal_Server.Mappers;
-using ConsoleCatalog.Server.Models.Playstation;
+using ConsoleCatalog.Internal_Server.Models.Playstation;
 
 namespace ConsoleCatalog.Internal_Server.Methods
 {

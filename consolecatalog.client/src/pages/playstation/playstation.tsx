@@ -10,18 +10,35 @@ import {
   userState,
 } from "../../functions/state";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Pages } from "../../functions/enums";
 import "../../style/site/page.css";
 import Conditional from "../../components/site/if-then-else";
 import Modal from "../../components/modal/modal";
+import { getUserById } from "../../functions/server/internal/global-calls";
 
 function Playstation() {
   const [isGameSearchModalActive, setIsGameSearchModalActive] =
     useRecoilState(gameSearchModalState);
   const setActivePage = useSetRecoilState(activePageState);
-  const user = useRecoilValue(userState);
+  const [user, setUser] = useRecoilState(userState);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function getUser() {
+      if (
+        location.state?.userId === undefined ||
+        location.state?.userId === null
+      )
+        navigate("/login");
+      else {
+        const user = await getUserById(location.state?.userId);
+        setUser(user);
+      }
+    }
+    getUser();
+  }, []);
 
   useEffect(() => {
     function setCurrentPage() {
@@ -42,7 +59,7 @@ function Playstation() {
     }
     setCurrentPage();
     resetModal();
-  }, [user]);
+  }, [location.pathname]);
 
   return (
     <>

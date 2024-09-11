@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace ConsoleCatalog.Server.Migrations
+namespace ConsoleCatalog.Internal_Server.Migrations
 {
     /// <inheritdoc />
-    public partial class AddTrophyGroupTables : Migration
+    public partial class CreateTrophyTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

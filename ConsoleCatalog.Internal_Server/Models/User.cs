@@ -1,4 +1,4 @@
-﻿namespace ConsoleCatalog.Server.Models
+﻿namespace ConsoleCatalog.Internal_Server.Models
 {
     public class User
     {

@@ -1,8 +1,8 @@
 ﻿using ConsoleCatalog.Internal_Server.Models.Playstation;
-using ConsoleCatalog.Server.Models.Playstation;
+using ConsoleCatalog.Internal_Server.Models.Playstation;
 using Microsoft.EntityFrameworkCore;
 
-namespace ConsoleCatalog.Server.Models
+namespace ConsoleCatalog.Internal_Server.Models
 {
     public class DatabaseContext: DbContext
     {

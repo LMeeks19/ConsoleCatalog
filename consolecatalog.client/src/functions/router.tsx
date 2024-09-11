@@ -31,7 +31,7 @@ export const router = createBrowserRouter([
     element: <PlaystationGamesBrowse />,
   },
   {
-    path: "/playstation/games/:id",
+    path: "/playstation/games/:titleId",
     element: <PlaystationGamesSelected />,
   },
   {
@@ -43,15 +43,15 @@ export const router = createBrowserRouter([
     element: <PlaystationProfilesSelected />,
   },
   {
-    path: "/playstation/profiles/:username/:gameId/groups",
+    path: "/playstation/profiles/:username/titles/:titleId/groups",
     element: <PlaystationGameTrophyGroups />,
   },
   {
-    path: "/playstation/profiles/:username/:gameId/groups/:groupId/trophies",
+    path: "/playstation/profiles/:username/titles/:titleId/groups/:groupId/trophies",
     element: <PlaystationGameTrophies />,
   },
   {
-    path: "/playstation/profiles/:username/:gameId/groups/:groupId/trophies/:trophyId",
+    path: "/playstation/profiles/:username/titles/:titleId/groups/:groupId/trophies/:trophyId",
     element: <PlaystationSelectedTrophy />,
   },
   {

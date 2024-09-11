@@ -1,8 +1,6 @@
 import {
   GameSummary,
   ProfileResults,
-  PSNProfile,
-  PSNProfileSummary,
 } from "../../functions/interfaces";
 import { useEffect, useState } from "react";
 import ModalGameSearchResult from "./modal-game-search-result";

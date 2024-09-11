@@ -151,7 +151,7 @@ function PlaystationGameTrophies() {
                       .map((trophy) => {
                         return (
                           <div
-                            key={trophy.trophyId}
+                            key={trophy.id}
                             className={`trophy ${Conditional({
                               Condition: trophy.earned,
                               If: "earned",
