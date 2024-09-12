@@ -215,7 +215,7 @@ export async function putTitleTrophies(
       uet.trophyGroupId = trophyGroupId
     });
     updatedEarnedTrophies = await putEarnedTitleTrophies(
-      psnEarnedTrophies_response.trophies.filter((ett) => ett.earned)
+      psnEarnedTrophies_response.trophies.filter((ett) => ett.earned || ett.progress !== "0")
     );
   } catch {}
 
