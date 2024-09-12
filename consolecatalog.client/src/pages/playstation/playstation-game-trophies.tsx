@@ -154,16 +154,6 @@ function PlaystationGameTrophies() {
                         {GetTrophyGroupName(trophyGroup.trophyGroupId)}
                       </div>
                     </div>
-                    <Conditional
-                      Condition={trophyGroup.lastUpdatedDateTime !== null}
-                      If={
-                        <div className="date">
-                          {`Last Updated: ${FormatStringDate(
-                            trophyGroup.lastUpdatedDateTime
-                          )}`}
-                        </div>
-                      }
-                    />
                   </div>
                   <div className="trophy-group-progress">
                     <ProgressBar
@@ -179,7 +169,9 @@ function PlaystationGameTrophies() {
                       <div className="trophies-text">
                         {
                           earnedTrophies.filter(
-                            (et) => et.trophyType === TrophyTypeString.Platinum
+                            (et) =>
+                              et.trophyType === TrophyTypeString.Platinum &&
+                              et.earned
                           ).length
                         }
                         /{trophyGroup.definedTrophies.platinum}
@@ -190,7 +182,9 @@ function PlaystationGameTrophies() {
                       <div className="trophies-text">
                         {
                           earnedTrophies.filter(
-                            (et) => et.trophyType === TrophyTypeString.Gold
+                            (et) =>
+                              et.trophyType === TrophyTypeString.Gold &&
+                              et.earned
                           ).length
                         }
                         /{trophyGroup.definedTrophies.gold}
@@ -201,7 +195,9 @@ function PlaystationGameTrophies() {
                       <div className="trophies-text">
                         {
                           earnedTrophies.filter(
-                            (et) => et.trophyType === TrophyTypeString.Silver
+                            (et) =>
+                              et.trophyType === TrophyTypeString.Silver &&
+                              et.earned
                           ).length
                         }
                         /{trophyGroup.definedTrophies.silver}
@@ -212,7 +208,9 @@ function PlaystationGameTrophies() {
                       <div className="trophies-text">
                         {
                           earnedTrophies.filter(
-                            (et) => et.trophyType === TrophyTypeString.Bronze
+                            (et) =>
+                              et.trophyType === TrophyTypeString.Bronze &&
+                              et.earned
                           ).length
                         }
                         /{trophyGroup.definedTrophies.bronze}
