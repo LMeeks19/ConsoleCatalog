@@ -101,10 +101,6 @@ function PlaystationGameTrophies() {
 
     earnedTrophies.forEach((et) => {
       switch (et.trophyType) {
-        case TrophyTypeString.Platinum:
-          defined_total += 180;
-          if (et.earned) earned_total += 180;
-          break;
         case TrophyTypeString.Gold:
           defined_total += 90;
           if (et.earned) earned_total += 90;

@@ -2,14 +2,32 @@ import { useLocation, useNavigate } from "react-router-dom";
 import playstation_logo from "../../images/playstation_logo.webp";
 import xbox_logo from "../../images/xbox_logo.jpg";
 import { useSetRecoilState } from "recoil";
-import { activePageState } from "../../functions/state";
+import { activePageState, userState } from "../../functions/state";
 import { Pages } from "../../functions/enums";
 import "../../style/site/background.css";
+import { useEffect } from "react";
+import { getUserById } from "../../functions/server/internal/global-calls";
 
 function Background() {
   const navigate = useNavigate();
   const setActivePage = useSetRecoilState(activePageState);
+  const setUser = useSetRecoilState(userState);
   const location = useLocation();
+
+  useEffect(() => {
+    async function getUser() {
+      if (
+        location.state?.userId === undefined ||
+        location.state?.userId === null
+      )
+        navigate("/login");
+      else {
+        const user = await getUserById(location.state?.userId);
+        setUser(user);
+      }
+    }
+    getUser();
+  }, []);
 
   return (
     <div className="background">
