@@ -116,7 +116,7 @@ function PlaystationGameTrophies() {
       }
     });
 
-    return Math.round((earned_total / defined_total) * 100);
+    return Math.floor((earned_total / defined_total) * 100);
   };
 
   return (
