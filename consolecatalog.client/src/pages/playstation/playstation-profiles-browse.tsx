@@ -1,7 +1,7 @@
 import { useRecoilValue } from "recoil";
 import Playstation from "./playstation";
 import { sidebarState } from "../../functions/state";
-import GamesSearchBar from "../../components/site/games-searchbar";
+import GlobalSearchBar from "../../components/site/global-search-bar";
 import Conditional from "../../components/site/if-then-else";
 
 function PlaystationProfilesBrowse() {
@@ -14,7 +14,7 @@ function PlaystationProfilesBrowse() {
               Condition: isSidebarActive,
               If: "disabled",
             })}`}>
-        <GamesSearchBar />
+        <GlobalSearchBar />
       </div>
     </>
   );

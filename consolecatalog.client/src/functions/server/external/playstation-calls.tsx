@@ -7,6 +7,7 @@ import {
   EarnedTitleTrophiesObject,
   DefinedTrophyGroupObject,
   EarnedTrophyGroupObject,
+  UniversalSearchObject,
 } from "../../interfaces";
 
 const BASE_API_URL = "http://localhost:3000";
@@ -115,5 +116,10 @@ export async function getTrophiesGroupsForTitle(
   const response = await fetch(
     `${BASE_API_URL}/playstation/titles/old/${titleId}/groups`
   );
+  return response.json();
+}
+
+export async function makeUniversalSearch(searchTerm: string): Promise<UniversalSearchObject> {
+  const response = await fetch(`${BASE_API_URL}/playstation/profiles/all/${searchTerm}`);
   return response.json();
 }

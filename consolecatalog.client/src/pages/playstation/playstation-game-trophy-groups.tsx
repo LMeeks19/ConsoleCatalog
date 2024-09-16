@@ -17,7 +17,7 @@ import platinum_icon from "../../images/psn-trophy-platinum.png";
 import gold_icon from "../../images/psn-trophy-gold.png";
 import silver_icon from "../../images/psn-trophy-silver.png";
 import bronze_icon from "../../images/psn-trophy-bronze.png";
-import { getProfileTrophyGroups, putTitleTrophies, putTrophyGroupObject } from "../../functions/server/internal/playstation-calls";
+import { getProfileTrophyGroups, putTrophyGroupObject } from "../../functions/server/internal/playstation-calls";
 
 function PlaystationGameTrophyGroups() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -149,7 +149,7 @@ function PlaystationGameTrophyGroups() {
                             accountId: location.state?.accountId,
                             titleId: trophyGroupObject.npCommunicationId,
                             platform: trophyGroupObject.trophyTitlePlatform,
-                            trophyGroupId: trophyGroup.trophyGroupId
+                            trophyGroup: trophyGroup
                           },
                         })
                       }

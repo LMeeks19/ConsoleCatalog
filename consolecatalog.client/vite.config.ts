@@ -43,15 +43,15 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '^/user': {
+            '^/User': {
                 target,
                 secure: false
             },
-            '^/objectives': {
+            '^/SubObjectives': {
                 target,
                 secure: false
             },
-            '^/playstation': {
+            '^/PSN': {
                 target,
                 secure: false
             }

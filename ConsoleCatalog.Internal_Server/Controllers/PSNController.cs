@@ -1,8 +1,7 @@
 ﻿using ConsoleCatalog.Internal_Server.Mappers;
 using ConsoleCatalog.Internal_Server.Methods;
 using ConsoleCatalog.Internal_Server.Models.Playstation;
-using ConsoleCatalog.Server.Models;
-using ConsoleCatalog.Server.Models.Playstation;
+using ConsoleCatalog.Internal_Server.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,12 +9,12 @@ namespace ConsoleCatalog.Internal_Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PlaystationController : ControllerBase
+    public class PSNController : ControllerBase
     {
-        private readonly ILogger<PlaystationController> _logger;
+        private readonly ILogger<PSNController> _logger;
         private readonly DatabaseContext _databaseContext;
 
-        public PlaystationController(ILogger<PlaystationController> logger, DatabaseContext databaseContext)
+        public PSNController(ILogger<PSNController> logger, DatabaseContext databaseContext)
         {
             _logger = logger;
             _databaseContext = databaseContext;
@@ -23,7 +22,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
 
         // Profile
         [HttpGet(Name = "GetProfileByOnlineId")]
-        [Route("getProfileByOnlineId/{onlineId}")]
+        [Route("[action]/{onlineId}")]
         public async Task<PSNProfile?> GetProfileByOnlineId(string onlineId)
         {
             var profile = await _databaseContext.PSNProfiles
@@ -40,7 +39,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
                 .SingleOrDefaultAsync(p => p.OnlineId == onlineId);
 
             if (profile != null)
-                profile.TrophyTitles.TrophyTitles = profile.TrophyTitles.TrophyTitles
+                profile.TrophyTitles.TrophyTitles = profile.TrophyTitles.TrophyTitles.OrderByDescending(tt => tt.LastUpdatedDateTime)
                     .Take(10)
                     .ToList();
 
@@ -48,7 +47,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
         }
 
         [HttpPost(Name = "PostProfile")]
-        [Route("postProfile")]
+        [Route("[action]")]
         public async Task<PSNProfile> PostProfile([FromBody] PSNProfile psnProfile)
         {
             await _databaseContext.PSNProfiles.AddAsync(psnProfile);
@@ -57,7 +56,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
         }
 
         [HttpPut(Name = "PutProfile")]
-        [Route("putProfile")]
+        [Route("[action]")]
         public async Task<PSNProfile> PutProfile([FromBody] PSNProfile psnProfile)
         {
             var existingPSNProfile = await _databaseContext.PSNProfiles
@@ -87,7 +86,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
         }
 
         [HttpGet(Name = "GetProfileTitles")]
-        [Route("getProfileTitles/{trophyTitlesObjectId}/{offset}")]
+        [Route("[action]/{trophyTitlesObjectId}/{offset}")]
         public async Task<List<TrophyTitle>> GetProfileTitles(int trophyTitlesObjectId, int offset)
         {
             var trophyTitles = await _databaseContext.TrophyTitles
@@ -103,7 +102,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
 
         // Defined Title Trophies
         [HttpGet(Name = "GetTitleTrophies")]
-        [Route("getTitleTrophies/{titleId}/groups/{trophyGroupId}")]
+        [Route("[action]/{titleId}/{trophyGroupId}")]
         public async Task<List<TitleTrophy>?> GetTitleTrophies(string titleId, string trophyGroupId)
         {
             var titleTrophies = await _databaseContext.TitleTrophies
@@ -114,7 +113,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
         }
 
         [HttpPost(Name = "PostTitleTrophies")]
-        [Route("postTitleTrophies")]
+        [Route("[action]")]
         public async Task<List<TitleTrophy>> PostTitleTrophies([FromBody] List<TitleTrophy> titleTrophies)
         {
             await _databaseContext.TitleTrophies.AddRangeAsync(titleTrophies);
@@ -123,7 +122,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
         }
 
         [HttpPut(Name = "PutTitleTrophies")]
-        [Route("putTitleTrophies")]
+        [Route("[action]")]
         public async Task<List<TitleTrophy>> PutTitleTrophies([FromBody] List<TitleTrophy> titleTrophies)
         {
             var existingTitleTrophies = await _databaseContext.TitleTrophies
@@ -149,7 +148,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
 
         // Earned Title Trophies
         [HttpGet(Name = "GetEarnedTitleTrophies")]
-        [Route("getEarnedTitleTrophies/{psnProfileId}/titles/{titleId}/groups/{trophyGroupId}")]
+        [Route("[action]/{psnProfileId}/{titleId}/{trophyGroupId}")]
         public async Task<List<EarnedTitleTrophy>?> GetEarnedTitleTrophies(int psnProfileId, string titleId, string trophyGroupId)
         {
             var earnedtitleTrophies = await _databaseContext.EarnedTitleTrophies 
@@ -160,7 +159,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
         }
 
         [HttpPost(Name = "PostEarnedTitleTrophies")]
-        [Route("postEarnedTitleTrophies")]
+        [Route("[action]")]
         public async Task<List<EarnedTitleTrophy>> PostEarnedTitleTrophies([FromBody] List<EarnedTitleTrophy> earnedTitleTrophies)
         {
             await _databaseContext.EarnedTitleTrophies.AddRangeAsync(earnedTitleTrophies);
@@ -169,7 +168,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
         }
 
         [HttpPut(Name = "PutEarnedTitleTrophies")]
-        [Route("putEarnedTitleTrophies")]
+        [Route("[action]")]
         public async Task<List<EarnedTitleTrophy>> PutEarnedTitleTrophies([FromBody] List<EarnedTitleTrophy> earnedTitleTrophies)
         {
             var existingEarnedtitleTrophies = await _databaseContext.EarnedTitleTrophies
@@ -199,7 +198,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
 
         // Defined Trophy Group Object
         [HttpGet(Name = "GetDefinedTrophyGroupObject")]
-        [Route("getDefinedTrophyGroupObject/{titleId}/groups")]
+        [Route("[action]/{titleId}")]
         public async Task<DefinedTrophyGroupObject?> GetDefinedTrophyGroupObject(string titleId)
         {
             var definedTrophyGroupObject = await _databaseContext.DefinedTrophyGroupObjects
@@ -212,7 +211,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
         }
 
         [HttpPost(Name = "PostDefinedTrophyGroupObject")]
-        [Route("postDefinedTrophyGroupObject")]
+        [Route("[action]")]
         public async Task<DefinedTrophyGroupObject> PostDefinedTrophyGroupObject([FromBody] DefinedTrophyGroupObject definedTrophyGroupObject)
         {
             await _databaseContext.DefinedTrophyGroupObjects.AddRangeAsync(definedTrophyGroupObject);
@@ -221,7 +220,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
         }
 
         [HttpPut(Name = "PutDefinedTrophyGroupObject")]
-        [Route("putDefinedTrophyGroupObject")]
+        [Route("[action]")]
         public async Task<DefinedTrophyGroupObject> PutDefinedTrophyGroupObject([FromBody] DefinedTrophyGroupObject definedTrophyGroupObject)
         {
             var existingDefinedTrophyGroupObject = await _databaseContext.DefinedTrophyGroupObjects
@@ -242,7 +241,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
 
         // Earend Trophy Group Object
         [HttpGet(Name = "GetEarnedTrophyGroupObject")]
-        [Route("getEarnedTrophyGroupObject/{psnProfileId}/{titleId}/groups")]
+        [Route("[action]/{psnProfileId}/{titleId}")]
         public async Task<EarnedTrophyGroupObject?> GetEarnedTrophyGroupObject(int psnProfileId, string titleId)
         {
             var earnedTrophyGroupObject = await _databaseContext.EarnedTrophyGroupObjects
@@ -255,7 +254,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
         }
 
         [HttpPost(Name = "PostEarnedTrophyGroupObject")]
-        [Route("postEarnedTrophyGroupObject")]
+        [Route("[action]")]
         public async Task<EarnedTrophyGroupObject> PostEarnedTrophyGroupObject([FromBody] EarnedTrophyGroupObject earnedTrophyGroupObject)
         {
             await _databaseContext.EarnedTrophyGroupObjects.AddRangeAsync(earnedTrophyGroupObject);
@@ -264,7 +263,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
         }
 
         [HttpPut(Name = "PutEarnedTrophyGroupObject")]
-        [Route("putEarnedTrophyGroupObject")]
+        [Route("[action]")]
         public async Task<EarnedTrophyGroupObject> PutEarnedTrophyGroupObject([FromBody] EarnedTrophyGroupObject earnedTrophyGroupObject)
         {
             var existingEarnedTrophyGroupObject = await _databaseContext.EarnedTrophyGroupObjects

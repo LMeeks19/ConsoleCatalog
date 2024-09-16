@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Pages } from "../../functions/enums";
 import { activePageState, gameSearchModalState } from "../../functions/state";
-import GamesSearchModal from "../../components/modal/game-search-modal";
+import GlobalSearchModal from "../../components/modal/global-search-modal";
 import Modal from "../../components/modal/modal";
 import "../../style/site/page.css";
 import Conditional from "../../components/site/if-then-else";
@@ -35,7 +35,7 @@ function Xbox() {
     <>
       <Conditional
         Condition={isGameSearchModalActive}
-        If={<Modal component={<GamesSearchModal />} />}
+        If={<Modal component={<GlobalSearchModal page="xbox" />} />}
       />
       <TopBar page="xbox" icon={xbox_icon} />
       <SideBar page="xbox" icon={playstation_icon} />

@@ -1,23 +1,23 @@
-﻿using ConsoleCatalog.Server.Models;
+﻿using ConsoleCatalog.Internal_Server.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ConsoleCatalog.Server.Controllers
+namespace ConsoleCatalog.Internal_Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ObjectivesController : ControllerBase
+    public class SubObjectivesController : ControllerBase
     {
-        private readonly ILogger<ObjectivesController> _logger;
+        private readonly ILogger<SubObjectivesController> _logger;
         private readonly DatabaseContext _databaseContext;
 
-        public ObjectivesController(ILogger<ObjectivesController> logger, DatabaseContext databaseContext)
+        public SubObjectivesController(ILogger<SubObjectivesController> logger, DatabaseContext databaseContext)
         {
             _logger = logger;
             _databaseContext = databaseContext;
         }
 
         [HttpGet(Name = "GetSubObjective")]
-        [Route("getSubObjective/{subObjectiveId}")]
+        [Route("[action]/{subObjectiveId}")]
         public SubObjective GetSubObjective(string subObjectiveId)
         {
             var subObjective = _databaseContext.SubObjectives
@@ -26,7 +26,7 @@ namespace ConsoleCatalog.Server.Controllers
         }
 
         [HttpGet(Name = "GetSubObjectives")]
-        [Route("getSubObjectives/{userId}/{titleId}/{trophyId}")]
+        [Route("[action]/{userId}/{titleId}/{trophyId}")]
         public List<SubObjective> GetSubObjectives(string userId, string titleId, string trophyId)
         {
             var subObjectives = _databaseContext.SubObjectives
@@ -37,7 +37,7 @@ namespace ConsoleCatalog.Server.Controllers
         }
 
         [HttpPost(Name = "PostSubObjective")]
-        [Route("postSubObjective")]
+        [Route("[action]")]
         public SubObjective PostSubObjective([FromBody] SubObjective subObjective)
         {
             _databaseContext.SubObjectives.Add(subObjective);
@@ -46,7 +46,7 @@ namespace ConsoleCatalog.Server.Controllers
         }
 
         [HttpPost(Name = "PostSubObjectives")]
-        [Route("postSubObjectives")]
+        [Route("[action]")]
         public List<SubObjective> PostSubObjectives([FromBody] List<SubObjective> subObjectives)
         {
             _databaseContext.SubObjectives.AddRange(subObjectives);
@@ -59,7 +59,7 @@ namespace ConsoleCatalog.Server.Controllers
         }
 
         [HttpPut(Name = "PutSubObjective")]
-        [Route("putSubObjective")]
+        [Route("[action]")]
         public SubObjective PutSubObjective(SubObjective subObjective)
         {
             subObjective.IsComplete = !subObjective.IsComplete;
@@ -69,7 +69,7 @@ namespace ConsoleCatalog.Server.Controllers
         }
 
         [HttpDelete(Name = "DeleteSubObjective")]
-        [Route("deleteSubObjective/{subObjectiveId}")]
+        [Route("[action]/{subObjectiveId}")]
         public Guid DeleteSubObjective(string subObjectiveId)
         {
             var subObjective = _databaseContext.SubObjectives
@@ -80,7 +80,7 @@ namespace ConsoleCatalog.Server.Controllers
         }
 
         [HttpDelete(Name = "DeleteSubObjectives")]
-        [Route("deleteSubObjectives")]
+        [Route("[action]")]
         public List<Guid> DeleteSubObjectives([FromBody] List<SubObjective> subObjectives)
         {
             _databaseContext.SubObjectives.RemoveRange(subObjectives);

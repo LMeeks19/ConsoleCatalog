@@ -1,5 +1,5 @@
 ﻿using ConsoleCatalog.Internal_Server.Mappers;
-using ConsoleCatalog.Server.Models.Playstation;
+using ConsoleCatalog.Internal_Server.Models.Playstation;
 
 namespace ConsoleCatalog.Internal_Server.Methods
 {
@@ -66,12 +66,16 @@ namespace ConsoleCatalog.Internal_Server.Methods
             var updatedTrophyTitles = trophyTitles;
             updatedTrophyTitles.ForEach(trophyTitle =>
             {
-                var existingTrophyTitle = existingTrophyTitles.Single(existingTrophyTitle => existingTrophyTitle.NpCommunicationId == trophyTitle.NpCommunicationId);
-                trophyTitle.Id = existingTrophyTitle.Id;
-                trophyTitle.DefinedTrophiesId = existingTrophyTitle.DefinedTrophiesId;
-                trophyTitle.DefinedTrophies = psnTrophyTypesMapper.MapDefinedTrophyTypes(trophyTitle.DefinedTrophies, existingTrophyTitle.DefinedTrophies);
-                trophyTitle.EarnedTrophiesId = existingTrophyTitle.EarnedTrophiesId;
-                trophyTitle.EarnedTrophies = psnTrophyTypesMapper.MapEarnedTrophyTypes(trophyTitle.EarnedTrophies, existingTrophyTitle.EarnedTrophies);
+                var existingTrophyTitle = existingTrophyTitles.SingleOrDefault(existingTrophyTitle => existingTrophyTitle.NpCommunicationId == trophyTitle.NpCommunicationId);
+                if (existingTrophyTitle != null)
+                {
+                    trophyTitle.Id = existingTrophyTitle.Id;
+                    trophyTitle.TrophyTitleObjectId = existingTrophyTitle.TrophyTitleObjectId;
+                    trophyTitle.DefinedTrophiesId = existingTrophyTitle.DefinedTrophiesId;
+                    trophyTitle.DefinedTrophies = psnTrophyTypesMapper.MapDefinedTrophyTypes(trophyTitle.DefinedTrophies, existingTrophyTitle.DefinedTrophies);
+                    trophyTitle.EarnedTrophiesId = existingTrophyTitle.EarnedTrophiesId;
+                    trophyTitle.EarnedTrophies = psnTrophyTypesMapper.MapEarnedTrophyTypes(trophyTitle.EarnedTrophies, existingTrophyTitle.EarnedTrophies);
+                }
             });
             return updatedTrophyTitles;
         }

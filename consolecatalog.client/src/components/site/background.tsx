@@ -11,18 +11,22 @@ import { getUserById } from "../../functions/server/internal/global-calls";
 function Background() {
   const navigate = useNavigate();
   const setActivePage = useSetRecoilState(activePageState);
-  const location = useLocation();
   const setUser = useSetRecoilState(userState);
+  const location = useLocation();
 
   useEffect(() => {
-    async function checkLoginStatus() {
-      if (location.state?.userId === undefined) navigate("/login");
+    async function getUser() {
+      if (
+        location.state?.userId === undefined ||
+        location.state?.userId === null
+      )
+        navigate("/login");
       else {
-        const user = await getUserById(location.state.userId)
+        const user = await getUserById(location.state?.userId);
         setUser(user);
       }
     }
-    checkLoginStatus();
+    getUser();
   }, []);
 
   return (
@@ -31,7 +35,9 @@ function Background() {
         className="playstation"
         onClick={() => {
           setActivePage(Pages.Home);
-          navigate(`/playstation`);
+          navigate(`/playstation`, {
+            state: { userId: location.state?.userId },
+          });
         }}
       >
         <img src={playstation_logo} className="playstation-logo" />
@@ -40,7 +46,9 @@ function Background() {
         className="xbox"
         onClick={() => {
           setActivePage(Pages.Home);
-          navigate(`/xbox`);
+          navigate(`/xbox`, {
+            state: { userId: location.state?.userId },
+          });
         }}
       >
         <img src={xbox_logo} className="xbox-logo" />

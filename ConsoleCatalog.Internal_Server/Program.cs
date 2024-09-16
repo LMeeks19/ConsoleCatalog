@@ -1,4 +1,4 @@
-using ConsoleCatalog.Server.Models;
+using ConsoleCatalog.Internal_Server.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;

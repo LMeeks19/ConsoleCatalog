@@ -1,5 +1,4 @@
 import {
-  DefinedTrophies,
   DefinedTrophyGroupObject,
   EarnedTitleTrophy,
   EarnedTrophyGroupObject,
@@ -25,7 +24,7 @@ export async function getProfileByOnlineId(
   onlineId: string
 ): Promise<PSNProfile | null> {
   const profile_response = await fetch(
-    `/playstation/getProfileByOnlineId/${onlineId}`
+    `/PSN/GetProfileByOnlineId/${onlineId}`
   );
   let psnProfile = null;
   try {
@@ -44,7 +43,7 @@ export async function getProfileByOnlineId(
 }
 
 export async function postProfile(psnProfile: PSNProfile): Promise<PSNProfile> {
-  const response = await fetch(`/playstation/postProfile`, {
+  const response = await fetch(`/PSN/PostProfile`, {
     method: "POST",
     body: JSON.stringify(psnProfile),
     headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -53,7 +52,7 @@ export async function postProfile(psnProfile: PSNProfile): Promise<PSNProfile> {
 }
 
 export async function putProfile(psnProfile: PSNProfile): Promise<PSNProfile> {
-  const response = await fetch(`/playstation/putProfile`, {
+  const response = await fetch(`/PSN/PutProfile`, {
     method: "PUT",
     body: JSON.stringify(psnProfile),
     headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -64,7 +63,7 @@ export async function putProfile(psnProfile: PSNProfile): Promise<PSNProfile> {
 export async function postProfileTitles(
   trophyTitleObject: TrophyTitleObject
 ): Promise<TrophyTitleObject> {
-  const response = await fetch(`/playstation/postProfileTitles`, {
+  const response = await fetch(`/PSN/PostProfileTitles`, {
     method: "POST",
     body: JSON.stringify(trophyTitleObject),
     headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -77,7 +76,7 @@ export async function getProfileTitles(
   offset: number
 ): Promise<TrophyTitle[]> {
   const response = await fetch(
-    `/playstation/getProfileTitles/${trophyTitlesObjectId}/${offset}`
+    `/PSN/GetProfileTitles/${trophyTitlesObjectId}/${offset}`
   );
   return await response.json();
 }
@@ -106,7 +105,7 @@ export async function getTitleTrophies(
   titleTrophiesProps: ProfileTitleTrophiesProps
 ): Promise<TitleTrophy[]> {
   const response = await fetch(
-    `/playstation/getTitleTrophies/${titleTrophiesProps.titleId}/groups/${titleTrophiesProps.trophyGroupId}`
+    `/PSN/GetTitleTrophies/${titleTrophiesProps.titleId}/${titleTrophiesProps.trophyGroupId}`
   );
   let titleTrophies = [] as TitleTrophy[];
   try {
@@ -135,7 +134,7 @@ export async function getEarnedTitleTrophies(
   titleTrophiesProps: ProfileTitleTrophiesProps
 ): Promise<EarnedTitleTrophy[]> {
   const response = await fetch(
-    `/playstation/getEarnedTitleTrophies/${psnProfileId}/titles/${titleTrophiesProps.titleId}/groups/${titleTrophiesProps.trophyGroupId}`
+    `/PSN/GetEarnedTitleTrophies/${psnProfileId}/${titleTrophiesProps.titleId}/${titleTrophiesProps.trophyGroupId}`
   );
   let earnedTitleTrophies = [] as EarnedTitleTrophy[];
   try {
@@ -172,7 +171,7 @@ export async function getEarnedTitleTrophies(
 export async function postTitleTrophies(
   titleTrophies: TitleTrophy[]
 ): Promise<TitleTrophy[]> {
-  const response = await fetch(`/playstation/postTitleTrophies`, {
+  const response = await fetch(`/PSN/PostTitleTrophies`, {
     method: "POST",
     body: JSON.stringify(titleTrophies),
     headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -216,7 +215,7 @@ export async function putTitleTrophies(
       uet.trophyGroupId = trophyGroupId
     });
     updatedEarnedTrophies = await putEarnedTitleTrophies(
-      psnEarnedTrophies_response.trophies.filter((ett) => ett.earned)
+      psnEarnedTrophies_response.trophies.filter((ett) => ett.earned || ett.progress !== "0")
     );
   } catch {}
 
@@ -231,7 +230,7 @@ export async function putTitleTrophies(
 export async function putDefinedTitleTrophies(
   titleTrophies: TitleTrophy[]
 ): Promise<TitleTrophy[]> {
-  const response = await fetch(`/playstation/putTitleTrophies`, {
+  const response = await fetch(`/PSN/PutTitleTrophies`, {
     method: "PUT",
     body: JSON.stringify(titleTrophies),
     headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -242,7 +241,7 @@ export async function putDefinedTitleTrophies(
 export async function putEarnedTitleTrophies(
   earnedTitleTrophies: EarnedTitleTrophy[]
 ): Promise<EarnedTitleTrophy[]> {
-  const response = await fetch(`/playstation/putEarnedTitleTrophies`, {
+  const response = await fetch(`/PSN/PutEarnedTitleTrophies`, {
     method: "PUT",
     body: JSON.stringify(earnedTitleTrophies),
     headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -253,7 +252,7 @@ export async function putEarnedTitleTrophies(
 export async function postProfileEarnedTitleTrophies(
   earnedTitleTrophies: EarnedTitleTrophy[]
 ): Promise<EarnedTitleTrophy[]> {
-  const response = await fetch(`/playstation/postEarnedTitleTrophies`, {
+  const response = await fetch(`/PSN/PostEarnedTitleTrophies`, {
     method: "POST",
     body: JSON.stringify(earnedTitleTrophies),
     headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -291,7 +290,7 @@ export async function getDefinedTrophyGroupObject(
   platform: string
 ): Promise<DefinedTrophyGroupObject> {
   const response = await fetch(
-    `/playstation/getDefinedTrophyGroupObject/${titleId}/groups`
+    `/PSN/GetDefinedTrophyGroupObject/${titleId}`
   );
   let definedTrophyGroupObject = null;
   try {
@@ -315,7 +314,7 @@ export async function getDefinedTrophyGroupObject(
 export async function postDefinedTrophyGroupObject(
   definedTrophyGroupObject: DefinedTrophyGroupObject
 ): Promise<DefinedTrophyGroupObject> {
-  const response = await fetch(`/playstation/postDefinedTrophyGroupObject`, {
+  const response = await fetch(`/PSN/PostDefinedTrophyGroupObject`, {
     method: "POST",
     body: JSON.stringify(definedTrophyGroupObject),
     headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -326,7 +325,7 @@ export async function postDefinedTrophyGroupObject(
 export async function putDefinedTrophyGroupObject(
   definedTrophyTitleObject: DefinedTrophyGroupObject
 ): Promise<DefinedTrophyGroupObject> {
-  const response = await fetch(`/playstation/putDefinedTrophyGroupObject`, {
+  const response = await fetch(`/PSN/PutDefinedTrophyGroupObject`, {
     method: "PUT",
     body: JSON.stringify(definedTrophyTitleObject),
     headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -341,7 +340,7 @@ export async function getEarnedTrophyGroupObject(
   platform: string
 ): Promise<EarnedTrophyGroupObject> {
   const response = await fetch(
-    `/playstation/getEarnedTrophyGroupObject/${psnProfileId}/${titleId}/groups`
+    `/PSN/GetEarnedTrophyGroupObject/${psnProfileId}/${titleId}`
   );
   let earnedTrophyGroupObject = null;
   try {
@@ -365,7 +364,7 @@ export async function getEarnedTrophyGroupObject(
 export async function postEarnedTrophyGroupObject(
   earnedTrophyGroupObject: EarnedTrophyGroupObject
 ): Promise<EarnedTrophyGroupObject> {
-  const response = await fetch(`/playstation/postEarnedTrophyGroupObject`, {
+  const response = await fetch(`/PSN/PostEarnedTrophyGroupObject`, {
     method: "POST",
     body: JSON.stringify(earnedTrophyGroupObject),
     headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -376,7 +375,7 @@ export async function postEarnedTrophyGroupObject(
 export async function putEarnedTrophyGroupObject(
   earnedTrophyTitleObject: EarnedTrophyGroupObject
 ): Promise<EarnedTrophyGroupObject> {
-  const response = await fetch(`/playstation/putEarnedTrophyGroupObject`, {
+  const response = await fetch(`/PSN/PutEarnedTrophyGroupObject`, {
     method: "PUT",
     body: JSON.stringify(earnedTrophyTitleObject),
     headers: { "Content-type": "application/json; charset=UTF-8" },

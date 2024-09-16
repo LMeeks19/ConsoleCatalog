@@ -1,7 +1,7 @@
-using ConsoleCatalog.Server.Models;
+using ConsoleCatalog.Internal_Server.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ConsoleCatalog.Server.Controllers
+namespace ConsoleCatalog.Internal_Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -17,7 +17,7 @@ namespace ConsoleCatalog.Server.Controllers
         }
 
         [HttpGet(Name = "GetUserByUsername")]
-        [Route("getUserByUsername/{username}")]
+        [Route("[action]/{username}")]
         public User? GetUserByUsername(string username)
         {
             var user = _databaseContext.Users.SingleOrDefault(user => user.Username == username);
@@ -33,16 +33,17 @@ namespace ConsoleCatalog.Server.Controllers
         }
 
         [HttpPost(Name = "PostUser")]
-        public User? Post ([FromBody] RegisterDetails registerDetails)
+        [Route("[action]")]
+        public User? PostUser([FromBody] RegisterDetails registerDetails)
         {
             var user = _databaseContext.Users.SingleOrDefault(user => user.Username == registerDetails.Username);
 
-            var newUser = new User 
-            { 
+            var newUser = new User
+            {
                 Username = registerDetails.Username,
-                PlaystationGamertag = registerDetails.PlaystationGamertag, 
-                XboxGamertag = registerDetails.XboxGamertag, 
-                Password = registerDetails.Password 
+                PlaystationGamertag = registerDetails.PlaystationGamertag,
+                XboxGamertag = registerDetails.XboxGamertag,
+                Password = registerDetails.Password
             };
 
             _databaseContext.Users.Add(newUser);

@@ -1,4 +1,4 @@
-﻿namespace ConsoleCatalog.Server.Models.Playstation
+﻿namespace ConsoleCatalog.Internal_Server.Models.Playstation
 {
     public class PSNProfile
     {

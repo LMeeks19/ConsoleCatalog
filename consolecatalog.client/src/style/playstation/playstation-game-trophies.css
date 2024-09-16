@@ -1,3 +1,93 @@
+.trophy-group {
+    background-color: #262626;
+    border-radius: 25px;
+    display: flex;
+    border: 2px solid #262626;
+    transition: border-color .5s ease-in-out;
+    margin-bottom: 20px;
+
+    .trophy-group-image {
+        width: 300px;
+        height: 300px;
+        border-top-left-radius: 25px;
+        border-bottom-left-radius: 25px;
+    }
+
+    .trophy-group-details {
+        padding: 40px;
+        width: calc(100% - 400px);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        justify-content: space-between;
+        text-wrap: nowrap;
+
+        .trophy-group-name {
+            display: flex;
+            font-size: 30px;
+            justify-content: space-between;
+
+            .name-group-id {
+                display: flex;
+                gap: 20px;
+                font-size: 35px;
+
+                .group-id {
+                    font-size: 20px;
+                    padding: 10.5px 15px 10.5px 15px;
+                    background-color: #161616;
+                    border-radius: 25px;
+                    margin: auto;
+                }
+            }
+
+            .date {
+                font-size: 20px;
+                padding: 10.5px 15px 10.5px 15px;
+                background-color: #161616;
+                border-radius: 25px;
+                margin: auto 0 auto 0;
+            }
+
+        }
+
+        .trophy-group-progress {
+            width: 100%;
+        }
+
+        .trophy-group-trophies {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+
+            .trophy-group-trophies-platinum,
+            .trophy-group-trophies-gold,
+            .trophy-group-trophies-silver,
+            .trophy-group-trophies-bronze {
+                display: flex;
+                gap: 10px;
+
+                .trophies-text {
+                    font-size: 20px;
+                    margin: auto;
+                }
+
+                .trophies-icon {
+                    width: 50px;
+                    height: 50px;
+                }
+            }
+
+        }
+
+    }
+
+}
+
+.trophies:has(.loader) {
+    height: 100%;
+}
+
 .trophies {
     gap: 10px;
     display: flex;

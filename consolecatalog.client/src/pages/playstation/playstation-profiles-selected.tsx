@@ -41,7 +41,7 @@ function PlaystationProfilesSelected() {
     async function fetchPSNProfile() {
       setIsLoading(true);
       const profile = await getProfileByOnlineId(location.state.username);
-      setSelectedPSNProfile({ ...profile! });
+      setSelectedPSNProfile(profile!);
       setIsLoading(false);
     }
     fetchPSNProfile();
@@ -302,7 +302,7 @@ function PlaystationProfilesSelected() {
                         )
                       }
                       onClick={() =>
-                        navigate(`${trophyTitle.npCommunicationId}/groups`, {
+                        navigate(`titles/${trophyTitle.npCommunicationId}/groups`, {
                           state: {
                             userId: location.state?.userId,
                             psnProfileId: selectedPSNProfile?.id,

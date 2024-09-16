@@ -1,125 +1,125 @@
-@ConsoleCatalog.Server_HostAddress = http://localhost:5162
+@ConsoleCatalog.Internal_Server_HostAddress = http://localhost:5162
 
 
-GET {{ConsoleCatalog.Server_HostAddress}}/user/getUserByUsername/
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/User/GetUserByUsername/
 Accept: application/json
 
 ###
 
-GET {{ConsoleCatalog.Server_HostAddress}}/user/getUserById/
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/User/GetUserById/
 Accept: application/json
 
 ###
 
-POST {{ConsoleCatalog.Server_HostAddress}}/user/
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/User/PostUser
 Accept: application/json
 
 ###
 
-POST {{ConsoleCatalog.Server_HostAddress}}/objectives/postSubObjective/
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/SubObjectives/PostSubObjective/
 Accept: application/json
 
 ###
 
-POST {{ConsoleCatalog.Server_HostAddress}}/objectives/postSubObjectives/
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/SubObjectives/PostSubObjectives/
 Accept: application/json
 
 ###
 
-GET {{ConsoleCatalog.Server_HostAddress}}/objectives/getSubObjective/
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/SubObjectives/GetSubObjective/
 Accept: application/json
 
 ###
 
-GET {{ConsoleCatalog.Server_HostAddress}}/objectives/getSubObjectives/
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/SubObjectives/GetSubObjectives/
 Accept: application/json
 
 ###
 
-DELETE {{ConsoleCatalog.Server_HostAddress}}/objectives/deleteSubObjective/
+DELETE {{ConsoleCatalog.Internal_Server_HostAddress}}/SubObjectives/DeleteSubObjective/
 Accept: application/json
 
 ###
 
-DELETE {{ConsoleCatalog.Server_HostAddress}}/objectives/deleteSubObjectives/
+DELETE {{ConsoleCatalog.Internal_Server_HostAddress}}/SubObjectives/DeleteSubObjectives/
 Accept: application/json
 
 ###
 
-GET {{ConsoleCatalog.Server_HostAddress}}/playstation/getProfileByOnlineId/
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/GetProfileByOnlineId/
 Accept: application/json
 
 ###
 
-POST {{ConsoleCatalog.Server_HostAddress}}/playstation/postProfile/
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PostProfile/
 Accept: application/json
 
 ###
 
-PUT {{ConsoleCatalog.Server_HostAddress}}/playstation/putProfile/
+PUT {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PutProfile/
 Accept: application/json
 
 ###
 
-GET {{ConsoleCatalog.Server_HostAddress}}/playstation/getProfileTitles/
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/GetProfileTitles/
 Accept: application/json
 
 ###
 
-GET {{ConsoleCatalog.Server_HostAddress}}/playstation/getTitleTrophies/
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/GetTitleTrophies/
 Accept: application/json
 
 ###
 
-POST {{ConsoleCatalog.Server_HostAddress}}/playstation/postTitleTrophies/
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PostTitleTrophies/
 Accept: application/json
 
 ###
 
-PUT {{ConsoleCatalog.Server_HostAddress}}/playstation/putTitleTrophies/
+PUT {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PutTitleTrophies/
 Accept: application/json
 
 ###
 
-GET {{ConsoleCatalog.Server_HostAddress}}/playstation/getEarnedTitleTrophies/
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/GetEarnedTitleTrophies/
 Accept: application/json
 
 ###
 
-POST {{ConsoleCatalog.Server_HostAddress}}/playstation/postEarnedTitleTrophies/
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PostEarnedTitleTrophies/
 Accept: application/json
 
 ###
 
-PUT {{ConsoleCatalog.Server_HostAddress}}/playstation/putEarnedTitleTrophies/
+PUT {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PutEarnedTitleTrophies/
 Accept: application/json
 
 ###
 
-GET {{ConsoleCatalog.Server_HostAddress}}/playstation/getDefinedTrophyGroupObject/
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/GetDefinedTrophyGroupObject/
 Accept: application/json
 
 ###
 
-GET {{ConsoleCatalog.Server_HostAddress}}/playstation/getEarnedTrophyGroupObject/
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/GetEarnedTrophyGroupObject/
 Accept: application/json
 
 ###
 
-POST {{ConsoleCatalog.Server_HostAddress}}/playstation/postDefinedTrophyGroupObject/
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PostDefinedTrophyGroupObject/
 Accept: application/json
 
 ###
 
-POST {{ConsoleCatalog.Server_HostAddress}}/playstation/postEarnedTrophyGroupObject/
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PostEarnedTrophyGroupObject/
 Accept: application/json
 
 ###
 
-PUT {{ConsoleCatalog.Server_HostAddress}}/playstation/putDefinedTrophyGroupObject/
+PUT {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PutDefinedTrophyGroupObject/
 Accept: application/json
 
 ###
 
-PUT {{ConsoleCatalog.Server_HostAddress}}/playstation/putEarnedTrophyGroupObject/
+PUT {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PutEarnedTrophyGroupObject/
 Accept: application/json
