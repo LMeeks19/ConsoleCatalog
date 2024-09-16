@@ -6,7 +6,7 @@ import {
   userState,
 } from "../../functions/state";
 import { Pages } from "../../functions/enums";
-import { BarProps } from "../../functions/interfaces";
+import { BarProps } from "../../functions/interfaces/interfaces";
 import "../../style/site/sidebar.css";
 import Conditional from "./if-then-else";
 

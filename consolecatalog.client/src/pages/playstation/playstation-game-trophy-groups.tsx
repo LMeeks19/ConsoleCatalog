@@ -4,7 +4,7 @@ import { sidebarState } from "../../functions/state";
 import Playstation from "./playstation";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { TrophyGroupObject } from "../../functions/interfaces";
+import { TrophyGroupObject } from "../../functions/interfaces/playstation/profile-interfaces";
 import {
   FormatStringDate,
   getProgressColour,

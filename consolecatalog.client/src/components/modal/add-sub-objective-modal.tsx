@@ -3,7 +3,7 @@ import "../../style/modal/add-sub-objective-modal.css";
 import { addSubObjectiveModalState } from "../../functions/state";
 import { useEffect, useState } from "react";
 import Conditional from "../site/if-then-else";
-import { SubObjective } from "../../functions/interfaces";
+import { SubObjective } from "../../functions/interfaces/interfaces";
 import { postSubObjectives } from "../../functions/server/internal/global-calls";
 
 function AddSubObjectiveModal(props: AddSubObjectiveModalProps) {

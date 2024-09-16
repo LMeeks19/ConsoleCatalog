@@ -5,7 +5,7 @@ import platinum_icon from "../images/psn-trophy-platinum.png";
 import gold_icon from "../images/psn-trophy-gold.png";
 import silver_icon from "../images/psn-trophy-silver.png";
 import bronze_icon from "../images/psn-trophy-bronze.png";
-import { DefinedTrophyGroup, DefinedTrophyGroupObject, EarnedTitleTrophy, EarnedTrophyGroup, EarnedTrophyGroupObject, TitleTrophy, Trophy, TrophyGroup, TrophyGroupObject } from "./interfaces";
+import { DefinedTrophyGroup, DefinedTrophyGroupObject, EarnedTitleTrophy, EarnedTrophyGroup, EarnedTrophyGroupObject, TitleTrophy, Trophy, TrophyGroup, TrophyGroupObject } from "./interfaces/interfaces";
 
 export function getFullCardImageUrl(imageId: string) {
   return `${COVER_BIG_URL}/${imageId}.jpg`;

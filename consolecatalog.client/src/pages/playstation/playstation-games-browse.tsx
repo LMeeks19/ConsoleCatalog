@@ -1,6 +1,6 @@
 import Playstation from "./playstation";
 import { useEffect, useState } from "react";
-import { GameSummary, SelectedDate } from "../../functions/interfaces";
+import { GameSummary, SelectedDate } from "../../functions/interfaces/interfaces";
 import { useRecoilValue } from "recoil";
 import { gameSearchModalState, sidebarState } from "../../functions/state";
 import GameCard from "../../components/games/game-card";

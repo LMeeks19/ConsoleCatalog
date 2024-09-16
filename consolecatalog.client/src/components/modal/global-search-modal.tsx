@@ -1,7 +1,7 @@
 import {
   GameSummary,
-  ProfileResults,
-} from "../../functions/interfaces";
+} from "../../functions/interfaces/interfaces";
+import { ProfileResults } from "../../functions/interfaces/playstation/profile-interfaces";
 import { useEffect, useState } from "react";
 import ModalGameSearchResult from "./modal-game-search-result";
 import ModalSearchBar from "./modal-search-bar";

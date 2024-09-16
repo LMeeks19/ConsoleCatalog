@@ -15,7 +15,7 @@ import {
 } from "../../functions/methods";
 import "../../style/playstation/playstation-selected-trophy.css";
 import { useEffect, useState } from "react";
-import { SubObjective } from "../../functions/interfaces";
+import { SubObjective } from "../../functions/interfaces/interfaces";
 import {
   deleteSubObjective,
   deleteSubObjectives,

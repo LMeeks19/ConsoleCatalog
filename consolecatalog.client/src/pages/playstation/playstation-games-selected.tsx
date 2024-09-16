@@ -9,7 +9,7 @@ import "react-multi-carousel/lib/styles.css";
 import "../../style/playstation/playstation-games-selected.css";
 import { FormatNumberDate, getRatingColour } from "../../functions/methods";
 import { BeatLoader } from "react-spinners";
-import { Game } from "../../functions/interfaces";
+import { Game } from "../../functions/interfaces/interfaces";
 import Conditional from "../../components/site/if-then-else";
 
 function PlaystationGamesSelected() {

@@ -5,7 +5,7 @@ import {
   gameSearchModalState,
   sidebarState,
 } from "../../functions/state";
-import { BarProps } from "../../functions/interfaces";
+import { BarProps } from "../../functions/interfaces/interfaces";
 import { AutoTextSize } from "auto-text-size";
 import GlobalSearchBar from "./global-search-bar";
 import "../../style/site/topbar.css";

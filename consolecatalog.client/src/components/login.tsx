@@ -7,7 +7,7 @@ import {
   LoginDetails,
   RegisterDetails,
   User,
-} from "../functions/interfaces";
+} from "../functions/interfaces/interfaces";
 import {
   validateUserLogin,
   validateUserRegistrationPassword,
