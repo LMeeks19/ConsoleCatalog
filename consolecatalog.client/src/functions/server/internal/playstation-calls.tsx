@@ -1,3 +1,4 @@
+import { GameSummaryObject } from "../../interfaces/playstation/games-interfaces";
 import {
   DefinedTrophyGroupObject,
   EarnedTitleTrophy,
@@ -9,7 +10,7 @@ import {
   TrophyGroupObject,
   TrophyTitle,
   TrophyTitleObject,
-} from "../../interfaces";
+} from "../../interfaces/playstation/profile-interfaces";
 import { mergeTrophyArrays, mergeTrophyGroupObjects } from "../../methods";
 import {
   getPSNProfileByUsername,

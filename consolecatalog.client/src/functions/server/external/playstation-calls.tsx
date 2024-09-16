@@ -1,6 +1,4 @@
 import {
-  Game,
-  GameSummary,
   TrophyTitleObject,
   TitleTrophiesObject,
   PSNProfileObject,
@@ -8,8 +6,9 @@ import {
   DefinedTrophyGroupObject,
   EarnedTrophyGroupObject,
   UniversalSearchObject,
-} from "../../interfaces";
-
+} from "../../interfaces/playstation/profile-interfaces";
+import { Game, GameSummary } from "../../interfaces/interfaces";
+import { GameSummaryObject } from "../../interfaces/playstation/games-interfaces";
 const BASE_API_URL = "http://localhost:3000";
 
 export async function getTitleById(id: string): Promise<Game[]> {
@@ -55,7 +54,7 @@ export async function getPSNProfileTrophiesForTitle(
   accountId: string,
   titleId: string,
   platform: string,
-  trophyGroupId: string,
+  trophyGroupId: string
 ): Promise<EarnedTitleTrophiesObject> {
   if (platform === "PS5") {
     const response = await fetch(
@@ -89,7 +88,7 @@ export async function getPSNTitleTrophies(
 export async function getPSNProfileTrophiesGroupsForTitle(
   accountId: string,
   titleId: string,
-  platform: string,
+  platform: string
 ): Promise<EarnedTrophyGroupObject> {
   if (platform === "PS5") {
     const response = await fetch(
@@ -119,7 +118,20 @@ export async function getTrophiesGroupsForTitle(
   return response.json();
 }
 
-export async function makeUniversalSearch(searchTerm: string): Promise<UniversalSearchObject> {
-  const response = await fetch(`${BASE_API_URL}/playstation/profiles/all/${searchTerm}`);
+export async function makeUniversalSearch(
+  searchTerm: string
+): Promise<UniversalSearchObject> {
+  const response = await fetch(
+    `${BASE_API_URL}/playstation/profiles/all/${searchTerm}`
+  );
+  return response.json();
+}
+
+export async function getGameSummaries(
+  searchTerm: string
+): Promise<GameSummaryObject> {
+  const response = await fetch(
+    `${BASE_API_URL}/playstation/games/search/${searchTerm}`
+  );
   return response.json();
 }

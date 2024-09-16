@@ -29,6 +29,8 @@ import {
   getPSNRecentTitles,
   getTitleById,
 } from "./requests/games/search.js";
+import { getGameInfo } from "./requests/playstation/games/info.js";
+import { getGamesSummaries } from "./requests/playstation/games/summaries.js";
 
 const app = express();
 const PORT = 3000;
@@ -290,4 +292,24 @@ app.get("/playstation/titles/recent/:offset", async (req, res) => {
 app.get("/playstation/titles/:id", async (req, res) => {
   const title = await getTitleById(games_auth.access_token, req.params.id);
   res.send(title);
+});
+
+app.get("/playstation/games/search/:searchTerm", async (req, res) => {
+  try {
+    const products = await getGamesSummaries(req.params.searchTerm);
+    res.json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.get("/playstation/games/:id", async (req, res) => {
+  try {
+    const products = await getGameInfo(req.params.id);
+    res.json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });

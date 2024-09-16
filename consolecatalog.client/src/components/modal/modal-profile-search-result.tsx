@@ -1,4 +1,4 @@
-import { PSNProfileSummary } from "../../functions/interfaces";
+import { PSNProfileSummary } from "../../functions/interfaces/interfaces";
 import { useNavigate } from "react-router-dom";
 import "../../style/modal/modal-profile-search-result.css";
 

@@ -10,7 +10,7 @@ import silver_icon from "../../images/psn-trophy-silver.png";
 import bronze_icon from "../../images/psn-trophy-bronze.png";
 import $ from "jquery";
 import "../../style/playstation/playstation-profiles-selected.css";
-import { PSNProfile } from "../../functions/interfaces";
+import { PSNProfile } from "../../functions/interfaces/playstation/profile-interfaces";
 import Conditional from "../../components/site/if-then-else";
 import ProgressBar from "@ramonak/react-progress-bar";
 import CustomProgressBar from "../../components/site/custom-progress-bar";

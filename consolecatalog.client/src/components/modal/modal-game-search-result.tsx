@@ -1,4 +1,4 @@
-import { GameSummary } from "../../functions/interfaces";
+import { GameSummary } from "../../functions/interfaces/interfaces";
 import {
   FormatNumberDate,
   getFullSearchImageUrl,
@@ -17,7 +17,11 @@ function ModalGameSearchResult(props: GameSearchResultProps) {
       className="result"
       key={props.game.id}
       onClick={() => {
-        navigate(`/playstation/games/${props.game.id}`);
+        navigate(`/playstation/games/${props.game.id}`, {
+          state: {
+            gameId: props.game.id,
+          },
+        });
       }}
     >
       <Conditional

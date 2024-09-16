@@ -1,4 +1,4 @@
-import { GameSummary } from "../../functions/interfaces";
+import { GameSummary } from "../../functions/interfaces/interfaces";
 import {
   FormatNumberDate,
   getFullCardImageUrl,
