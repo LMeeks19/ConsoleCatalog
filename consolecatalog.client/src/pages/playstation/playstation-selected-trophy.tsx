@@ -9,10 +9,11 @@ import Playstation from "./playstation";
 import { useLocation } from "react-router-dom";
 import {
   FormatStringDate,
+  getProgressColour,
   getTrophyRarity,
   getTrophyTypeIcon,
 } from "../../functions/methods";
-import "../../styling/playstation/playstation-selected-trophy.css";
+import "../../style/playstation/playstation-selected-trophy.css";
 import { useEffect, useState } from "react";
 import { SubObjective } from "../../functions/interfaces";
 import {
@@ -20,11 +21,12 @@ import {
   deleteSubObjectives,
   getSubObjectives,
   putSubObjective,
-} from "../../functions/server";
+} from "../../functions/server/internal/global-calls";
 import Modal from "../../components/modal/modal";
 import AddSubObjectiveModal from "../../components/modal/add-sub-objective-modal";
 import SearchBar from "../../components/site/search-bar";
 import { BeatLoader } from "react-spinners";
+import ProgressBar from "@ramonak/react-progress-bar";
 
 function PlaystationSelectedTrophy() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -45,7 +47,7 @@ function PlaystationSelectedTrophy() {
       const fetchedSubObjectives = await getSubObjectives(
         location.state.userId,
         location.state.titleId,
-        trophy.trophyId
+        trophy?.trophyId
       );
       setSubObjectives(fetchedSubObjectives);
       setIsLoading(false);
@@ -92,6 +94,7 @@ function PlaystationSelectedTrophy() {
           <Modal
             component={
               <AddSubObjectiveModal
+                userId={location.state.userId}
                 titleId={location.state?.titleId}
                 trophyId={trophy?.trophyId}
                 setSubObjectives={setSubObjectives}
@@ -126,6 +129,7 @@ function PlaystationSelectedTrophy() {
               If={
                 <div className="earned">
                   <div className="earned-text">
+                    <div>Completed:</div>
                     {FormatStringDate(trophy?.earnedDateTime)}
                   </div>
                   <i
@@ -135,9 +139,39 @@ function PlaystationSelectedTrophy() {
                 </div>
               }
             />
+            <Conditional
+              Condition={!trophy?.earned && trophy?.progress !== null}
+              If={
+                <div className="progress">
+                  <Conditional
+                    Condition={trophy?.progressedDateTime !== null}
+                    If={
+                      <div className="progress-text">
+                        <div>Last Progressed:</div>
+                        {FormatStringDate(trophy?.progressedDateTime)}
+                      </div>
+                    }
+                  />
+                  <div className="progress-value">
+                    <div>
+                      {trophy?.progress}/{trophy?.trophyProgressTargetValue}
+                    </div>
+                    <ProgressBar
+                      completed={trophy?.progressRate}
+                      baseBgColor="#161616"
+                      bgColor={getProgressColour(trophy?.progressRate)}
+                      labelAlignment="outside"
+                    />
+                  </div>
+                </div>
+              }
+            />
             <div className="rarity">
               <div>{getTrophyRarity(trophy?.trophyRare)} </div>
-              <div>{trophy?.trophyEarnedRate}%</div>
+              <Conditional
+                Condition={trophy?.trophyEarnedRate !== null}
+                If={<div>{trophy?.trophyEarnedRate}%</div>}
+              />
             </div>
             <img className="type" src={getTrophyTypeIcon(trophy?.trophyType)} />
           </div>

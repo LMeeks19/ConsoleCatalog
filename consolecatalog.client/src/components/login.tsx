@@ -1,5 +1,5 @@
 import { MouseEvent, useEffect, useState } from "react";
-import "../styling/login.css";
+import "../style/login.css";
 import Background from "./site/background";
 import { useNavigate } from "react-router-dom";
 import {
@@ -12,7 +12,10 @@ import {
   validateUserLogin,
   validateUserRegistrationPassword,
 } from "../functions/validation";
-import { getUserByUsername, postUser } from "../functions/server";
+import {
+  getUserByUsername,
+  postUser,
+} from "../functions/server/internal/global-calls";
 import { useSetRecoilState } from "recoil";
 import { userState } from "../functions/state";
 import { ActiveLoginTab } from "../functions/enums";
@@ -70,7 +73,11 @@ function Login() {
     if (validateUserLogin(user, loginDetails)) {
       setUser(user);
       setShowLoginErrorMessage(false);
-      navigate(`/${user.id}`);
+      navigate("/", {
+        state: {
+          userId: user.id,
+        },
+      });
     } else {
       setShowLoginErrorMessage(true);
     }
@@ -91,7 +98,7 @@ function Login() {
       try {
         const user = await postUser(registerDetails);
         setUser(user);
-        navigate(`/${user.id}`);
+        navigate("/", { state: { userId: user.id } });
       } catch (error) {
         setRegisterUsernameError("Username already exists");
       }

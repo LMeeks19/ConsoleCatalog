@@ -4,12 +4,11 @@ import {
   addSubObjectiveModalState,
   gameSearchModalState,
   sidebarState,
-  userState,
 } from "../../functions/state";
 import { BarProps } from "../../functions/interfaces";
 import { AutoTextSize } from "auto-text-size";
-import GamesSearchBar from "./games-searchbar";
-import "../../styling/site/topbar.css";
+import GlobalSearchBar from "./global-search-bar";
+import "../../style/site/topbar.css";
 import Conditional from "./if-then-else";
 
 function TopBar(props: BarProps) {
@@ -18,7 +17,6 @@ function TopBar(props: BarProps) {
   const isAddSubObjectiveModalActive = useRecoilValue(
     addSubObjectiveModalState
   );
-  const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
   return (
@@ -30,11 +28,11 @@ function TopBar(props: BarProps) {
     >
       <div
         className={`top-bar-title ${props.page}`}
-        onClick={() => navigate(`/${user.id}`)}
+        onClick={() => navigate("/")}
       >
         <AutoTextSize maxFontSizePx={24}>CONSOLE CATALOG</AutoTextSize>
       </div>
-      <GamesSearchBar />
+      <GlobalSearchBar />
       <div className="top-bar-end">
         <div
           className={`top-bar-menu ${Conditional({

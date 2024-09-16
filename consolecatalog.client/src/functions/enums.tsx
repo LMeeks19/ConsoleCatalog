@@ -11,6 +11,11 @@ export enum Pages {
   Account
 }
 
+export enum GlobalSearchTab {
+  Games,
+  Profiles
+}
+
 export enum Platforms {
   PS1 = "PS1",
   PS2 = "PS2",

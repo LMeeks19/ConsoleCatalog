@@ -11,54 +11,59 @@ import PlaystationGamesSelected from "../pages/playstation/playstation-games-sel
 import PlaystationProfilesSelected from "../pages/playstation/playstation-profiles-selected";
 import PlaystationGameTrophies from "../pages/playstation/playstation-game-trophies";
 import PlaystationSelectedTrophy from "../pages/playstation/playstation-selected-trophy";
+import PlaystationGameTrophyGroups from "../pages/playstation/playstation-game-trophy-groups";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/login",
     element: <Login />,
   },
   {
-    path: "/:userId",
+    path: "/",
     element: <Background />
   },
   {
-    path: "/:userId/playstation",
+    path: "/playstation",
     element: <PlaystationHome />,
   },
   {
-    path: "/:userId/playstation/games/browse",
+    path: "/playstation/games",
     element: <PlaystationGamesBrowse />,
   },
   {
-    path: "/:userId/playstation/games/:id",
+    path: "/playstation/games/:titleId",
     element: <PlaystationGamesSelected />,
   },
   {
-    path: "/:userId/playstation/profiles/browse",
+    path: "/playstation/profiles",
     element: <PlaystationProfilesBrowse />,
   },
   {
-    path: "/:userId/playstation/profiles/:username",
+    path: "/playstation/profiles/:username",
     element: <PlaystationProfilesSelected />,
   },
   {
-    path: "/:userId/playstation/profiles/:username/:gameId/trophies",
+    path: "/playstation/profiles/:username/titles/:titleId/groups",
+    element: <PlaystationGameTrophyGroups />,
+  },
+  {
+    path: "/playstation/profiles/:username/titles/:titleId/groups/:groupId/trophies",
     element: <PlaystationGameTrophies />,
   },
   {
-    path: "/:userId/playstation/profiles/:username/:gameId/trophies/:trophyId",
+    path: "/playstation/profiles/:username/titles/:titleId/groups/:groupId/trophies/:trophyId",
     element: <PlaystationSelectedTrophy />,
   },
   {
-    path: "/:userId/xbox",
+    path: "/xbox",
     element: <XboxHome />,
   },
   {
-    path: "/:userId/xbox/games/browse",
+    path: "/xbox/games",
     element: <XboxGamesBrowse />,
   },
   {
-    path: "/:userId/xbox/profiles/browse",
+    path: "/xbox/profiles",
     element: <XboxProfilesBrowse />,
   },
 ]);

@@ -1,15 +1,33 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import playstation_logo from "../../images/playstation_logo.webp";
 import xbox_logo from "../../images/xbox_logo.jpg";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { activePageState, userState } from "../../functions/state";
 import { Pages } from "../../functions/enums";
-import "../../styling/site/background.css";
+import "../../style/site/background.css";
+import { useEffect } from "react";
+import { getUserById } from "../../functions/server/internal/global-calls";
 
 function Background() {
   const navigate = useNavigate();
   const setActivePage = useSetRecoilState(activePageState);
-  const user = useRecoilValue(userState);
+  const setUser = useSetRecoilState(userState);
+  const location = useLocation();
+
+  useEffect(() => {
+    async function getUser() {
+      if (
+        location.state?.userId === undefined ||
+        location.state?.userId === null
+      )
+        navigate("/login");
+      else {
+        const user = await getUserById(location.state?.userId);
+        setUser(user);
+      }
+    }
+    getUser();
+  }, []);
 
   return (
     <div className="background">
@@ -17,7 +35,9 @@ function Background() {
         className="playstation"
         onClick={() => {
           setActivePage(Pages.Home);
-          navigate(`/${user.id}/playstation`);
+          navigate(`/playstation`, {
+            state: { userId: location.state?.userId },
+          });
         }}
       >
         <img src={playstation_logo} className="playstation-logo" />
@@ -26,7 +46,9 @@ function Background() {
         className="xbox"
         onClick={() => {
           setActivePage(Pages.Home);
-          navigate(`/${user.id}/xbox`);
+          navigate(`/xbox`, {
+            state: { userId: location.state?.userId },
+          });
         }}
       >
         <img src={xbox_logo} className="xbox-logo" />

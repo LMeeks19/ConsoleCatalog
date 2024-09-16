@@ -5,15 +5,12 @@ import {
   getRatingColour,
   isPSTitle,
 } from "../../functions/methods";
-import "../../styling/game/game-card.css";
+import "../../style/game/game-card.css";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../functions/state";
 import $ from "jquery";
 import Conditional from "../site/if-then-else";
 
 function GameCard(props: GameCardProps) {
-  const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
   function scrollTitleIfOverflowing(id: string) {
@@ -37,7 +34,13 @@ function GameCard(props: GameCardProps) {
       id={props.game.id.toString()}
       className="card"
       key={props.game.id}
-      onClick={() => navigate(`/${user.id}/playstation/games/${props.game.id}`)}
+      onClick={() =>
+        navigate(`/playstation/games/${props.game.id}`, {
+          state: {
+            gameId: props.game.id,
+          },
+        })
+      }
       onMouseOver={() => scrollTitleIfOverflowing(props.game.id.toString())}
       onMouseOut={() => unscrollTitleIfOverflowing(props.game.id.toString())}
     >
