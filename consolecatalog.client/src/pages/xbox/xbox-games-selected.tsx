@@ -1,22 +1,22 @@
 import { useRecoilValue } from "recoil";
 import { sidebarState } from "../../functions/state";
-import Playstation from "./playstation";
+import Xbox from "./xbox";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getPSNTitleById } from "../../functions/server/external/playstation-calls";
 import { COVER_BIG_URL, SCREENSHOT_MED_URL } from "../../functions/utils";
 import "react-multi-carousel/lib/styles.css";
 import "../../style/game/games-selected.css";
 import {
   FormatNumberDate,
   getRatingColour,
-  isPSNTitle,
+  isXBXTitle,
 } from "../../functions/methods";
 import { BeatLoader } from "react-spinners";
 import { Game } from "../../functions/interfaces/interfaces";
 import Conditional from "../../components/site/if-then-else";
+import { getXBXTitleById } from "../../functions/server/external/xbox-calls";
 
-function PlaystationGamesSelected() {
+function XboxGamesSelected() {
   const [selectedGame, setSelectedGame] = useState<Game>({} as Game);
   const isSidebarActive = useRecoilValue(sidebarState);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,7 +26,7 @@ function PlaystationGamesSelected() {
   useEffect(() => {
     async function fetchSelectedGame() {
       setIsLoading(true);
-      const game = await getPSNTitleById(location.state.gameId);
+      const game = await getXBXTitleById(location.state.gameId);
       setSelectedGame(game[0]);
       setIsLoading(false);
     }
@@ -48,7 +48,7 @@ function PlaystationGamesSelected() {
 
   return (
     <>
-      <Playstation />
+      <Xbox />
       <div
         className={`content ${Conditional({
           Condition: isSidebarActive,
@@ -171,7 +171,7 @@ function PlaystationGamesSelected() {
                       <div className="info-platforms">
                         {selectedGame.platforms
                           ?.filter((platform) =>
-                            isPSNTitle(platform.abbreviation)
+                            isXBXTitle(platform.abbreviation)
                           )
                           .map((platform) => {
                             return (
@@ -305,7 +305,7 @@ function PlaystationGamesSelected() {
                         return (
                           <img
                             onClick={() =>
-                              naviagte(`/playstation/games/${expansion.id}`)
+                              naviagte(`/xbox/games/${expansion.id}`)
                             }
                             key={expansion.id}
                             src={`${COVER_BIG_URL}/${expansion.cover?.image_id}.jpg`}
@@ -316,7 +316,7 @@ function PlaystationGamesSelected() {
                         return (
                           <img
                             onClick={() =>
-                              naviagte(`/playstation/games/${dlc.id}`)
+                              naviagte(`/xbox/games/${dlc.id}`)
                             }
                             key={dlc.id}
                             src={`${COVER_BIG_URL}/${dlc.cover?.image_id}.jpg`}
@@ -344,7 +344,7 @@ function PlaystationGamesSelected() {
                         return (
                           <img
                             onClick={() =>
-                              naviagte(`/playstation/games/${bundle.id}`)
+                              naviagte(`/xbox/games/${bundle.id}`)
                             }
                             key={bundle.id}
                             src={`${COVER_BIG_URL}/${bundle.cover?.image_id}.jpg`}
@@ -363,4 +363,4 @@ function PlaystationGamesSelected() {
   );
 }
 
-export default PlaystationGamesSelected;
+export default XboxGamesSelected;

@@ -7,11 +7,13 @@ import PlaystationGamesBrowse from "../pages/playstation/playstation-games-brows
 import XboxGamesBrowse from "../pages/xbox/xbox-games-browse";
 import XboxProfilesBrowse from "../pages/xbox/xbox-profiles-browse";
 import PlaystationProfilesBrowse from "../pages/playstation/playstation-profiles-browse";
-import PlaystationGamesSelected from "../pages/playstation/playstation-games-selected";
 import PlaystationProfilesSelected from "../pages/playstation/playstation-profiles-selected";
 import PlaystationGameTrophies from "../pages/playstation/playstation-game-trophies";
 import PlaystationSelectedTrophy from "../pages/playstation/playstation-selected-trophy";
 import PlaystationGameTrophyGroups from "../pages/playstation/playstation-game-trophy-groups";
+import XboxProfilesSelected from "../pages/xbox/xbox-profiles-selected";
+import XboxGamesSelected from "../pages/xbox/xbox-games-selected";
+import PlaystationGamesSelected from "../pages/playstation/playstation-games-selected";
 
 export const router = createBrowserRouter([
   {
@@ -63,7 +65,15 @@ export const router = createBrowserRouter([
     element: <XboxGamesBrowse />,
   },
   {
+    path: "/xbox/games/:titleId",
+    element: <XboxGamesSelected />,
+  },
+  {
     path: "/xbox/profiles",
     element: <XboxProfilesBrowse />,
+  },
+  {
+    path: "/xbox/profiles/:username",
+    element: <XboxProfilesSelected />,
   },
 ]);

@@ -2,7 +2,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import Conditional from "../../components/site/if-then-else";
 import {
   addSubObjectiveModalState,
-  gameSearchModalState,
+  searchModalState,
   sidebarState,
 } from "../../functions/state";
 import Playstation from "./playstation";
@@ -37,7 +37,7 @@ function PlaystationSelectedTrophy() {
   );
   const [isAddSubObjectiveModalActive, setIsAddSubObjectiveModalActive] =
     useRecoilState(addSubObjectiveModalState);
-  const isGameSearchModalActive = useRecoilValue(gameSearchModalState);
+  const isSearchModalActive = useRecoilValue(searchModalState);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -108,7 +108,7 @@ function PlaystationSelectedTrophy() {
           Condition:
             isSidebarActive ||
             isAddSubObjectiveModalActive ||
-            isGameSearchModalActive,
+            isSearchModalActive,
           If: "disabled",
         })}`}
       >

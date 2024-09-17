@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   addSubObjectiveModalState,
-  gameSearchModalState,
+  searchModalState,
   sidebarState,
 } from "../../functions/state";
 import { BarProps } from "../../functions/interfaces/interfaces";
@@ -13,7 +13,7 @@ import Conditional from "./if-then-else";
 
 function TopBar(props: BarProps) {
   const [isSidebarActive, setIsSidebarActive] = useRecoilState(sidebarState);
-  const isGameSearchModalActive = useRecoilValue(gameSearchModalState);
+  const isSearchModalActive = useRecoilValue(searchModalState);
   const isAddSubObjectiveModalActive = useRecoilValue(
     addSubObjectiveModalState
   );
@@ -36,7 +36,7 @@ function TopBar(props: BarProps) {
       <div className="top-bar-end">
         <div
           className={`top-bar-menu ${Conditional({
-            Condition: isGameSearchModalActive || isAddSubObjectiveModalActive,
+            Condition: isSearchModalActive || isAddSubObjectiveModalActive,
             If: "disabled",
           })}`}
           onClick={() => setIsSidebarActive(!isSidebarActive)}

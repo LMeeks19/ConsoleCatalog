@@ -3,14 +3,14 @@ import {
   FormatNumberDate,
   getFullCardImageUrl,
   getRatingColour,
-  isPSTitle,
+  isXBXTitle,
 } from "../../functions/methods";
 import "../../style/game/game-card.css";
 import { useNavigate } from "react-router-dom";
 import $ from "jquery";
 import Conditional from "../site/if-then-else";
 
-function GameCard(props: GameCardProps) {
+function XboxGameCard(props: GameCardProps) {
   const navigate = useNavigate();
 
   function scrollTitleIfOverflowing(id: string) {
@@ -87,12 +87,12 @@ function GameCard(props: GameCardProps) {
 
         <div className="card-info-platforms">
           {props.game.platforms
-            .filter((platform) => isPSTitle(platform.abbreviation))
+            .filter((platform) => isXBXTitle(platform.abbreviation))
             .sort((a, b) => b.abbreviation.localeCompare(a.abbreviation))
             .map((platform) => {
               return (
                 <div className="platform" key={platform.id}>
-                  {platform.abbreviation}
+                  {platform.name}
                 </div>
               );
             })}
@@ -102,7 +102,7 @@ function GameCard(props: GameCardProps) {
   );
 }
 
-export default GameCard;
+export default XboxGameCard;
 
 interface GameCardProps {
   game: GameSummary;

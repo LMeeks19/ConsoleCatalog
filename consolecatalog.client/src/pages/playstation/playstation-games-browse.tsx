@@ -2,17 +2,17 @@ import Playstation from "./playstation";
 import { useEffect, useState } from "react";
 import { GameSummary, SelectedDate } from "../../functions/interfaces/interfaces";
 import { useRecoilValue } from "recoil";
-import { gameSearchModalState, sidebarState } from "../../functions/state";
-import GameCard from "../../components/games/game-card";
+import { searchModalState, sidebarState } from "../../functions/state";
 import { AutoTextSize } from "auto-text-size";
 import { Month, Year } from "../../functions/enums";
 import GameCardBlankCollection from "../../components/games/game-card-blank";
-import "../../style/playstation/playstation-games-browse.css";
+import "../../style/game/games-browse.css";
 import Conditional from "../../components/site/if-then-else";
+import PlaystationGameCard from "../../components/games/playstation-game-card";
 
 function PlaystationGamesBrowse() {
   const isSidebarActive = useRecoilValue(sidebarState);
-  const isGameSearchModalActive = useRecoilValue(gameSearchModalState);
+  const isSearchModalActive = useRecoilValue(searchModalState);
   const [upcomingTitles, setUpcomingTitles] = useState<GameSummary[]>(
     [] as GameSummary[]
   );
@@ -81,7 +81,7 @@ function PlaystationGamesBrowse() {
       <Playstation />
       <div
         className={`content ${Conditional({
-          Condition: isSidebarActive || isGameSearchModalActive,
+          Condition: isSidebarActive || isSearchModalActive,
           If: "disabled",
         })}`}
       >
@@ -173,7 +173,7 @@ function PlaystationGamesBrowse() {
               <>
                 {upcomingTitles.map((upcomingTitle) => {
                   return (
-                    <GameCard
+                    <PlaystationGameCard
                       key={upcomingTitle.id}
                       game={upcomingTitle}
                       blank={false}
@@ -201,7 +201,7 @@ function PlaystationGamesBrowse() {
               <>
                 {recentTitles.map((recentTitle) => {
                   return (
-                    <GameCard
+                    <PlaystationGameCard
                       key={recentTitle.id}
                       game={recentTitle}
                       blank={false}

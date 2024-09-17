@@ -28,9 +28,11 @@ import {
   getPSNUpcomingTitles,
   getPSNRecentTitles,
   getTitleById,
-} from "./requests/games/search.js";
+} from "./requests/games/psn-search.js";
 import { getGameInfo } from "./requests/playstation/games/info.js";
 import { getGamesSummaries } from "./requests/playstation/games/summaries.js";
+import { getXBXUser } from "./requests/xbox/user.js";
+import { getXBXRecentTitles, getXBXTitlesBySearch, getXBXUpcomingTitles } from "./requests/games/xbx-search.js";
 
 const app = express();
 const PORT = 3000;
@@ -313,3 +315,41 @@ app.get("/playstation/games/:id", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+app.get("/xbox/profiles/search/:username", async (req, res) => {
+  const user = await getXBXUser(req.params.username);
+  res.send(user);
+});
+
+app.get("/xbox/titles/search/:searchTerm", async (req, res) => {
+  const titles = await getXBXTitlesBySearch(
+    games_auth.access_token,
+    req.params.searchTerm
+  );
+
+  res.send(titles);
+});
+
+app.get("/xbox/titles/upcoming/:month/:year", async (req, res) => {
+  const upcomingTitles = await getXBXUpcomingTitles(
+    games_auth.access_token,
+    req.params.month,
+    req.params.year
+  );
+  res.send(upcomingTitles);
+});
+
+app.get("/xbox/titles/recent/:offset", async (req, res) => {
+  const upcomingTitles = await getXBXRecentTitles(
+    games_auth.access_token,
+    req.params.offset
+  );
+  res.send(upcomingTitles);
+});
+
+app.get("/xbox/titles/:id", async (req, res) => {
+  const title = await getTitleById(games_auth.access_token, req.params.id);
+  res.send(title);
+});
+
+

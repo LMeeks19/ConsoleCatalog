@@ -1,22 +1,26 @@
-import { GameSummary } from "../../functions/interfaces/interfaces";
+import { GameSummary } from "../../../functions/interfaces/interfaces";
 import {
   FormatNumberDate,
   getFullSearchImageUrl,
   getRatingColour,
-  isPSTitle,
-} from "../../functions/methods";
-import "../../style/modal/modal-game-search-result.css";
+  isPSNTitle,
+} from "../../../functions/methods";
+import "../../../style/playstation/playstation-modal-game-search-result.css";
 import { useNavigate } from "react-router-dom";
-import Conditional from "../site/if-then-else";
+import Conditional from "../../site/if-then-else";
+import { useSetRecoilState } from "recoil";
+import { searchModalState } from "../../../functions/state";
 
-function ModalGameSearchResult(props: GameSearchResultProps) {
+function PlaystationModalGameSearchResult(props: GameSearchResultProps) {
   const navigate = useNavigate();
+  const setIsSearchModalActive = useSetRecoilState(searchModalState);
 
   return (
     <div
       className="result"
       key={props.game.id}
       onClick={() => {
+        setIsSearchModalActive(false);
         navigate(`/playstation/games/${props.game.id}`, {
           state: {
             gameId: props.game.id,
@@ -44,7 +48,7 @@ function ModalGameSearchResult(props: GameSearchResultProps) {
       </div>
       <div className="result-platforms">
         {props.game.platforms
-          .filter((platform) => isPSTitle(platform.abbreviation))
+          .filter((platform) => isPSNTitle(platform.abbreviation))
           .sort((a, b) => a.abbreviation.localeCompare(b.abbreviation))
           .map((platform) => {
             return (
@@ -70,7 +74,7 @@ function ModalGameSearchResult(props: GameSearchResultProps) {
   );
 }
 
-export default ModalGameSearchResult;
+export default PlaystationModalGameSearchResult;
 
 interface GameSearchResultProps {
   game: GameSummary;

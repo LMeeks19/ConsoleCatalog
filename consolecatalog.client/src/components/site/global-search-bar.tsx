@@ -1,12 +1,12 @@
 import { useRecoilState, useRecoilValue } from "recoil";
-import { gameSearchModalState, sidebarState } from "../../functions/state";
+import { searchModalState, sidebarState } from "../../functions/state";
 import "../../style/site/global-search-bar.css";
 import Conditional from "./if-then-else";
 
 function GlobalSearchBar() {
   const isSidebarActive = useRecoilValue(sidebarState);
-  const [isGameSearchModalActive, setIsGamesSearchModalActive] =
-    useRecoilState(gameSearchModalState);
+  const [isSearchModalActive, setIsGamesSearchModalActive] =
+    useRecoilState(searchModalState);
 
   return (
     <div
@@ -17,7 +17,7 @@ function GlobalSearchBar() {
     >
       <div className="search">
         <input
-          disabled={isGameSearchModalActive}
+          disabled={isSearchModalActive}
           id="searchTerm"
           name="searchTerm"
           type="text"

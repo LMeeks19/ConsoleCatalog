@@ -1,24 +1,24 @@
 import { useRecoilValue } from "recoil";
-import Playstation from "./playstation";
-import { sidebarState } from "../../functions/state";
 import Conditional from "../../components/site/if-then-else";
+import { sidebarState } from "../../functions/state";
+import Xbox from "./xbox";
 
-function PlaystationProfilesBrowse() {
+function XboxProfilesSelected() {
   const isSidebarActive = useRecoilValue(sidebarState);
 
   return (
     <>
-      <Playstation />
+      <Xbox />
       <div
         className={`content ${Conditional({
           Condition: isSidebarActive,
           If: "disabled",
         })}`}
       >
-        Playstation Profiles
+        Xbox Profile Selected
       </div>
     </>
   );
 }
 
-export default PlaystationProfilesBrowse;
+export default XboxProfilesSelected;

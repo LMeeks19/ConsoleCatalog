@@ -2,11 +2,11 @@ import playstation_icon from "../../images/playstation_icon.png";
 import xbox_icon from "../../images/xbox_icon.png";
 import TopBar from "../../components/site/topbar";
 import SideBar from "../../components/site/sidebar";
-import GlobalSearchModal from "../../components/modal/global-search-modal";
+import PlaystationGlobalSearchModal from "../../components/modal/playstation/playstation-global-search-modal";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   activePageState,
-  gameSearchModalState,
+  searchModalState,
   userState,
 } from "../../functions/state";
 import { useEffect } from "react";
@@ -17,8 +17,8 @@ import Conditional from "../../components/site/if-then-else";
 import Modal from "../../components/modal/modal";
 
 function Playstation() {
-  const [isGameSearchModalActive, setIsGameSearchModalActive] =
-    useRecoilState(gameSearchModalState);
+  const [isSearchModalActive, setIsSearchModalActive] =
+    useRecoilState(searchModalState);
   const setActivePage = useSetRecoilState(activePageState);
   const user = useRecoilValue(userState);
   const location = useLocation();
@@ -38,7 +38,7 @@ function Playstation() {
       else setActivePage(Pages.Home);
     }
     function resetModal() {
-      setIsGameSearchModalActive(false);
+      setIsSearchModalActive(false);
     }
     setCurrentPage();
     resetModal();
@@ -47,8 +47,8 @@ function Playstation() {
   return (
     <>
       <Conditional
-        Condition={isGameSearchModalActive}
-        If={<Modal component={<GlobalSearchModal page="playstation" />} />}
+        Condition={isSearchModalActive}
+        If={<Modal component={<PlaystationGlobalSearchModal />} />}
       />
       <TopBar page="playstation" icon={playstation_icon} />
       <SideBar page="playstation" icon={xbox_icon} />

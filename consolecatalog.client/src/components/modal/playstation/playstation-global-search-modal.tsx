@@ -1,22 +1,22 @@
 import {
   GameSummary,
-} from "../../functions/interfaces/interfaces";
-import { ProfileResults } from "../../functions/interfaces/playstation/profile-interfaces";
+} from "../../../functions/interfaces/interfaces";
+import { ProfileResults } from "../../../functions/interfaces/playstation/profile-interfaces";
 import { useEffect, useState } from "react";
-import ModalGameSearchResult from "./modal-game-search-result";
-import ModalSearchBar from "./modal-search-bar";
-import GlobalSearchResultBlank from "./global-search-result-blank";
+import PlaystationModalGameSearchResult from "./playstation-modal-game-search-result";
+import ModalSearchBar from "../modal-search-bar";
+import PlaystationGlobalSearchResultBlank from "./playstation-global-search-result-blank";
 import {
-  getTitles,
+  getPSNTitles,
   makeUniversalSearch,
-} from "../../functions/server/external/playstation-calls";
+} from "../../../functions/server/external/playstation-calls";
 import { BeatLoader } from "react-spinners";
-import "../../style/modal/global-search-modal.css";
-import Conditional from "../site/if-then-else";
-import { GlobalSearchTab } from "../../functions/enums";
-import ModalProfileSearchResult from "./modal-profile-search-result";
+import "../../../style/playstation/playstation-global-search-modal.css";
+import Conditional from "../../site/if-then-else";
+import { GlobalSearchTab } from "../../../functions/enums";
+import PlaystationModalProfileSearchResult from "./playstation-modal-profile-search-result";
 
-function GlobalSearchModal(props: { page: string }) {
+function PlaystationGlobalSearchModal() {
   const [games, setGames] = useState<GameSummary[]>([] as GameSummary[]);
   const [profiles, setProfiles] = useState<ProfileResults[]>(
     [] as ProfileResults[]
@@ -32,7 +32,7 @@ function GlobalSearchModal(props: { page: string }) {
     const timeout = setTimeout(async () => {
       if (searchTerm !== "") {
         if (globalSearchTab === GlobalSearchTab.Games) {
-          const games = await getTitles(searchTerm);
+          const games = await getPSNTitles(searchTerm);
           setGames(games);
         } else if (globalSearchTab === GlobalSearchTab.Profiles) {
           const response = await makeUniversalSearch(searchTerm);
@@ -64,11 +64,6 @@ function GlobalSearchModal(props: { page: string }) {
     return <></>;
   }
 
-  function getPageName() {
-    if (props.page === "xbox") return "xbox";
-    return "playstation";
-  }
-
   return (
     <>
       <ModalSearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
@@ -76,7 +71,7 @@ function GlobalSearchModal(props: { page: string }) {
         <div
           className={`search-tab ${Conditional({
             Condition: globalSearchTab === GlobalSearchTab.Games,
-            If: `active ${getPageName()}`,
+            If: "active playstation",
           })}`}
           onClick={() => setGlobalSearchTab(GlobalSearchTab.Games)}
         >
@@ -85,7 +80,7 @@ function GlobalSearchModal(props: { page: string }) {
         <div
           className={`search-tab ${Conditional({
             Condition: globalSearchTab === GlobalSearchTab.Profiles,
-            If: `active ${getPageName()}`,
+            If: "active playstation",
           })}`}
           onClick={() => setGlobalSearchTab(GlobalSearchTab.Profiles)}
         >
@@ -101,16 +96,16 @@ function GlobalSearchModal(props: { page: string }) {
             (globalSearchTab === GlobalSearchTab.Profiles &&
               profiles.length === 0)
           }
-          If={<GlobalSearchResultBlank element={getTextMessage()} />}
+          If={<PlaystationGlobalSearchResultBlank element={getTextMessage()} />}
           Else={
             <Conditional
               Condition={globalSearchTab === GlobalSearchTab.Games}
               If={games.map((game) => {
-                return <ModalGameSearchResult key={game.id} game={game} />;
+                return <PlaystationModalGameSearchResult key={game.id} game={game} />;
               })}
               Else={profiles.map((profile) => {
                 return (
-                  <ModalProfileSearchResult
+                  <PlaystationModalProfileSearchResult
                     key={profile.socialMetadata.accountId}
                     profile={profile.socialMetadata}
                   />
@@ -124,4 +119,4 @@ function GlobalSearchModal(props: { page: string }) {
   );
 }
 
-export default GlobalSearchModal;
+export default PlaystationGlobalSearchModal;
