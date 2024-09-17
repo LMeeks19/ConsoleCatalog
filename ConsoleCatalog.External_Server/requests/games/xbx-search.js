@@ -71,6 +71,20 @@ export async function getXBXRecentTitles(accessToken, offset) {
   return response.json();
 }
 
+export async function getXBXAcclaimedTitles(accessToken, offset) {
+
+  const response = await fetch(BASE_GAMES_URL, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Client-ID": CLIENT_ID,
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: `fields ${FULL_GAME_SUMMARY_FIELDS}; where platforms = (12,49,169) & platforms != (7,8,9,48,167) & version_parent = null & category = (0,8,9); sort total_rating desc; limit 20; offset ${offset};`,
+  });
+  return response.json();
+}
+
 export async function getTitleById(accessToken, id) {
   const response = await fetch(BASE_GAMES_URL, {
     method: "POST",

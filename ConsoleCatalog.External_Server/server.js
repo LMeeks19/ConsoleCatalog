@@ -28,11 +28,17 @@ import {
   getPSNUpcomingTitles,
   getPSNRecentTitles,
   getTitleById,
+  getPSNAcclaimedTitles,
 } from "./requests/games/psn-search.js";
 import { getGameInfo } from "./requests/playstation/games/info.js";
 import { getGamesSummaries } from "./requests/playstation/games/summaries.js";
 import { getXBXUser } from "./requests/xbox/user.js";
-import { getXBXRecentTitles, getXBXTitlesBySearch, getXBXUpcomingTitles } from "./requests/games/xbx-search.js";
+import {
+  getXBXAcclaimedTitles,
+  getXBXRecentTitles,
+  getXBXTitlesBySearch,
+  getXBXUpcomingTitles,
+} from "./requests/games/xbx-search.js";
 
 const app = express();
 const PORT = 3000;
@@ -291,6 +297,33 @@ app.get("/playstation/titles/recent/:offset", async (req, res) => {
   res.send(upcomingTitles);
 });
 
+app.get("/playstation/titles/acclaimed/:offset", async (req, res) => {
+  const acclaimedTitles = await getPSNAcclaimedTitles(
+    games_auth.access_token,
+    req.params.offset
+  );
+  res.send(acclaimedTitles);
+});
+
+app.get("/playstation/titles/browse", async (req, res) => {
+  const upcomingTitles = await getPSNUpcomingTitles(
+    games_auth.access_token,
+    new Date().getMonth().toString(),
+    new Date().getFullYear().toString()
+  );
+  const recentTitles = await getPSNRecentTitles(games_auth.access_token, "0");
+  const acclaimedTitles = await getPSNAcclaimedTitles(
+    games_auth.access_token,
+    "0"
+  );
+
+  res.send({
+    upcomingTitles: upcomingTitles,
+    recentTitles: recentTitles,
+    acclaimedTitles: acclaimedTitles,
+  });
+});
+
 app.get("/playstation/titles/:id", async (req, res) => {
   const title = await getTitleById(games_auth.access_token, req.params.id);
   res.send(title);
@@ -347,9 +380,34 @@ app.get("/xbox/titles/recent/:offset", async (req, res) => {
   res.send(upcomingTitles);
 });
 
+app.get("/xbox/titles/acclaimed/:offset", async (req, res) => {
+  const acclaimedTitles = await getXBXAcclaimedTitles(
+    games_auth.access_token,
+    req.params.offset
+  );
+  res.send(acclaimedTitles);
+});
+
+app.get("/xbox/titles/browse", async (req, res) => {
+  const upcomingTitles = await getXBXUpcomingTitles(
+    games_auth.access_token,
+    new Date().getMonth().toString(),
+    new Date().getFullYear().toString()
+  );
+  const recentTitles = await getXBXRecentTitles(games_auth.access_token, "0");
+  const acclaimedTitles = await getXBXAcclaimedTitles(
+    games_auth.access_token,
+    "0"
+  );
+
+  res.send({
+    upcomingTitles: upcomingTitles,
+    recentTitles: recentTitles,
+    acclaimedTitles: acclaimedTitles,
+  });
+});
+
 app.get("/xbox/titles/:id", async (req, res) => {
   const title = await getTitleById(games_auth.access_token, req.params.id);
   res.send(title);
 });
-
-

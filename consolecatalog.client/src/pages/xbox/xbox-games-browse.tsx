@@ -1,6 +1,7 @@
 import Xbox from "./xbox";
 import { useEffect, useState } from "react";
 import {
+  GameSummariesObject,
   GameSummary,
   SelectedDate,
 } from "../../functions/interfaces/interfaces";
@@ -16,11 +17,9 @@ import XboxGameCard from "../../components/games/xbox-game-card";
 function XboxGamesBrowse() {
   const isSidebarActive = useRecoilValue(sidebarState);
   const isSearchModalActive = useRecoilValue(searchModalState);
-  const [upcomingTitles, setUpcomingTitles] = useState<GameSummary[]>(
-    [] as GameSummary[]
-  );
-  const [recentTitles, setRecentTitles] = useState<GameSummary[]>(
-    [] as GameSummary[]
+
+  const [browseTitles, setBrowseTitles] = useState<GameSummariesObject>(
+    {} as GameSummariesObject
   );
 
   const currentDate = new Date();
@@ -31,47 +30,100 @@ function XboxGamesBrowse() {
 
   const [isLoadingUpcoming, setIsLoadingUpcoming] = useState<boolean>(true);
   const [isLoadingRecent, setIsLoadingRecent] = useState<boolean>(true);
+  const [isLoadingAcclaimed, setIsLoadingAcclaimed] = useState<boolean>(true);
+
+  const [recentPage, setRecentPage] = useState<number>(1);
+  const [acclaimedPage, setAcclaimedPage] = useState<number>(1);
+
   useEffect(() => {
-    setIsLoadingUpcoming(true);
-    const timeout = setTimeout(async () => {
-      if (
-        selectedDate.year === currentDate.getFullYear() &&
-        selectedDate.month < currentDate.getMonth()
-      )
-        setSelectedDate({ ...selectedDate, month: currentDate.getMonth() });
-      else {
-        const upcomingTitles = await getUpcomingXBXTitles(selectedDate);
-        setUpcomingTitles(upcomingTitles);
-      }
+    async function getBrowseTitles() {
+      setIsLoadingUpcoming(true);
+      setIsLoadingRecent(true);
+      setIsLoadingAcclaimed(true);
+
+      const newBrowseTitles = await getBrowseXBXTitles();
+      setBrowseTitles(newBrowseTitles);
+
       setIsLoadingUpcoming(false);
-    }, 2000);
+      setIsLoadingRecent(false);
+      setIsLoadingAcclaimed(false);
+    }
+    getBrowseTitles();
+  }, []);
 
-    return () => clearTimeout(timeout);
-  }, [selectedDate]);
-
-  const [page, setPage] = useState(1);
+  async function getUpcomingTitles(month: number, year: number) {
+    setIsLoadingUpcoming(true);
+    setSelectedDate({ month: month, year: year });
+    const upcomingTitles = await getUpcomingXBXTitles({
+      month: month,
+      year: year,
+    });
+    setBrowseTitles({ ...browseTitles, upcomingTitles: upcomingTitles });
+    setIsLoadingUpcoming(false);
+  }
 
   useEffect(() => {
-    setIsLoadingRecent(true);
-    const timeout = setTimeout(async () => {
-      const newRecentTitles = await getRecentXBXTitles(recentTitles.length);
-      setRecentTitles([...recentTitles, ...newRecentTitles]);
-      setIsLoadingRecent(false);
-    }, 2000);
+    async function getRecentTitles() {
+      if (recentPage > 1) {
+        setIsLoadingRecent(true);
+        const newRecentTitles = await getRecentXBXTitles(
+          browseTitles.recentTitles.length
+        );
+        setBrowseTitles({
+          ...browseTitles,
+          recentTitles: [...browseTitles.recentTitles, ...newRecentTitles],
+        });
+        setIsLoadingRecent(false);
+      }
+    }
+    getRecentTitles();
+  }, [recentPage]);
 
-    return () => clearTimeout(timeout);
-  }, [page]);
+  useEffect(() => {
+    async function getAcclaimedTitles() {
+      if (acclaimedPage > 1) {
+        setIsLoadingAcclaimed(true);
+        const newAcclaimedTitles = await getAcclaimedXBXTitles(
+          browseTitles.acclaimedTitles.length
+        );
+        setBrowseTitles({
+          ...browseTitles,
+          acclaimedTitles: [
+            ...browseTitles.acclaimedTitles,
+            ...newAcclaimedTitles,
+          ],
+        });
+        setIsLoadingAcclaimed(false);
+      }
+    }
+    getAcclaimedTitles();
+  }, [acclaimedPage]);
 
   useEffect(() => {
     function handleScroll(event: any) {
       const { scrollLeft, clientWidth, scrollWidth } = event.target;
 
-      if (scrollWidth - scrollLeft === clientWidth) {
-        setPage((oldPage) => oldPage + 1);
-      }
+      if (scrollWidth - scrollLeft === clientWidth)
+        setRecentPage((oldPage) => oldPage + 1);
     }
 
     const element = document.getElementById("recent-games");
+    element!.addEventListener("scroll", handleScroll);
+
+    return () => {
+      element!.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    function handleScroll(event: any) {
+      const { scrollLeft, clientWidth, scrollWidth } = event.target;
+
+      if (scrollWidth - scrollLeft === clientWidth)
+        setAcclaimedPage((oldPage) => oldPage + 1);
+    }
+
+    const element = document.getElementById("acclaimed-games");
     element!.addEventListener("scroll", handleScroll);
 
     return () => {
@@ -102,10 +154,10 @@ function XboxGamesBrowse() {
           >
             <button
               onClick={() =>
-                setSelectedDate({
-                  month: currentDate.getMonth(),
-                  year: currentDate.getFullYear(),
-                })
+                getUpcomingTitles(
+                  currentDate.getMonth(),
+                  currentDate.getFullYear()
+                )
               }
             >
               <i className="fa-solid fa-rotate-left"></i>
@@ -119,10 +171,7 @@ function XboxGamesBrowse() {
               <select
                 value={selectedDate.month}
                 onChange={(e) =>
-                  setSelectedDate({
-                    ...selectedDate,
-                    month: Number(e.target.value),
-                  })
+                  getUpcomingTitles(Number(e.target.value), selectedDate.year)
                 }
               >
                 {Object.keys(Month)
@@ -150,10 +199,7 @@ function XboxGamesBrowse() {
               <select
                 value={selectedDate.year}
                 onChange={(e) =>
-                  setSelectedDate({
-                    ...selectedDate,
-                    year: Number(e.target.value),
-                  })
+                  getUpcomingTitles(selectedDate.month, Number(e.target.value))
                 }
               >
                 {Object.values(Year).map((value) => {
@@ -174,7 +220,7 @@ function XboxGamesBrowse() {
             If={<GameCardBlankCollection number={20} />}
             Else={
               <>
-                {upcomingTitles.map((upcomingTitle) => {
+                {browseTitles.upcomingTitles?.map((upcomingTitle) => {
                   return (
                     <XboxGameCard
                       key={upcomingTitle.id}
@@ -202,11 +248,39 @@ function XboxGamesBrowse() {
             If={<GameCardBlankCollection number={20} />}
             Else={
               <>
-                {recentTitles.map((recentTitle) => {
+                {browseTitles.recentTitles?.map((recentTitle) => {
                   return (
                     <XboxGameCard
                       key={recentTitle.id}
                       game={recentTitle}
+                      blank={false}
+                    />
+                  );
+                })}
+              </>
+            }
+          />
+        </div>
+
+        <div className="section-header">
+          <div className="text">
+            <AutoTextSize maxFontSizePx={28} minFontSizePx={16}>
+              CRITICALLY ACCLAIMED EXCLISIVES
+            </AutoTextSize>
+          </div>
+        </div>
+
+        <div id="acclaimed-games" className="cards-container">
+          <Conditional
+            Condition={isLoadingAcclaimed}
+            If={<GameCardBlankCollection number={20} />}
+            Else={
+              <>
+                {browseTitles.acclaimedTitles?.map((acclaimedTitle) => {
+                  return (
+                    <XboxGameCard
+                      key={acclaimedTitle.id}
+                      game={acclaimedTitle}
                       blank={false}
                     />
                   );
@@ -222,6 +296,11 @@ function XboxGamesBrowse() {
 
 export default XboxGamesBrowse;
 
+async function getBrowseXBXTitles(): Promise<GameSummariesObject> {
+  const response = await fetch(`http://localhost:3000/xbox/titles/browse`);
+  return response.json();
+}
+
 async function getUpcomingXBXTitles(
   selectedDate: SelectedDate
 ): Promise<GameSummary[]> {
@@ -234,6 +313,13 @@ async function getUpcomingXBXTitles(
 async function getRecentXBXTitles(offset: number): Promise<GameSummary[]> {
   const response = await fetch(
     `http://localhost:3000/xbox/titles/recent/${offset}`
+  );
+  return response.json();
+}
+
+async function getAcclaimedXBXTitles(offset: number): Promise<GameSummary[]> {
+  const response = await fetch(
+    `http://localhost:3000/xbox/titles/acclaimed/${offset}`
   );
   return response.json();
 }
