@@ -43,6 +43,12 @@ export interface User {
   password: string;
 }
 
+export interface GameSummariesObject {
+  upcomingTitles: GameSummary[];
+  recentTitles: GameSummary[];
+  acclaimedTitles: GameSummary[];
+}
+
 export interface GameSummary {
   id: number;
   total_rating: number;
@@ -50,12 +56,6 @@ export interface GameSummary {
   name: string;
   platforms: Platform[];
   first_release_date: number;
-}
-
-export interface UpcomingGameSummary {
-  id: number;
-  date: number;
-  game: GameSummary;
 }
 
 export interface Game {

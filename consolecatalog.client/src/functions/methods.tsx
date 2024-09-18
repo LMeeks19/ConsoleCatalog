@@ -5,7 +5,17 @@ import platinum_icon from "../images/psn-trophy-platinum.png";
 import gold_icon from "../images/psn-trophy-gold.png";
 import silver_icon from "../images/psn-trophy-silver.png";
 import bronze_icon from "../images/psn-trophy-bronze.png";
-import { DefinedTrophyGroup, DefinedTrophyGroupObject, EarnedTitleTrophy, EarnedTrophyGroup, EarnedTrophyGroupObject, TitleTrophy, Trophy, TrophyGroup, TrophyGroupObject } from "./interfaces/interfaces";
+import {
+  DefinedTrophyGroup,
+  DefinedTrophyGroupObject,
+  EarnedTitleTrophy,
+  EarnedTrophyGroup,
+  EarnedTrophyGroupObject,
+  TitleTrophy,
+  Trophy,
+  TrophyGroup,
+  TrophyGroupObject,
+} from "./interfaces/playstation/profile-interfaces";
 
 export function getFullCardImageUrl(imageId: string) {
   return `${COVER_BIG_URL}/${imageId}.jpg`;
@@ -31,13 +41,21 @@ export function getProgressColour(rating: number): string {
   return "#f11528";
 }
 
-export function isPSTitle(abbreviation: string): boolean {
+export function isPSNTitle(abbreviation: string): boolean {
   return (
     abbreviation === Platforms.PS1 ||
     abbreviation === Platforms.PS2 ||
     abbreviation === Platforms.PS3 ||
     abbreviation === Platforms.PS4 ||
     abbreviation === Platforms.PS5
+  );
+}
+
+export function isXBXTitle(abbreviation: string): boolean {
+  return (
+    abbreviation === Platforms.X360 ||
+    abbreviation === Platforms.XONE ||
+    abbreviation === Platforms.XSXS
   );
 }
 
@@ -74,9 +92,8 @@ export function FormatStringDate(date: string | null | undefined): string {
 }
 
 export function GetTrophyGroupName(trophyGroupId: string) {
-  if (trophyGroupId === "default")
-    return "Base Game";
-  return `DLC ${Number(trophyGroupId)}`
+  if (trophyGroupId === "default") return "Base Game";
+  return `DLC ${Number(trophyGroupId)}`;
 }
 
 export function mergeTrophyArrays(

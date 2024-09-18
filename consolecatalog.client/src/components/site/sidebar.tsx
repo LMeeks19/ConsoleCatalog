@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   activePageState,
@@ -101,7 +101,13 @@ function SideBar(props: BarProps) {
             );
           }}
         >
-          <p className="side-bar-item-text">PSN PROFILE</p>
+          <p className="side-bar-item-text">
+            <Conditional
+              Condition={props.page === "xbox"}
+              If={"XBX PROFILE"}
+              Else={"PSN PROFILE"}
+            />
+          </p>
           <div className="side-bar-item-icon">
             <i className="fa-solid fa-user fa-2xl" />
           </div>

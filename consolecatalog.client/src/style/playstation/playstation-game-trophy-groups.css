@@ -2,9 +2,8 @@
 
     .trophy-group-object {
         background-color: #262626;
-        border-radius: 25px;
+        border-radius: 15px;
         display: flex;
-        border: 2px solid #262626;
 
         .trophy-group-object-image {
             width: 300px;
@@ -107,16 +106,16 @@
 
         .trophy-group {
             background-color: #262626;
-            border-radius: 25px;
+            border-radius: 15px;
             display: flex;
-            border: 2px solid #262626;
+            border: 2px solid #161616;
             transition: border-color .5s ease-in-out;
 
             .trophy-group-image {
                 width: 300px;
                 height: 300px;
-                border-top-left-radius: 25px;
-                border-bottom-left-radius: 25px;
+                border-top-left-radius: 15px;
+                border-bottom-left-radius: 15px;
             }
 
             .trophy-group-details {

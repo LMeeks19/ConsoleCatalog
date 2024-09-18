@@ -1,0 +1,114 @@
+.result {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    background-color: #262626;
+    border-radius: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    border: 1px solid #202020;
+    flex-wrap: wrap;
+
+    img {
+        border-color: transparent !important;
+    }
+
+    img,
+    i {
+        width: 96px;
+        height: 128px;
+        border-radius: 10px 0 0 10px;
+        min-width: 96px;
+        height: 128px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        border-right: 1px solid #161616;
+    }
+
+    .result-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        padding-left: 20px;
+
+        .result-title {
+            font-size: 25px;
+        }
+
+        .result-release {
+            background-color: #161616;
+            border-radius: 15px;
+            padding: 5px 15px 5px 15px;
+            font-size: small;
+            font-weight: 500;
+            width: fit-content;
+        }
+    }
+
+    .result-platforms {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        padding: 10px;
+        margin-left: auto;
+        overflow: hidden;
+
+        .platform {
+            background-color: #161616;
+            border-radius: 15px;
+            padding: 5px 15px 5px 15px;
+            margin: 5px;
+        }
+
+    }
+
+    .result-rating {
+        border-radius: 100%;
+        min-height: 50px;
+        min-width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 500;
+        font-size: large;
+        margin: auto 20px auto 0;
+        overflow: hidden;
+
+        &.amazing {
+            background-color: #06803d;
+        }
+
+        &.good {
+            background-color: #00ce7a;
+        }
+
+        &.average {
+            background-color: #ffbd3f;
+        }
+
+        &.bad {
+            background-color: #ff6874;
+        }
+
+        &.awful {
+            background-color: #f11528;
+        }
+    }
+}
+
+.result:last-child {
+    margin-bottom: 0;
+}
+
+.result:hover {
+    border-color: white;
+    background-color: #363636;
+
+    &.blank {
+        border-color: transparent !important;
+        background-color: #262626 !important;
+    }
+}

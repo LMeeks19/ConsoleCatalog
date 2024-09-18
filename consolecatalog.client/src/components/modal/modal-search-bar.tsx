@@ -1,9 +1,9 @@
 import { SetterOrUpdater, useSetRecoilState } from "recoil";
-import { gameSearchModalState } from "../../functions/state";
+import { searchModalState } from "../../functions/state";
 import "../../style/modal/modal-search-bar.css";
 
 function ModalSearchBar(props: ModalSearchBarProps) {
-  const setIsGameSearchModalActive = useSetRecoilState(gameSearchModalState);
+  const setIsSearchModalActive = useSetRecoilState(searchModalState);
 
   return (
     <div className="modal-search">
@@ -16,7 +16,7 @@ function ModalSearchBar(props: ModalSearchBarProps) {
         />
         <i className="fa-solid fa-magnifying-glass fa-xl fa-flip-horizontal" />
       </div>
-      <div className="close" onClick={() => setIsGameSearchModalActive(false)}>
+      <div className="close" onClick={() => setIsSearchModalActive(false)}>
         <i className="fa-solid fa-xmark fa-2xl fa-flip-horizontal" />
       </div>
     </div>

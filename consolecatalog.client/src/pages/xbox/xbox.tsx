@@ -6,14 +6,14 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Pages } from "../../functions/enums";
-import { activePageState, gameSearchModalState } from "../../functions/state";
-import GlobalSearchModal from "../../components/modal/global-search-modal";
+import { activePageState, searchModalState } from "../../functions/state";
 import Modal from "../../components/modal/modal";
 import "../../style/site/page.css";
 import Conditional from "../../components/site/if-then-else";
+import XboxGlobalSearchModal from "../../components/modal/xbox/xbox-global-search-modal";
 
 function Xbox() {
-  const isGameSearchModalActive = useRecoilValue(gameSearchModalState);
+  const isSearchModalActive = useRecoilValue(searchModalState);
   const setActivePage = useSetRecoilState(activePageState);
   const location = useLocation();
 
@@ -34,8 +34,8 @@ function Xbox() {
   return (
     <>
       <Conditional
-        Condition={isGameSearchModalActive}
-        If={<Modal component={<GlobalSearchModal page="xbox" />} />}
+        Condition={isSearchModalActive}
+        If={<Modal component={<XboxGlobalSearchModal />} />}
       />
       <TopBar page="xbox" icon={xbox_icon} />
       <SideBar page="xbox" icon={playstation_icon} />

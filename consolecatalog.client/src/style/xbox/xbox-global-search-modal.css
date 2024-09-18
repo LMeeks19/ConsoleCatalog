@@ -1,0 +1,63 @@
+.search-tabs {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 0 20px 0;
+
+    .search-tab {
+        background-color: #262626;
+        padding: 10px;
+        width: 50%;
+        cursor: pointer;
+        transition: background-color .5s ease-in-out;
+
+        &.active {
+            &.xbox {
+                background-color: #018800;
+            }
+
+            &.playstation {
+                background-color: #1e5ddb;
+            }
+        }
+
+        .text {
+            text-align: center;
+            font-size: 18px;
+        }
+    }
+
+    .search-tab:first-child {
+        border-radius: 10px 0 0 10px;
+        border-right: 1px solid #161616;
+    }
+
+    .search-tab:last-child {
+        border-radius: 0 10px 10px 0;
+        border-left: 1px solid #161616;
+    }
+
+    .search-tab:not(.active):hover {
+        background-color: #404040;
+    }
+}
+
+.results {
+    display: flex;
+    flex-direction: column;
+    max-height: 475px;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .result {
+        &.blank {
+            cursor: default;
+            pointer-events: none;
+            justify-content: center;
+            align-items: center;
+            font-size: large;
+            height: 128px;
+            margin: 0;
+        }
+    }
+}
