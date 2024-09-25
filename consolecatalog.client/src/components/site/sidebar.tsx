@@ -170,6 +170,18 @@ function SideBar(props: BarProps) {
             <i className="fa-solid fa-circle-arrow-right fa-2xl" />
           </div>
         </div>
+        <div
+          className={`side-bar-item`}
+          onClick={() => {
+            setIsSidebarActive(!isSidebarActive);
+            navigate("/login");
+          }}
+        >
+          <p className="side-bar-item-text">LOGOUT</p>
+          <div className="side-bar-item-icon">
+            <i className="fa-solid fa-right-from-bracket fa-2xl"></i>{" "}
+          </div>
+        </div>
       </div>
     </div>
   );

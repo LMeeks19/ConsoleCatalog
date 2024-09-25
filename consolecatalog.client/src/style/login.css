@@ -90,6 +90,31 @@
                 }
             }
 
+            .remember-me {
+                display: flex;
+
+                .text {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    font-size: large;
+                    font-weight: 600;
+
+                    label {
+                        margin: 0 20px 0 20px;
+                    }
+                }
+
+                input[type=checkbox] {
+                    margin: auto 0 auto 0;
+                    cursor: pointer;
+                    width: 17.5px;
+                    height: 17.5px;
+                    accent-color: #1e5ddb;
+
+                }
+            }
+
             input[type=password],
             input[type=text] {
                 height: 40px;
