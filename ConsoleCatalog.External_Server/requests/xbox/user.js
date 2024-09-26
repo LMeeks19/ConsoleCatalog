@@ -4,7 +4,7 @@ export async function getXBXUser(username) {
   const response = await fetch(`${XBX_BASE_URL}/search/${username}`, {
     headers: {
       Accept: "application/json",
-      "x-authorization": "76823f2d-bca8-43a1-95d0-adda627b2c3e",
+      "x-authorization": "5b773cbb-009b-4b91-aa34-87e36cd3761d",
     },
   });
   return response.json();

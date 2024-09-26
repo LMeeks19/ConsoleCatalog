@@ -8,7 +8,7 @@ import XboxGlobalSearchResultBlank from "./xbox-global-search-result-blank";
 import XboxModalProfileSearchResult from "./xbox-modal-profile-search-result";
 import { XBXProfileSummary } from "../../../functions/interfaces/xbox/profile-interfaces";
 import {
-  getXBXProfileByUsername,
+  getXBXProfilesByUsername,
   getXBXTitles,
 } from "../../../functions/server/external/xbox-calls";
 import { GameSummary } from "../../../functions/interfaces/interfaces";
@@ -33,7 +33,7 @@ function XboxGlobalSearchModal() {
           const games = await getXBXTitles(searchTerm);
           setGames(games);
         } else if (globalSearchTab === GlobalSearchTab.Profiles) {
-          const response = await getXBXProfileByUsername(searchTerm);
+          const response = await getXBXProfilesByUsername(searchTerm);
           setProfiles(response.people);
         }
         setIsLoading(false);

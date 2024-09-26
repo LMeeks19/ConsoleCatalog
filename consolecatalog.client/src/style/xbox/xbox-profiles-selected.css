@@ -27,6 +27,7 @@
             .avatar {
                 width: 500px;
                 height: 500px;
+                border-radius: 50%;
             }
         }
 
@@ -89,8 +90,7 @@
                 }
             }
 
-            .about-me,
-            .langs-used {
+            .about-me {
                 .heading {
                     font-size: 22px;
                     border-bottom: 1px solid #404040;
@@ -103,24 +103,12 @@
                 }
             }
 
-            .langs-used {
-                .lang-used {
-                    background-color: #161616;
-                    border-radius: 15px;
-                    padding: 7.5px 12.5px 7.5px 12.5px;
-                    text-wrap: nowrap;
-                    width: fit-content;
-                }
-            }
-
-
             .names {
                 display: flex;
                 justify-content: space-between;
 
-                .fname,
-                .lname {
-                    width: 48%;
+                .real-name {
+                    width: 100%;
 
                     .heading {
                         font-size: 22px;
@@ -146,8 +134,12 @@
             flex-direction: column;
             z-index: 0;
 
-            .progress {
+            .xb-progress {
                 height: 279px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 40px;
             }
 
             .trophies {
