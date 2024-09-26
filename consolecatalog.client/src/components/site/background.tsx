@@ -7,7 +7,7 @@ import { Pages } from "../../functions/enums";
 import "../../style/site/background.css";
 import { useEffect } from "react";
 import { getUserById } from "../../functions/server/internal/global-calls";
-import { getCookie, hasCookie } from "../../functions/cookie";
+import { getCookies } from "../../functions/auth";
 
 function Background() {
   const navigate = useNavigate();
@@ -16,10 +16,10 @@ function Background() {
 
   useEffect(() => {
     async function fetchUser() {
-      if (hasCookie("Id")) {
-        let userId = getCookie("Id");
-        setUser(await getUserById(userId));
-      } else navigate("/login");
+        const cookie = await getCookies();
+        if (cookie !== null)
+          setUser(await getUserById(cookie.userId));
+        else navigate("/login");
     }
     fetchUser();
   }, []);

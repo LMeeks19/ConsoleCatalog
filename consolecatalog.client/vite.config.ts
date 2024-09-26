@@ -43,6 +43,10 @@ export default defineConfig({
     },
     server: {
         proxy: {
+            '^/Cookie': {
+                target,
+                secure: false
+            },
             '^/User': {
                 target,
                 secure: false

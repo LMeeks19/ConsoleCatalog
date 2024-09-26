@@ -1,11 +1,11 @@
 ﻿using ConsoleCatalog.Internal_Server.Models.Playstation;
-using ConsoleCatalog.Internal_Server.Models.Playstation;
 using Microsoft.EntityFrameworkCore;
 
 namespace ConsoleCatalog.Internal_Server.Models
 {
     public class DatabaseContext: DbContext
     {
+        public DbSet<Cookie> Cookies { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<SubObjective> SubObjectives { get; set; }
         public DbSet<AvatarUrl> AvatarUrls { get; set; }

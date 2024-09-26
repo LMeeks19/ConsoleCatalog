@@ -21,16 +21,15 @@ import { userState } from "../functions/state";
 import { ActiveLoginTab } from "../functions/enums";
 import Conditional from "./site/if-then-else";
 import {
-  deleteCookie,
-  hasCookie,
-  setCookie,
-} from "../functions/cookie";
+  deleteCookiesByAuthId,
+  createCookies,
+} from "../functions/auth";
 
 function Login() {
   useEffect(() => {
-    function resetUser() {
+    async function resetUser() {
       setUser({} as User);
-      if (hasCookie("Id")) deleteCookie("Id");
+      await deleteCookiesByAuthId();
     }
     resetUser();
   }, []);
@@ -83,9 +82,9 @@ function Login() {
       setUser(user);
       setShowLoginErrorMessage(false);
       if (rememberMe) {
-        setCookie("Id", user.id, 30);
+        await createCookies(user.id, 30);
       } else {
-        setCookie("Id", user.id);
+        await createCookies(user.id);
       }
       navigate("/");
     } else {
@@ -109,9 +108,9 @@ function Login() {
         const user = await postUser(registerDetails);
         setUser(user);
         if (rememberMe) {
-          setCookie("Id", user.id, 30);
+          await createCookies(user.id, 30);
         } else {
-          setCookie("Id", user.id, 0);
+          await createCookies(user.id);
         }
         navigate("/");
       } catch (error) {

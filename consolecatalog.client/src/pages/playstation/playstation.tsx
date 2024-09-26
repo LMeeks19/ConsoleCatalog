@@ -15,7 +15,7 @@ import { Pages } from "../../functions/enums";
 import "../../style/site/page.css";
 import Conditional from "../../components/site/if-then-else";
 import Modal from "../../components/modal/modal";
-import { getCookie, hasCookie } from "../../functions/cookie";
+import { getCookies } from "../../functions/auth";
 import { getUserById } from "../../functions/server/internal/global-calls";
 
 function Playstation() {
@@ -29,10 +29,10 @@ function Playstation() {
 
   useEffect(() => {
     async function fetchUser() {
-      if (hasCookie("Id")) {
-        let userId = getCookie("Id");
-        setUser(await getUserById(userId));
-      } else navigate("/login");
+        const cookie = await getCookies();
+        if (cookie !== null)
+          setUser(await getUserById(cookie.userId));
+        else navigate("/login");
     }
     fetchUser();
   }, []);
