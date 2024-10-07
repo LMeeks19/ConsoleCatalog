@@ -1,5 +1,9 @@
 import { Game, GameSummary } from "../../interfaces/interfaces";
-import { XBXProfileObject, XBXProfileSummariesObject } from "../../interfaces/xbox/profile-interfaces";
+import {
+  XBXProfileObject,
+  XBXProfileSummariesObject,
+  XBXTitlesObject,
+} from "../../interfaces/xbox/profile-interfaces";
 
 const BASE_API_URL = "http://localhost:3000";
 
@@ -24,12 +28,18 @@ export async function getXBXProfilesByUsername(
   return response.json();
 }
 
-
 export async function getXBXProfileByUsername(
   searchTerm: string
 ): Promise<XBXProfileObject> {
   const response = await fetch(
     `${BASE_API_URL}/xbox/profiles/search/${searchTerm}`
   );
+  return response.json();
+}
+
+export async function getXBXProfileTitles(
+  xuid: string
+): Promise<XBXTitlesObject> {
+  const response = await fetch(`${BASE_API_URL}/xbox/profiles/titles/${xuid}`);
   return response.json();
 }
