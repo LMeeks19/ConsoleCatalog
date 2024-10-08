@@ -50,10 +50,10 @@ export interface XBXTitles {
   displayImage: string;
   modernTitleId: string;
   isBundle: boolean;
-  achievement: Achievement;
+  achievement: OverallAchievement;
 }
 
-interface Achievement {
+interface OverallAchievement {
   id: number;
   currentAchievements: number,
   totalAchievements: number,
@@ -66,3 +66,69 @@ interface TitleHistory {
   id: number;
   lastPlayedDate: Date;
 }
+
+export interface AchievementResponse {
+  id: number;
+  name: string;
+  titleAssociations: TitleAssociations[]
+  progressState: string;
+  progression: ProgressionResponse;
+  mediaAssets: MediaAssets[];
+  description: string;
+  rewards: Rewards[];
+  rarity: Rarity;
+}
+
+interface TitleAssociations {
+  id: number;
+  name: string;
+}
+
+interface ProgressionResponse {
+  id: number;
+  requirements: Requirement[]
+  timeUnlocked: Date
+}
+
+interface Requirement {
+  id: number;
+  current: string;
+  target: string;
+}
+
+interface MediaAssets {
+  id: number;
+  name: string;
+  url: string;
+}
+
+interface Rewards {
+  id: number;
+  value: string;
+}
+
+interface Rarity {
+  id: number;
+  currentCategory: string;
+  currentPercentage: number;
+}
+
+export interface Achievement{
+  id: number;
+  name: string;
+  titleAssociations: TitleAssociations
+  progressState: string;
+  progression: Progression;
+  mediaAssets: MediaAssets;
+  description: string;
+  rewards: Rewards;
+  rarity: Rarity;
+}
+
+interface Progression {
+  id: number;
+  requirements: Requirement
+  timeUnlocked: string
+}
+
+
