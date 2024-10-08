@@ -13,26 +13,25 @@ export interface XBXProfileObject {
 }
 
 export interface XBXProfile {
+  id: number;
   xuid: string;
   isIdentityShared: boolean;
-  displayName: any;
+  displayName: string;
   realName: string;
   displayPicRaw: string;
   gamertag: string;
   gamerScore: string;
   detail: Detail;
+  titleHistory: TitleHistory
   titles: XBXTitles[];
+  titlesCount: number;
 }
 
 interface Detail {
+  id: number;
   accountTier: string;
-  bio: any;
+  bio: string;
   isVerified: boolean;
-  location: any;
-  tenure: any;
-  watermarks: string[];
-  blocked: boolean;
-  mute: boolean;
   followerCount: number;
   followingCount: number;
   hasGamePass: boolean;
@@ -44,7 +43,7 @@ export interface XBXTitlesObject {
 }
 
 export interface XBXTitles {
-  id: string;
+  id: number;
   titleId: string;
   name: string;
   devices: string[]
@@ -55,9 +54,15 @@ export interface XBXTitles {
 }
 
 interface Achievement {
+  id: number;
   currentAchievements: number,
   totalAchievements: number,
   currentGamerscore: number,
   totalGamerscore: number,
   progressPercentage: number,
+}
+
+interface TitleHistory {
+  id: number;
+  lastPlayedDate: Date;
 }

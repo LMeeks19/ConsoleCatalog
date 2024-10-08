@@ -1,4 +1,3 @@
-import { GameSummaryObject } from "../../interfaces/playstation/games-interfaces";
 import {
   DefinedTrophyGroupObject,
   EarnedTitleTrophy,

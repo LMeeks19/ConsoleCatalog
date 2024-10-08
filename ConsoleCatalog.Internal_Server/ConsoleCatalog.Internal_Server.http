@@ -142,3 +142,22 @@ Accept: application/json
 
 PUT {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PutEarnedTrophyGroupObject/
 Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/XBX/GetXBXProfileByGamertag/
+Accept: application/json
+
+###
+
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/XBX/PostXBXProfile/
+Accept: application/json
+
+###
+
+PUT {{ConsoleCatalog.Internal_Server_HostAddress}}/XBX/PutXBXProfile/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/XBX/GetXBXProfileTitles/

@@ -63,3 +63,9 @@ export enum TrophyTypeNumber {
   Silver = 2,
   Bronze = 3
 }
+
+export enum XBXAchievementState {
+  NotStarted = "NotStarted",
+  InProgress = "InProgress",
+  Achieved = "Achieved"
+}

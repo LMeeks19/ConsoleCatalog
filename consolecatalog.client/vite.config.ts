@@ -58,6 +58,10 @@ export default defineConfig({
             '^/PSN': {
                 target,
                 secure: false
+            },
+            '^/XBX': {
+                target,
+                secure: false
             }
         },
         port: 5173,

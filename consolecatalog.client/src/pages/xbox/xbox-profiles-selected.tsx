@@ -4,10 +4,6 @@ import { sidebarState } from "../../functions/state";
 import Xbox from "./xbox";
 import "../../style/xbox/xbox-profiles-selected.css";
 import { useEffect, useState } from "react";
-import {
-  getXBXProfileByUsername,
-  getXBXProfileTitles,
-} from "../../functions/server/external/xbox-calls";
 import { XBXProfile } from "../../functions/interfaces/xbox/profile-interfaces";
 import { useLocation } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
@@ -15,6 +11,15 @@ import verified_icon from "../../images/verified_icon.png";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { getProgressColour } from "../../functions/methods";
 import $ from "jquery";
+import {
+  getProfileTitles,
+  getXBXProfileByGamertag,
+  putXBXProfile,
+} from "../../functions/server/internal/xbox-calls";
+import {
+  getXBXProfileByUsername,
+  getXBXProfileTitles,
+} from "../../functions/server/external/xbox-calls";
 
 function XboxProfilesSelected() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -28,10 +33,8 @@ function XboxProfilesSelected() {
   useEffect(() => {
     async function fetchXBXProfile() {
       setIsLoading(true);
-      const profile = (await getXBXProfileByUsername(location.state.username))
-        .people[0];
-      const titlesObject = await getXBXProfileTitles(profile.xuid);
-      setSelectedXBXProfile({ ...profile, titles: titlesObject.titles });
+      const profile = await getXBXProfileByGamertag(location.state.username);
+      setSelectedXBXProfile(profile!);
       setIsLoading(false);
     }
     fetchXBXProfile();
@@ -53,6 +56,38 @@ function XboxProfilesSelected() {
       element!.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    const timeout = setTimeout(async () => {
+      if (selectedXBXProfile.titlesCount !== selectedXBXProfile.titles?.length) {
+        const nextProfileTitles = await getProfileTitles(
+          selectedXBXProfile.id,
+          selectedXBXProfile.titles.length
+        );
+        setSelectedXBXProfile({
+          ...selectedXBXProfile,
+          titles: [...selectedXBXProfile.titles, ...nextProfileTitles],
+        });
+      }
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [page]);
+
+  async function updateXBXProfile() {
+    setIsLoading(true);
+    let xbxProfile = (
+      await getXBXProfileByUsername(selectedXBXProfile.gamertag)
+    ).people[0];
+    let recentTitles = await getXBXProfileTitles(xbxProfile.xuid);
+    const profile = await putXBXProfile({
+      ...xbxProfile,
+      titles: recentTitles.titles,
+      titlesCount: recentTitles.titles.length,
+    });
+    setSelectedXBXProfile(profile);
+    setIsLoading(false);
+  }
 
   function scrollTitleIfOverflowing(id: string) {
     let element = $(`#${id}`);
@@ -108,7 +143,12 @@ function XboxProfilesSelected() {
                         Condition={selectedXBXProfile.detail?.hasGamePass}
                         If={<img className="ps-plus-icon" />}
                       />
-                      <button className="update-button">Update</button>
+                      <button
+                        className="update-button"
+                        onClick={() => updateXBXProfile()}
+                      >
+                        Update
+                      </button>
                     </div>
                   </div>
 
@@ -205,7 +245,9 @@ function XboxProfilesSelected() {
                           >
                             <path d="M1664 256v447q0 57-19 109t-54 94-83 71-104 40q-9 75-41 141t-83 117-116 84-140 45v132h384v256h128v128H384v-128h128v-256h384v-132q-75-11-140-44t-115-85-83-117-42-141q-56-11-104-40t-82-70-54-94-20-110V256h256V128h896v128h256zM640 1664v128h640v-128H640zM384 703q0 30 9 58t26 53 40 42 53 28V384H384v319zm576 577q66 0 124-25t101-68 69-102 26-125V256H640v704q0 66 25 124t68 102 102 69 125 25zm576-896h-128v500q28-10 52-28t40-43 26-52 10-58V384z"></path>
                           </svg>
-                          <div className="text">{title.achievement.currentAchievements}</div>
+                          <div className="text">
+                            {title.achievement.currentAchievements}
+                          </div>
                         </div>
                         <div className="gamerscore-count">
                           <svg
