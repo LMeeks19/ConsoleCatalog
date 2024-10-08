@@ -43,6 +43,10 @@ export default defineConfig({
     },
     server: {
         proxy: {
+            '^/Cookie': {
+                target,
+                secure: false
+            },
             '^/User': {
                 target,
                 secure: false
@@ -52,6 +56,10 @@ export default defineConfig({
                 secure: false
             },
             '^/PSN': {
+                target,
+                secure: false
+            },
+            '^/XBX': {
                 target,
                 secure: false
             }

@@ -4,6 +4,7 @@ using ConsoleCatalog.Internal_Server.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleCatalog.Internal_Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240926163237_Create-Cookies-Table")]
+    partial class CreateCookiesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -609,172 +612,6 @@ namespace ConsoleCatalog.Internal_Server.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Xbox.XBXAchievement", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CurrentAchievements")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CurrentGamerscore")
-                        .HasColumnType("int");
-
-                    b.Property<double>("ProgressPercentage")
-                        .HasColumnType("float");
-
-                    b.Property<int>("TotalAchievements")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalGamerscore")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("XBXAchievements");
-                });
-
-            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Xbox.XBXDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AccountTier")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Bio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FollowerCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FollowingCount")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("HasGamePass")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsVerified")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("XBXDetails");
-                });
-
-            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Xbox.XBXProfile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("DetailId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DisplayPicRaw")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("GamerScore")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Gamertag")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsIdentiryShared")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("RealName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TitlesCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Xuid")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DetailId");
-
-                    b.ToTable("XBXProfiles");
-                });
-
-            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Xbox.XBXTitle", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AchievementId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Devices")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DisplayImage")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsBundle")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TitleHistoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TitleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("XBXProfileId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AchievementId");
-
-                    b.HasIndex("TitleHistoryId");
-
-                    b.HasIndex("XBXProfileId");
-
-                    b.ToTable("XBXTitles");
-                });
-
-            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Xbox.XBXTitleHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("LastTimePlayed")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("XBXTitleHistories");
-                });
-
             modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Playstation.AvatarUrl", b =>
                 {
                     b.HasOne("ConsoleCatalog.Internal_Server.Models.Playstation.PSNProfile", null)
@@ -903,42 +740,6 @@ namespace ConsoleCatalog.Internal_Server.Migrations
                     b.Navigation("EarnedTrophies");
                 });
 
-            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Xbox.XBXProfile", b =>
-                {
-                    b.HasOne("ConsoleCatalog.Internal_Server.Models.Xbox.XBXDetail", "Detail")
-                        .WithMany()
-                        .HasForeignKey("DetailId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Detail");
-                });
-
-            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Xbox.XBXTitle", b =>
-                {
-                    b.HasOne("ConsoleCatalog.Internal_Server.Models.Xbox.XBXAchievement", "Achievement")
-                        .WithMany()
-                        .HasForeignKey("AchievementId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ConsoleCatalog.Internal_Server.Models.Xbox.XBXTitleHistory", "TitleHistory")
-                        .WithMany()
-                        .HasForeignKey("TitleHistoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ConsoleCatalog.Internal_Server.Models.Xbox.XBXProfile", null)
-                        .WithMany("Titles")
-                        .HasForeignKey("XBXProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Achievement");
-
-                    b.Navigation("TitleHistory");
-                });
-
             modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Playstation.DefinedTrophyGroupObject", b =>
                 {
                     b.Navigation("TrophyGroups");
@@ -957,11 +758,6 @@ namespace ConsoleCatalog.Internal_Server.Migrations
             modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Playstation.TrophyTitleObject", b =>
                 {
                     b.Navigation("TrophyTitles");
-                });
-
-            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Xbox.XBXProfile", b =>
-                {
-                    b.Navigation("Titles");
                 });
 #pragma warning restore 612, 618
         }

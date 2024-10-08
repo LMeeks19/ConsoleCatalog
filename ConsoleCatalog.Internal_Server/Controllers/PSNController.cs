@@ -39,7 +39,8 @@ namespace ConsoleCatalog.Internal_Server.Controllers
                 .SingleOrDefaultAsync(p => p.OnlineId == onlineId);
 
             if (profile != null)
-                profile.TrophyTitles.TrophyTitles = profile.TrophyTitles.TrophyTitles.OrderByDescending(tt => tt.LastUpdatedDateTime)
+                profile.TrophyTitles.TrophyTitles = profile.TrophyTitles.TrophyTitles
+                    .OrderByDescending(tt => tt.LastUpdatedDateTime)
                     .Take(10)
                     .ToList();
 
@@ -79,6 +80,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
             await _databaseContext.SaveChangesAsync();
 
             psnProfile.TrophyTitles.TrophyTitles = psnProfile.TrophyTitles.TrophyTitles
+                .OrderByDescending(tt => tt.LastUpdatedDateTime)
                 .Take(10)
                 .ToList();
 

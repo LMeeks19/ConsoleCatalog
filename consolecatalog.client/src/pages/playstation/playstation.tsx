@@ -10,11 +10,13 @@ import {
   userState,
 } from "../../functions/state";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Pages } from "../../functions/enums";
 import "../../style/site/page.css";
 import Conditional from "../../components/site/if-then-else";
 import Modal from "../../components/modal/modal";
+import { getCookies } from "../../functions/auth";
+import { getUserById } from "../../functions/server/internal/global-calls";
 
 function Playstation() {
   const [isSearchModalActive, setIsSearchModalActive] =
@@ -22,6 +24,18 @@ function Playstation() {
   const setActivePage = useSetRecoilState(activePageState);
   const user = useRecoilValue(userState);
   const location = useLocation();
+  const setUser = useSetRecoilState(userState);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchUser() {
+        const cookie = await getCookies();
+        if (cookie !== null)
+          setUser(await getUserById(cookie.userId));
+        else navigate("/login");
+    }
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     function setCurrentPage() {

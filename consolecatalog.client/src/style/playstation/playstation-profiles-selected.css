@@ -146,7 +146,7 @@
             flex-direction: column;
             z-index: 0;
 
-            .progress {
+            .ps-progress {
                 height: 279px;
             }
 

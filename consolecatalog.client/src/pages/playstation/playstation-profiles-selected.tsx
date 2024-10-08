@@ -233,7 +233,7 @@ function PlaystationProfilesSelected() {
                   </div>
                 </div>
                 <div className="progress-container">
-                  <div className="progress">
+                  <div className="ps-progress">
                     <CustomProgressBar
                       range={{ from: 0, to: 100 }}
                       progress={selectedPSNProfile.trophySummary?.progress}

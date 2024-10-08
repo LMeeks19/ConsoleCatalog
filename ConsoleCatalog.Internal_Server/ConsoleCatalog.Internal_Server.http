@@ -1,5 +1,24 @@
 @ConsoleCatalog.Internal_Server_HostAddress = http://localhost:5162
 
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/Cookie/GetCookieByAuthId/
+Accept: application/json
+
+###
+
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/Cookie/PostCookie
+Accept: application/json
+
+###
+
+DELETE {{ConsoleCatalog.Internal_Server_HostAddress}}/Cookie/DeleteCookieByUserId/
+Accept: application/json
+
+###
+
+DELETE {{ConsoleCatalog.Internal_Server_HostAddress}}/Cookie/DeleteCookieByAuthId/
+Accept: application/json
+
+###
 
 GET {{ConsoleCatalog.Internal_Server_HostAddress}}/User/GetUserByUsername/
 Accept: application/json
@@ -123,3 +142,22 @@ Accept: application/json
 
 PUT {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PutEarnedTrophyGroupObject/
 Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/XBX/GetXBXProfileByGamertag/
+Accept: application/json
+
+###
+
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/XBX/PostXBXProfile/
+Accept: application/json
+
+###
+
+PUT {{ConsoleCatalog.Internal_Server_HostAddress}}/XBX/PutXBXProfile/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/XBX/GetXBXProfileTitles/
