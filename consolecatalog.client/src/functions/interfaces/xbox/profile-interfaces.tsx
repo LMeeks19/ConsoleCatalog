@@ -22,8 +22,8 @@ export interface XBXProfile {
   gamertag: string;
   gamerScore: string;
   detail: Detail;
-  titleHistory: TitleHistory
-  titles: XBXTitles[];
+  titleHistory: TitleHistory;
+  titles: XBXTitle[];
   titlesCount: number;
 }
 
@@ -39,14 +39,14 @@ interface Detail {
 
 export interface XBXTitlesObject {
   xuid: string;
-  titles: XBXTitles[];
+  titles: XBXTitle[];
 }
 
-export interface XBXTitles {
+export interface XBXTitle {
   id: number;
   titleId: string;
   name: string;
-  devices: string[]
+  devices: string[];
   displayImage: string;
   modernTitleId: string;
   isBundle: boolean;
@@ -55,11 +55,11 @@ export interface XBXTitles {
 
 interface OverallAchievement {
   id: number;
-  currentAchievements: number,
-  totalAchievements: number,
-  currentGamerscore: number,
-  totalGamerscore: number,
-  progressPercentage: number,
+  currentAchievements: number;
+  totalAchievements: number;
+  currentGamerscore: number;
+  totalGamerscore: number;
+  progressPercentage: number;
 }
 
 interface TitleHistory {
@@ -67,10 +67,18 @@ interface TitleHistory {
   lastPlayedDate: Date;
 }
 
+export interface AchievementResponseObject {
+  achievements: AchievementResponse[];
+  pageInfo: {
+    continuationToken: any;
+    totalRecords: number;
+  };
+}
+
 export interface AchievementResponse {
   id: number;
   name: string;
-  titleAssociations: TitleAssociations[]
+  titleAssociations: TitleAssociations[];
   progressState: string;
   progression: ProgressionResponse;
   mediaAssets: MediaAssets[];
@@ -86,8 +94,8 @@ interface TitleAssociations {
 
 interface ProgressionResponse {
   id: number;
-  requirements: Requirement[]
-  timeUnlocked: Date
+  requirements: Requirement[];
+  timeUnlocked: string;
 }
 
 interface Requirement {
@@ -113,10 +121,10 @@ interface Rarity {
   currentPercentage: number;
 }
 
-export interface Achievement{
+export interface Achievement {
   id: number;
   name: string;
-  titleAssociations: TitleAssociations
+  titleAssociations: TitleAssociations;
   progressState: string;
   progression: Progression;
   mediaAssets: MediaAssets;
@@ -127,8 +135,6 @@ export interface Achievement{
 
 interface Progression {
   id: number;
-  requirements: Requirement
-  timeUnlocked: string
+  requirements: Requirement;
+  timeUnlocked: string;
 }
-
-

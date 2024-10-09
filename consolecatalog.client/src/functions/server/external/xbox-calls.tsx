@@ -1,5 +1,6 @@
 import { Game, GameSummary } from "../../interfaces/interfaces";
 import {
+  AchievementResponseObject,
   XBXProfileObject,
   XBXProfileSummariesObject,
   XBXTitlesObject,
@@ -40,6 +41,16 @@ export async function getXBXProfileByUsername(
 export async function getXBXProfileTitles(
   xuid: string
 ): Promise<XBXTitlesObject> {
-  const response = await fetch(`${BASE_API_URL}/xbox/profiles/titles/${xuid}`);
+  const response = await fetch(`${BASE_API_URL}/xbox/profiles/${xuid}/titles`);
+  return response.json();
+}
+
+export async function getXBXProfileTitleAchievements(
+  xuid: string,
+  titleId: string
+): Promise<AchievementResponseObject> {
+  const response = await fetch(
+    `${BASE_API_URL}/xbox/profiles/${xuid}/titles/${titleId}/achievements`
+  );
   return response.json();
 }

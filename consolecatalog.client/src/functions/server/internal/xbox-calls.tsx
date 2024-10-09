@@ -1,6 +1,6 @@
 import {
   XBXProfile,
-  XBXTitles,
+  XBXTitle,
 } from "../../interfaces/xbox/profile-interfaces";
 import {
   getXBXProfileByUsername,
@@ -55,7 +55,7 @@ export async function putXBXProfile(
 export async function getProfileTitles(
   profileId: number,
   offset: number
-): Promise<XBXTitles[]> {
+): Promise<XBXTitle[]> {
   const response = await fetch(
     `/XBX/GetXBXProfileTitles/${profileId}/${offset}`
   );

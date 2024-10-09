@@ -5,7 +5,7 @@ import Xbox from "./xbox";
 import "../../style/xbox/xbox-profiles-selected.css";
 import { useEffect, useState } from "react";
 import { XBXProfile } from "../../functions/interfaces/xbox/profile-interfaces";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
 import verified_icon from "../../images/verified_icon.png";
 import ProgressBar from "@ramonak/react-progress-bar";
@@ -29,6 +29,7 @@ function XboxProfilesSelected() {
   );
   const location = useLocation();
   const [page, setPage] = useState(1);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchXBXProfile() {
@@ -59,7 +60,9 @@ function XboxProfilesSelected() {
 
   useEffect(() => {
     const timeout = setTimeout(async () => {
-      if (selectedXBXProfile.titlesCount !== selectedXBXProfile.titles?.length) {
+      if (
+        selectedXBXProfile.titlesCount !== selectedXBXProfile.titles?.length
+      ) {
         const nextProfileTitles = await getProfileTitles(
           selectedXBXProfile.id,
           selectedXBXProfile.titles.length
@@ -221,6 +224,14 @@ function XboxProfilesSelected() {
                     className="title"
                     onMouseOver={() => scrollTitleIfOverflowing(title.titleId)}
                     onMouseOut={() => unscrollTitleIfOverflowing(title.titleId)}
+                    onClick={() =>
+                      navigate(`titles/${title.titleId}/achievements`, {
+                        state: {
+                          xuid: selectedXBXProfile.xuid,
+                          title: title,
+                        },
+                      })
+                    }
                   >
                     <img className="cover" src={title.displayImage} />
                     <div className="details">
