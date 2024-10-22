@@ -3,7 +3,7 @@ import "../../style/site/search-bar.css";
 
 function SearchBar(props: SearchBarProps) {
   return (
-    <div className="search-container" style={{ width: `${props.width}px` }}>
+    <div className="search-container">
       <input
         className="search-input"
         value={props.searchTerm}
@@ -22,6 +22,5 @@ interface SearchBarProps {
   placeholder: string;
   searchTerm: string;
   setSearchTerm: SetterOrUpdater<string>;
-  width: string;
   disabled: boolean;
 }

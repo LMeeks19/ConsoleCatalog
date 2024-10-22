@@ -32,6 +32,10 @@ namespace ConsoleCatalog.Internal_Server.Controllers
             var subObjectives = _databaseContext.SubObjectives
                 .Where(subObjective => subObjective.UserId == new Guid(userId) && subObjective.TitleId == titleId && subObjective.TrophyId == int.Parse(trophyId))
                 .Select(subObjective => subObjective)
+                .OrderByDescending(SubObjective => !SubObjective.IsComplete)
+                    .ThenByDescending(subObjective => subObjective.CreatedDate)
+                    .ThenBy(subObjective => subObjective.Details)
+
                 .ToList();
             return subObjectives;
         }
@@ -54,6 +58,9 @@ namespace ConsoleCatalog.Internal_Server.Controllers
             var newSubObjectives = _databaseContext.SubObjectives
                 .Where(subObjective => subObjective.UserId == subObjectives[0].UserId && subObjective.TitleId == subObjectives[0].TitleId && subObjective.TrophyId == subObjectives[0].TrophyId)
                 .Select(subObjective => subObjective)
+                .OrderByDescending(subObjective => !subObjective.IsComplete)
+                    .ThenByDescending(subObjective => subObjective.CreatedDate)
+                    .ThenBy(subObjective => subObjective.Details)
                 .ToList();
             return newSubObjectives;
         }

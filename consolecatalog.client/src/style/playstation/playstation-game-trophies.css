@@ -5,6 +5,7 @@
     border: 2px solid #161616;
     transition: border-color .5s ease-in-out;
     margin-bottom: 20px;
+    overflow: hidden;
 
     .trophy-group-image {
         width: 300px;

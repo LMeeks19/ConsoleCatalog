@@ -40,6 +40,7 @@ function PlaystationSelectedTrophy() {
   const isSearchModalActive = useRecoilValue(searchModalState);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [sortBy, setSortBy] = useState<number>(0);
 
   useEffect(() => {
     async function fetchSubObjectives() {
@@ -64,10 +65,8 @@ function PlaystationSelectedTrophy() {
     );
   }
 
-  async function removeCompletedSubObjectives(subObjectives: SubObjective[]) {
-    const deletedSubObjectiveIds = await deleteSubObjectives(
-      subObjectives.filter((subObjective) => subObjective.isComplete)
-    );
+  async function removeSubObjectives(subObjectives: SubObjective[]) {
+    const deletedSubObjectiveIds = await deleteSubObjectives(subObjectives);
     setSubObjectives(
       subObjectives.filter(
         (subObjective) => !deletedSubObjectiveIds.includes(subObjective.id!)
@@ -83,6 +82,26 @@ function PlaystationSelectedTrophy() {
       return subObjective;
     });
     setSubObjectives(updatedSubObjectives);
+  }
+
+  function sortedSubObjectives(): SubObjective[] {
+    let subObjs = subObjectives.map((subObjecitve) => {
+      return subObjecitve;
+    });
+
+    if (sortBy === 0)
+      subObjs = subObjectives
+        .sort((a, b) => a.details.localeCompare(b.details))
+        .sort(
+          (a, b) =>
+            new Date(a.createdDate).getMilliseconds() -
+            new Date(b.createdDate).getMilliseconds()
+        );
+    if (sortBy === 1)
+      subObjs = subObjectives.sort((a, b) =>
+        a.details.localeCompare(b.details)
+      );
+    return subObjs;
   }
 
   return (
@@ -182,9 +201,18 @@ function PlaystationSelectedTrophy() {
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
                 placeholder="Search Sub Objectives..."
-                width="600"
                 disabled={isLoading || subObjectives.length === 0}
               />
+              <div className="custom-select">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(Number(e.target.value))}
+                  disabled={isLoading}
+                >
+                  <option value={0}>Newest</option>
+                  <option value={1}>Alphabetically</option>
+                </select>
+              </div>
               <button
                 className="add"
                 onClick={() => setIsAddSubObjectiveModalActive(true)}
@@ -195,14 +223,14 @@ function PlaystationSelectedTrophy() {
               </button>
               <button
                 className="delete"
-                onClick={() => removeCompletedSubObjectives(subObjectives)}
+                onClick={() => removeSubObjectives(subObjectives)}
                 disabled={
                   subObjectives.filter(
                     (subObjective) => subObjective.isComplete
                   ).length === 0
                 }
               >
-                <div className="label">Delete Completed</div>
+                <div className="label">Delete All</div>
                 <i className="fa-solid fa-trash-can add-icon"></i>
               </button>
             </div>
@@ -233,11 +261,10 @@ function PlaystationSelectedTrophy() {
                     ).length === 0
                   }
                   If={<div>No Sub Objectives</div>}
-                  Else={subObjectives
+                  Else={sortedSubObjectives()
                     .filter((subObjecitve) =>
                       subObjecitve.details.includes(searchTerm)
                     )
-                    .sort((a, b) => a.details.localeCompare(b.details))
                     .sort((a, b) => Number(a.isComplete) - Number(b.isComplete))
                     .map((subObjective) => {
                       return (

@@ -17,6 +17,7 @@ export interface SubObjective {
   trophyId: number;
   titleId: string;
   details: string;
+  createdDate: Date;
   isComplete: boolean;
 }
 

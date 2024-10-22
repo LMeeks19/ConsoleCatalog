@@ -7,6 +7,7 @@
         public string TitleId { get; set; }
         public int TrophyId { get; set; }
         public string Details { get; set; }
+        public DateTime CreatedDate { get; set; }
         public bool IsComplete { get; set; }
     }
 }

@@ -28,6 +28,7 @@ function AddSubObjectiveModal(props: AddSubObjectiveModalProps) {
               titleId: props.titleId,
               trophyId: props.trophyId,
               details: text,
+              createdDate: new Date(),
               isComplete: false,
             },
           ]);
@@ -40,6 +41,7 @@ function AddSubObjectiveModal(props: AddSubObjectiveModalProps) {
                 titleId: props.titleId,
                 trophyId: props.trophyId,
                 details: text,
+                createdDate: new Date(),
                 isComplete: false,
               };
             })

@@ -225,7 +225,6 @@ function PlaystationGameTrophies() {
                       searchTerm={searchTerm}
                       setSearchTerm={setSearchTerm}
                       placeholder="Search Trophies..."
-                      width="600"
                       disabled={isLoading}
                     />
                     <div className="custom-select">
@@ -237,8 +236,8 @@ function PlaystationGameTrophies() {
                         <option value={0}>None</option>
                         <option value={1}>Type</option>
                         <option value={2}>Alphabetical</option>
-                        <option value={3}>Completed</option>
-                        <option value={4}>Uncompleted</option>
+                        <option value={3}>Earned</option>
+                        <option value={4}>Not Earned</option>
                       </select>
                     </div>
                     <button

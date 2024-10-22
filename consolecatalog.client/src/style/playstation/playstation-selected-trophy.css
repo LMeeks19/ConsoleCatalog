@@ -1,12 +1,13 @@
 .trophy-container {
     height: 100%;
+    overflow: hidden;
 
     .trophy {
         background-color: #262626;
         border-radius: 25px;
         display: flex;
-        height: 125px;
-        width: 100%;
+        height: 115px;
+        padding: 10px;
         border: 2px solid #262626;
         transition: border-color .5s;
         gap: 20px;
@@ -75,7 +76,7 @@
             height: 80px;
             width: 80px;
             margin: auto 0 auto 0;
-            padding-right: 20px;
+            margin-right: 20px;
         }
 
         .earned~.rarity, .progress~.rarity {
@@ -103,7 +104,6 @@
             gap: 10px;
 
             button {
-                margin-right: 5px;
                 background-color: #262626;
                 padding: 0 1.2em;
                 border-color: transparent;
@@ -161,11 +161,13 @@
     }
 
     .sub-objectives {
-        height: calc(100% - 259px);
+        height: calc(100% - 239px);
         display: flex;
         flex-direction: column;
         gap: 10px;
-        padding: 20px 0 20px 0;
+        overflow-y: auto;
+        padding-right: 10px;
+        margin-top: 10px;
 
         &.empty {
             display: flex;
