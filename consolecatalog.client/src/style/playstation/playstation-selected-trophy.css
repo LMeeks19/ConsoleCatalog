@@ -42,12 +42,15 @@
             }
         }
 
-        .earned, .progress {
+        .earned,
+        .progress {
             display: flex;
             margin: auto 0 auto auto;
             gap: 30px;
 
-            .earned-text, .progress-text, .progress-value {
+            .earned-text,
+            .progress-text,
+            .progress-value {
                 display: flex;
                 flex-direction: column;
                 text-align: center;
@@ -79,7 +82,8 @@
             margin-right: 20px;
         }
 
-        .earned~.rarity, .progress~.rarity {
+        .earned~.rarity,
+        .progress~.rarity {
             margin: auto 0 auto 0;
         }
     }
@@ -92,7 +96,6 @@
         align-items: center;
         margin: auto 0 auto 0;
         border-bottom: 1px solid #404040;
-        margin-top: 20px;
 
         .name {
             font-size: 30px;
@@ -290,15 +293,37 @@
     }
 }
 
-@media screen and (max-width: 593px) {
-    .title {
-        justify-content: center;
-        gap: 10px;
-
-        .actions {
+@media screen and (max-width: 1030px) {
+    .trophy-container {
+        .title {
             justify-content: center;
-            display: flex;
-            flex-wrap: wrap;
+            gap: 10px;
+
+            .actions {
+                justify-content: center;
+                display: flex;
+                flex-wrap: wrap;
+            }
+        }
+
+        .sub-objectives {
+            height: calc(100% - 259px) !important;
+        }
+    }
+}
+
+@media screen and (max-width: 830px) {
+    .trophy-container {
+        .sub-objectives {
+            height: calc(100% - 329px) !important;
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .trophy-container {
+        .sub-objectives {
+            height: calc(100% - 359px) !important;
         }
     }
 }
