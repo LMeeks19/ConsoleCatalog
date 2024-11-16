@@ -26,11 +26,11 @@ namespace ConsoleCatalog.Internal_Server.Controllers
         }
 
         [HttpGet(Name = "GetSubObjectives")]
-        [Route("[action]/{userId}/{titleId}/{trophyId}")]
-        public List<SubObjective> GetSubObjectives(string userId, string titleId, string trophyId)
+        [Route("[action]/{userId}/{platform}/{titleId}/{parentId}")]
+        public List<SubObjective> GetSubObjectives(string userId, SubObjectivePlatform platform, string titleId, string parentId)
         {
             var subObjectives = _databaseContext.SubObjectives
-                .Where(subObjective => subObjective.UserId == new Guid(userId) && subObjective.TitleId == titleId && subObjective.TrophyId == int.Parse(trophyId))
+                .Where(subObjective => subObjective.UserId == new Guid(userId) && subObjective.TitleId == titleId && (subObjective.TrophyId == int.Parse(parentId) || subObjective.AchievementId == int.Parse(parentId)) && subObjective.Platform == platform)
                 .Select(subObjective => subObjective)
                 .OrderByDescending(SubObjective => !SubObjective.IsComplete)
                     .ThenByDescending(subObjective => subObjective.CreatedDate)

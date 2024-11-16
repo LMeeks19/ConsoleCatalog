@@ -5,7 +5,6 @@ import {
   searchModalState,
   sidebarState,
 } from "../../functions/state";
-import Playstation from "./playstation";
 import { useLocation } from "react-router-dom";
 import {
   FormatStringDate,
@@ -27,12 +26,17 @@ import AddSubObjectiveModal from "../../components/modal/add-sub-objective-modal
 import SearchBar from "../../components/site/search-bar";
 import { BeatLoader } from "react-spinners";
 import ProgressBar from "@ramonak/react-progress-bar";
-import { SubObjectivePlatform } from "../../functions/enums";
+import Xbox from "./xbox";
+import {
+  SubObjectivePlatform,
+  XBXAchievementState,
+} from "../../functions/enums";
+import { Achievement } from "../../functions/interfaces/xbox/profile-interfaces";
 
-function PlaystationSelectedTrophy() {
+function XboxSelectedAchievement() {
   const isSidebarActive = useRecoilValue(sidebarState);
   const location = useLocation();
-  const trophy = location.state?.trophy;
+  const achievement = location.state?.achievement as Achievement;
   const [subObjectives, setSubObjectives] = useState<SubObjective[]>(
     [] as SubObjective[]
   );
@@ -49,8 +53,8 @@ function PlaystationSelectedTrophy() {
       const fetchedSubObjectives = await getSubObjectives(
         location.state.userId,
         location.state.titleId,
-        trophy?.trophyId,
-        SubObjectivePlatform.PSN
+        achievement?.id,
+        SubObjectivePlatform.XBX
       );
       setSubObjectives(fetchedSubObjectives);
       setIsLoading(false);
@@ -108,7 +112,7 @@ function PlaystationSelectedTrophy() {
 
   return (
     <>
-      <Playstation />
+      <Xbox />
       <Conditional
         Condition={isAddSubObjectiveModalActive}
         If={
@@ -116,9 +120,9 @@ function PlaystationSelectedTrophy() {
             component={
               <AddSubObjectiveModal
                 userId={location.state.userId}
-                titleId={location.state?.titleId}
-                trophyId={trophy?.trophyId}
-                platform={SubObjectivePlatform.PSN}
+                titleId={location.state?.titleId.toString()}
+                achievementId={achievement?.id}
+                platform={SubObjectivePlatform.XBX}
                 setSubObjectives={setSubObjectives}
               />
             }
@@ -137,22 +141,25 @@ function PlaystationSelectedTrophy() {
         <div className="trophy-container">
           <div
             className={`trophy ${Conditional({
-              Condition: trophy?.earned,
+              Condition:
+                achievement?.progressState === XBXAchievementState.Achieved,
               If: "earned",
             })}`}
           >
-            <img className="image" src={trophy?.trophyIconUrl}></img>
+            <img className="image" src={achievement?.mediaAssets.url}></img>
             <div className="details">
-              <div className="name">{trophy?.trophyName}</div>
-              <div className="description">{trophy?.trophyDetail}</div>
+              <div className="name">{achievement?.name}</div>
+              <div className="description">{achievement?.description}</div>
             </div>
             <Conditional
-              Condition={trophy?.earned}
+              Condition={
+                achievement?.progressState === XBXAchievementState.Achieved
+              }
               If={
                 <div className="earned">
                   <div className="earned-text">
                     <div>Completed:</div>
-                    {FormatStringDate(trophy?.earnedDateTime)}
+                    {FormatStringDate(achievement?.progression.timeUnlocked)}
                   </div>
                   <i
                     className="fa-regular fa-circle-check earned-icon"
@@ -162,40 +169,44 @@ function PlaystationSelectedTrophy() {
               }
             />
             <Conditional
-              Condition={!trophy?.earned && trophy?.progress !== null}
+              Condition={
+                achievement?.progressState !== XBXAchievementState.Achieved
+              }
               If={
                 <div className="progress">
                   <Conditional
-                    Condition={trophy?.progressedDateTime !== null}
+                    Condition={achievement.progression.requirements !== null}
                     If={
-                      <div className="progress-text">
-                        <div>Last Progressed:</div>
-                        {FormatStringDate(trophy?.progressedDateTime)}
+                      <div className="progress-value">
+                        <div>
+                          {achievement?.progression.requirements?.current}/
+                          {achievement?.progression.requirements?.target}
+                        </div>
+                        <ProgressBar
+                          completed={Number(
+                            achievement?.progression.requirements?.current
+                          )}
+                          baseBgColor="#161616"
+                          bgColor={getProgressColour(
+                            Number(
+                              achievement?.progression.requirements?.current
+                            )
+                          )}
+                          labelAlignment="outside"
+                        />
                       </div>
                     }
                   />
-                  <div className="progress-value">
-                    <div>
-                      {trophy?.progress}/{trophy?.trophyProgressTargetValue}
-                    </div>
-                    <ProgressBar
-                      completed={trophy?.progressRate}
-                      baseBgColor="#161616"
-                      bgColor={getProgressColour(trophy?.progressRate)}
-                      labelAlignment="outside"
-                    />
-                  </div>
                 </div>
               }
             />
             <div className="rarity">
-              <div>{getTrophyRarity(trophy?.trophyRare)} </div>
+              <div>{achievement.rarity.currentCategory} </div>
               <Conditional
-                Condition={trophy?.trophyEarnedRate !== null}
-                If={<div>{trophy?.trophyEarnedRate}%</div>}
+                Condition={achievement?.rarity.currentPercentage !== null}
+                If={<div>{achievement?.rarity.currentPercentage}%</div>}
               />
             </div>
-            <img className="type" src={getTrophyTypeIcon(trophy?.trophyType)} />
           </div>
           <div className="title">
             <div className="name">Sub Objectives</div>
@@ -219,7 +230,9 @@ function PlaystationSelectedTrophy() {
               <button
                 className="add"
                 onClick={() => setIsAddSubObjectiveModalActive(true)}
-                disabled={trophy?.earned}
+                disabled={
+                  achievement?.progressState === XBXAchievementState.Achieved
+                }
               >
                 <div className="label">Add</div>
                 <i className="fa-solid fa-plus add-icon"></i>
@@ -320,4 +333,4 @@ function PlaystationSelectedTrophy() {
   );
 }
 
-export default PlaystationSelectedTrophy;
+export default XboxSelectedAchievement;

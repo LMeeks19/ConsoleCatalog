@@ -1,3 +1,4 @@
+import { SubObjectivePlatform } from "../../enums";
 import { RegisterDetails, SubObjective, User } from "../../interfaces/interfaces";
 
 export async function getUserByUsername(username: string | null): Promise<User> {
@@ -24,8 +25,8 @@ export async function getSubObjective(id: string): Promise<SubObjective> {
   return await response.json();
 }
 
-export async function getSubObjectives(userId: string, titleId: string, trophyId: number): Promise<SubObjective[]> {
-  const response = await fetch(`/SubObjectives/GetSubObjectives/${userId}/${titleId}/${trophyId}`);
+export async function getSubObjectives(userId: string, titleId: string, trophyId: number, platform: SubObjectivePlatform): Promise<SubObjective[]> {
+  const response = await fetch(`/SubObjectives/GetSubObjectives/${userId}/${platform}/${titleId}/${trophyId}`);
   return await response.json();
 }
 

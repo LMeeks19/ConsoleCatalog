@@ -1,3 +1,5 @@
+import { SubObjectivePlatform } from "../enums";
+
 export interface LoginDetails {
   username: string | null;
   password: string | null;
@@ -14,11 +16,13 @@ export interface RegisterDetails {
 export interface SubObjective {
   id?: string;
   userId: string;
-  trophyId: number;
+  trophyId?: number;
+  achievementId?: number;
   titleId: string;
   details: string;
   createdDate: Date;
   isComplete: boolean;
+  platform: SubObjectivePlatform
 }
 
 export interface FormError {

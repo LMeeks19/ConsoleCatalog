@@ -1,9 +1,9 @@
 import { BeatLoader } from "react-spinners";
 import Conditional from "../../components/site/if-then-else";
 import { useRecoilValue } from "recoil";
-import { sidebarState } from "../../functions/state";
+import { sidebarState, userState } from "../../functions/state";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SearchBar from "../../components/site/search-bar";
 import {
   Achievement,
@@ -26,6 +26,8 @@ function XboxGameAchievements() {
   const [titleAchievements, setTitleAchievements] = useState<Achievement[]>(
     [] as Achievement[]
   );
+  const navigate = useNavigate();
+  const user = useRecoilValue(userState);
 
   let xuid = location.state.xuid;
   let title = location.state.title as XBXTitle;
@@ -135,12 +137,12 @@ function XboxGameAchievements() {
                   <div className="game-name">{title.name}</div>
                   <div className="game-progress">
                     <ProgressBar
-                      completed={title.achievement.progressPercentage}
+                      completed={title.achievementSummary?.progressPercentage}
                       height="30px"
                       labelSize="20px"
                       baseBgColor="#161616"
                       bgColor={getProgressColour(
-                        title.achievement.progressPercentage
+                        title.achievementSummary?.progressPercentage
                       )}
                       labelAlignment="outside"
                     />
@@ -158,7 +160,7 @@ function XboxGameAchievements() {
                         <path d="M1664 256v447q0 57-19 109t-54 94-83 71-104 40q-9 75-41 141t-83 117-116 84-140 45v132h384v256h128v128H384v-128h128v-256h384v-132q-75-11-140-44t-115-85-83-117-42-141q-56-11-104-40t-82-70-54-94-20-110V256h256V128h896v128h256zM640 1664v128h640v-128H640zM384 703q0 30 9 58t26 53 40 42 53 28V384H384v319zm576 577q66 0 124-25t101-68 69-102 26-125V256H640v704q0 66 25 124t68 102 102 69 125 25zm576-896h-128v500q28-10 52-28t40-43 26-52 10-58V384z"></path>
                       </svg>
                       <div className="text">
-                        {title.achievement.currentAchievements}/
+                        {title.achievementSummary?.currentAchievements}/
                         {titleAchievements.length}
                       </div>
                     </div>
@@ -174,8 +176,8 @@ function XboxGameAchievements() {
                         <path d="M1024 0q141 0 272 36t245 103 207 160 160 208 103 245 37 272q0 141-36 272t-104 244-160 207-207 161-245 103-272 37q-141 0-272-36t-244-104-207-160-161-207-103-245-37-272q0-141 36-272t103-245 160-207 208-160T751 37t273-37zm367 956H984v173h192v187q-29 13-60 17t-63 4q-72 0-124-23t-87-64-52-97-17-125q0-69 20-127t60-101 95-67 127-24q71 0 140 14t132 50V572q-65-24-132-33t-137-9q-115 0-212 35T697 666 586 826t-40 213q0 115 35 204t101 150 156 93 205 32q91 0 180-17t168-64V956z"></path>
                       </svg>
                       <div className="text">
-                        {title.achievement.currentGamerscore}/
-                        {title.achievement.totalGamerscore}
+                        {title.achievementSummary?.currentGamerscore}/
+                        {title.achievementSummary?.totalGamerscore}
                       </div>
                     </div>
                   </div>
@@ -235,6 +237,15 @@ function XboxGameAchievements() {
                                   XBXAchievementState.Achieved,
                                 If: "earned",
                               })}`}
+                              onClick={() =>
+                                navigate(`${achievement.id}`, {
+                                  state: {
+                                    achievement: achievement,
+                                    titleId: title.id,
+                                    userId: user.id,
+                                  },
+                                })
+                              }
                             >
                               <img
                                 className="image"

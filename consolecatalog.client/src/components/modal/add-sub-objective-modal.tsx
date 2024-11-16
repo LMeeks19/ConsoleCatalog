@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Conditional from "../site/if-then-else";
 import { SubObjective } from "../../functions/interfaces/interfaces";
 import { postSubObjectives } from "../../functions/server/internal/global-calls";
+import { SubObjectivePlatform } from "../../functions/enums";
 
 function AddSubObjectiveModal(props: AddSubObjectiveModalProps) {
   const setIsAddSubObjectiveModalActive = useSetRecoilState(
@@ -26,10 +27,12 @@ function AddSubObjectiveModal(props: AddSubObjectiveModalProps) {
             {
               userId: props.userId,
               titleId: props.titleId,
-              trophyId: props.trophyId,
+              trophyId: props?.trophyId,
+              achievementId: props?.achievementId,
               details: text,
               createdDate: new Date(),
               isComplete: false,
+              platform: props.platform
             },
           ]);
         } else {
@@ -39,10 +42,12 @@ function AddSubObjectiveModal(props: AddSubObjectiveModalProps) {
               return {
                 userId: props.userId,
                 titleId: props.titleId,
-                trophyId: props.trophyId,
+                trophyId: props?.trophyId,
+                achievementId: props?.achievementId,
                 details: text,
                 createdDate: new Date(),
                 isComplete: false,
+                platform: props.platform
               };
             })
           );
@@ -136,6 +141,8 @@ export default AddSubObjectiveModal;
 interface AddSubObjectiveModalProps {
   userId: string;
   titleId: string;
-  trophyId: number;
+  trophyId?: number;
+  achievementId?: number;
+  platform: SubObjectivePlatform;
   setSubObjectives: SetterOrUpdater<SubObjective[]>;
 }

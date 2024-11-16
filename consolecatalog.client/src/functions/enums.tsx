@@ -69,3 +69,8 @@ export enum XBXAchievementState {
   InProgress = "InProgress",
   Achieved = "Achieved"
 }
+
+export enum SubObjectivePlatform {
+  XBX,
+  PSN
+}

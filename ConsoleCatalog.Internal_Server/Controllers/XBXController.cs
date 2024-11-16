@@ -26,17 +26,16 @@ namespace ConsoleCatalog.Internal_Server.Controllers
         {
             var profile = await _databaseContext.XBXProfiles
                 .Include(p => p.Detail)
-                .Include(p => p.Titles)
-                    .ThenInclude(t => t.TitleHistory)
-                .Include(p => p.Titles)
-                    .ThenInclude(t => t.Achievement)
                 .SingleOrDefaultAsync(p => p.Gamertag == gamertag);
 
             if (profile != null)
-                profile.Titles = profile.Titles
+                profile.Titles = [.. _databaseContext.XBXTitles
+                    .Include(t => t.TitleHistory)
+                    .Include(t => t.AchievementSummary)
+                    .Where(t => t.XBXProfileId == profile.Id)
+                    .Select(t => t)
                     .OrderByDescending(t => t.TitleHistory.LastTimePlayed)
-                    .Take(10)
-                    .ToList();
+                    .Take(10)];
 
             return profile;
         }
@@ -59,7 +58,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
                 .Include(p => p.Titles)
                     .ThenInclude(t => t.TitleHistory)
                 .Include(p => p.Titles)
-                    .ThenInclude(t => t.Achievement)
+                    .ThenInclude(t => t.AchievementSummary)
                 .AsNoTracking()
                 .SingleAsync(p => p.Gamertag == xbxProfile.Gamertag);
 
@@ -82,7 +81,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
         {
             var titles = await _databaseContext.XBXTitles
                 .Include(t => t.TitleHistory)
-                .Include(t => t.Achievement)
+                .Include(t => t.AchievementSummary)
                 .Where(title => title.XBXProfileId == profileId)
                 .Select(title => title)
                 .Skip(offset)

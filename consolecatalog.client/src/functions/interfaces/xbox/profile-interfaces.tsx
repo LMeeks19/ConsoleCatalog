@@ -39,10 +39,21 @@ interface Detail {
 
 export interface XBXTitlesObject {
   xuid: string;
-  titles: XBXTitle[];
+  titles: XBXTitleResponse[];
 }
 
-export interface XBXTitle {
+export interface XBXTitle{
+  id: number;
+  titleId: string;
+  name: string;
+  devices: string[];
+  displayImage: string;
+  modernTitleId: string;
+  isBundle: boolean;
+  achievementSummary: OverallAchievement;
+}
+
+export interface XBXTitleResponse {
   id: number;
   titleId: string;
   name: string;
