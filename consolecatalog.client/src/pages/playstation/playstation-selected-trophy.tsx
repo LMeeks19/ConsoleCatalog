@@ -1,9 +1,10 @@
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Conditional from "../../components/site/if-then-else";
 import {
   addSubObjectiveModalState,
   searchModalState,
   sidebarState,
+  subObjectiveParentIdState,
 } from "../../functions/state";
 import Playstation from "./playstation";
 import { useLocation } from "react-router-dom";
@@ -18,7 +19,6 @@ import { useEffect, useState } from "react";
 import { SubObjective } from "../../functions/interfaces/interfaces";
 import {
   deleteSubObjective,
-  deleteSubObjectives,
   getSubObjectives,
   putSubObjective,
 } from "../../functions/server/internal/global-calls";
@@ -28,6 +28,7 @@ import SearchBar from "../../components/site/search-bar";
 import { BeatLoader } from "react-spinners";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { SubObjectivePlatform } from "../../functions/enums";
+import SubObjectiveRecurser from "../../components/site/sub-objective-recurser";
 
 function PlaystationSelectedTrophy() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -38,6 +39,8 @@ function PlaystationSelectedTrophy() {
   );
   const [isAddSubObjectiveModalActive, setIsAddSubObjectiveModalActive] =
     useRecoilState(addSubObjectiveModalState);
+  const setSubObjectiveParentId = useSetRecoilState(subObjectiveParentIdState);
+
   const isSearchModalActive = useRecoilValue(searchModalState);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -57,21 +60,12 @@ function PlaystationSelectedTrophy() {
     }
     fetchSubObjectives();
   }, []);
-
+  
   async function removeSubObjective(subObjective: SubObjective) {
     const deletedSubObjectiveId = await deleteSubObjective(subObjective);
     setSubObjectives(
       subObjectives.filter(
         (subObjective) => subObjective.id !== deletedSubObjectiveId
-      )
-    );
-  }
-
-  async function removeSubObjectives(subObjectives: SubObjective[]) {
-    const deletedSubObjectiveIds = await deleteSubObjectives(subObjectives);
-    setSubObjectives(
-      subObjectives.filter(
-        (subObjective) => !deletedSubObjectiveIds.includes(subObjective.id!)
       )
     );
   }
@@ -85,7 +79,6 @@ function PlaystationSelectedTrophy() {
     });
     setSubObjectives(updatedSubObjectives);
   }
-
   function sortedSubObjectives(): SubObjective[] {
     let subObjs = subObjectives.map((subObjecitve) => {
       return subObjecitve;
@@ -93,7 +86,7 @@ function PlaystationSelectedTrophy() {
 
     if (sortBy === 0)
       subObjs = subObjectives
-        .sort((a, b) => a.details.localeCompare(b.details))
+        .sort((a, b) => a.details?.localeCompare(b.details))
         .sort(
           (a, b) =>
             new Date(a.createdDate).getMilliseconds() -
@@ -101,7 +94,7 @@ function PlaystationSelectedTrophy() {
         );
     if (sortBy === 1)
       subObjs = subObjectives.sort((a, b) =>
-        a.details.localeCompare(b.details)
+        a.details?.localeCompare(b.details)
       );
     return subObjs;
   }
@@ -224,18 +217,6 @@ function PlaystationSelectedTrophy() {
                 <div className="label">Add</div>
                 <i className="fa-solid fa-plus add-icon"></i>
               </button>
-              <button
-                className="delete"
-                onClick={() => removeSubObjectives(subObjectives)}
-                disabled={
-                  subObjectives.filter(
-                    (subObjective) => subObjective.isComplete
-                  ).length === 0
-                }
-              >
-                <div className="label">Delete All</div>
-                <i className="fa-solid fa-trash-can add-icon"></i>
-              </button>
             </div>
           </div>
           <Conditional
@@ -251,7 +232,7 @@ function PlaystationSelectedTrophy() {
                   Condition:
                     subObjectives.length === 0 ||
                     subObjectives.filter((subObjectives) =>
-                      subObjectives.details.includes(searchTerm)
+                      subObjectives.details?.includes(searchTerm)
                     ).length === 0,
                   If: "empty",
                 })}`}
@@ -260,53 +241,66 @@ function PlaystationSelectedTrophy() {
                   Condition={
                     subObjectives.length === 0 ||
                     subObjectives.filter((subObjectives) =>
-                      subObjectives.details.includes(searchTerm)
+                      subObjectives.details?.includes(searchTerm)
                     ).length === 0
                   }
                   If={<div>No Sub Objectives</div>}
                   Else={sortedSubObjectives()
                     .filter((subObjecitve) =>
-                      subObjecitve.details.includes(searchTerm)
+                      subObjecitve.details?.includes(searchTerm)
                     )
                     .sort((a, b) => Number(a.isComplete) - Number(b.isComplete))
                     .map((subObjective) => {
                       return (
-                        <div
-                          className={`sub-objective ${Conditional({
-                            Condition: subObjective.isComplete,
-                            If: "complete",
-                          })}`}
-                          key={subObjective.id}
-                        >
-                          <div className="checkbox-container">
-                            <input
-                              onClick={() => updateSubObjective(subObjective)}
-                              defaultChecked={subObjective.isComplete}
-                              className="input-checkbox"
-                              id={subObjective.id}
-                              type="checkbox"
-                              style={{ display: "none" }}
-                            />
-                            <label
-                              className="checkbox"
-                              htmlFor={subObjective.id}
-                            >
-                              <span>
-                                <svg
-                                  width="12px"
-                                  height="9px"
-                                  viewBox="0 0 12 9"
-                                >
-                                  <polyline points="1 5 4 8 11 1"></polyline>
-                                </svg>
-                              </span>
-                            </label>
+                        <div key={subObjective.id}>
+                          <div
+                            className={`sub-objective ${Conditional({
+                              Condition: subObjective.isComplete,
+                              If: "complete",
+                            })}`}
+                          >
+                            <div className="checkbox-container">
+                              <input
+                                onClick={() => updateSubObjective(subObjective)}
+                                defaultChecked={subObjective.isComplete}
+                                className="input-checkbox"
+                                id={subObjective.id}
+                                type="checkbox"
+                                style={{ display: "none" }}
+                              />
+                              <label
+                                className="checkbox"
+                                htmlFor={subObjective.id}
+                              >
+                                <span>
+                                  <svg
+                                    width="12px"
+                                    height="9px"
+                                    viewBox="0 0 12 9"
+                                  >
+                                    <polyline points="1 5 4 8 11 1"></polyline>
+                                  </svg>
+                                </span>
+                              </label>
+                            </div>
+                            <div className="text">{subObjective.details}</div>
+                            <div className="icon-container">
+                              <i
+                                className="fa-solid fa-plus add-icon"
+                                onClick={() => {
+                                  setSubObjectiveParentId(subObjective.id!);
+                                  setIsAddSubObjectiveModalActive(true);
+                                }}
+                              ></i>
+                              <i
+                                className="fa-solid fa-trash-can delete-icon"
+                                onClick={() => removeSubObjective(subObjective)}
+                              ></i>
+                            </div>
                           </div>
-                          <div className="text">{subObjective.details}</div>
-                          <i
-                            className="fa-solid fa-trash-can delete-icon"
-                            onClick={() => removeSubObjective(subObjective)}
-                          ></i>
+                          <SubObjectiveRecurser
+                            subObjectives={subObjective.children}
+                          />
                         </div>
                       );
                     })}

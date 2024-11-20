@@ -16,9 +16,11 @@ export interface RegisterDetails {
 export interface SubObjective {
   id?: string;
   userId: string;
+  titleId: string;
+  subObjectiveId?: string | null;
+  children?: SubObjective[]
   trophyId?: number;
   achievementId?: number;
-  titleId: string;
   details: string;
   createdDate: Date;
   isComplete: boolean;

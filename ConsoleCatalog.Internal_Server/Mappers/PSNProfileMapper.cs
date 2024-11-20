@@ -1,7 +1,6 @@
-﻿using ConsoleCatalog.Internal_Server.Mappers;
-using ConsoleCatalog.Internal_Server.Models.Playstation;
+﻿using ConsoleCatalog.Internal_Server.Models.Playstation;
 
-namespace ConsoleCatalog.Internal_Server.Methods
+namespace ConsoleCatalog.Internal_Server.Mappers
 {
     public class PSNProfileMapper
     {
@@ -48,7 +47,7 @@ namespace ConsoleCatalog.Internal_Server.Methods
         {
             var updatedTrophySummary = trophySummary;
             updatedTrophySummary.Id = existingTrophySummary.Id;
-            updatedTrophySummary.EarnedTrophiesId = existingTrophySummary.EarnedTrophiesId; 
+            updatedTrophySummary.EarnedTrophiesId = existingTrophySummary.EarnedTrophiesId;
             updatedTrophySummary.EarnedTrophies = psnTrophyTypesMapper.MapEarnedTrophyTypes(trophySummary.EarnedTrophies, existingTrophySummary.EarnedTrophies);
             return updatedTrophySummary;
         }

@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { User } from "./interfaces/interfaces";
+import { SubObjective, User } from "./interfaces/interfaces";
 import { Pages } from "./enums";
 
 export const userState = atom({
@@ -21,6 +21,11 @@ export const addSubObjectiveModalState = atom({
   key: "addSubObjectiveModalState",
   default: false,
 });
+
+export const subObjectiveParentIdState = atom({
+  key: "subObjectiveParentIdState",
+  default: "",
+})
 
 export const activePageState = atom({
   key: "activePageState",

@@ -6,13 +6,8 @@ import {
   sidebarState,
 } from "../../functions/state";
 import { useLocation } from "react-router-dom";
-import {
-  FormatStringDate,
-  getProgressColour,
-  getTrophyRarity,
-  getTrophyTypeIcon,
-} from "../../functions/methods";
-import "../../style/playstation/playstation-selected-trophy.css";
+import { FormatStringDate, getProgressColour } from "../../functions/methods";
+import "../../style/xbox/xbox-game-achievements.css";
 import { useEffect, useState } from "react";
 import { SubObjective } from "../../functions/interfaces/interfaces";
 import {
@@ -46,6 +41,9 @@ function XboxSelectedAchievement() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [sortBy, setSortBy] = useState<number>(0);
+  const [subObjectiveId, setSubObjectiveId] = useState<string | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     async function fetchSubObjectives() {
@@ -67,15 +65,6 @@ function XboxSelectedAchievement() {
     setSubObjectives(
       subObjectives.filter(
         (subObjective) => subObjective.id !== deletedSubObjectiveId
-      )
-    );
-  }
-
-  async function removeSubObjectives(subObjectives: SubObjective[]) {
-    const deletedSubObjectiveIds = await deleteSubObjectives(subObjectives);
-    setSubObjectives(
-      subObjectives.filter(
-        (subObjective) => !deletedSubObjectiveIds.includes(subObjective.id!)
       )
     );
   }
@@ -121,6 +110,8 @@ function XboxSelectedAchievement() {
               <AddSubObjectiveModal
                 userId={location.state.userId}
                 titleId={location.state?.titleId.toString()}
+                subObjectiveId={subObjectiveId}
+                setSubObjectiveId={setSubObjectiveId}
                 achievementId={achievement?.id}
                 platform={SubObjectivePlatform.XBX}
                 setSubObjectives={setSubObjectives}
@@ -237,18 +228,6 @@ function XboxSelectedAchievement() {
                 <div className="label">Add</div>
                 <i className="fa-solid fa-plus add-icon"></i>
               </button>
-              <button
-                className="delete"
-                onClick={() => removeSubObjectives(subObjectives)}
-                disabled={
-                  subObjectives.filter(
-                    (subObjective) => subObjective.isComplete
-                  ).length === 0
-                }
-              >
-                <div className="label">Delete All</div>
-                <i className="fa-solid fa-trash-can add-icon"></i>
-              </button>
             </div>
           </div>
           <Conditional
@@ -316,10 +295,19 @@ function XboxSelectedAchievement() {
                             </label>
                           </div>
                           <div className="text">{subObjective.details}</div>
-                          <i
-                            className="fa-solid fa-trash-can delete-icon"
-                            onClick={() => removeSubObjective(subObjective)}
-                          ></i>
+                          <div className="icon-container">
+                            <i
+                              className="fa-solid fa-plus add-icon"
+                              onClick={() => {
+                                setSubObjectiveId(subObjective.id);
+                                setIsAddSubObjectiveModalActive(true);
+                              }}
+                            ></i>
+                            <i
+                              className="fa-solid fa-trash-can delete-icon"
+                              onClick={() => removeSubObjective(subObjective)}
+                            ></i>
+                          </div>
                         </div>
                       );
                     })}
