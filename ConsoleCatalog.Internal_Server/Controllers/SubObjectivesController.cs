@@ -101,7 +101,7 @@ namespace ConsoleCatalog.Internal_Server.Controllers
 
         [HttpDelete(Name = "DeleteSubObjective")]
         [Route("[action]/{subObjectiveId}")]
-        public Guid DeleteSubObjective(string subObjectiveId)
+        public List<SubObjective> DeleteSubObjective(string subObjectiveId)
         {
             var subObjective = _databaseContext.SubObjectives
                 .Single(subObjective => subObjective.Id == new Guid(subObjectiveId));
@@ -118,7 +118,27 @@ namespace ConsoleCatalog.Internal_Server.Controllers
 
             _databaseContext.Remove(subObjective);
             _databaseContext.SaveChanges();
-            return subObjective.Id;
+
+            var subObjectives = _databaseContext.SubObjectives
+                .Where(subObjective => subObjective.UserId == subObjective.UserId
+                && subObjective.TitleId == subObjective.TitleId
+                && (subObjective.TrophyId == subObjective.TrophyId || subObjective.AchievementId == subObjective.AchievementId)
+                && subObjective.Platform == subObjective.Platform
+                && subObjective.SubObjectiveId == null)
+                .Select(subObjective => subObjective)
+                .OrderByDescending(SubObjective => !SubObjective.IsComplete)
+                    .ThenByDescending(subObjective => subObjective.CreatedDate)
+                    .ThenBy(subObjective => subObjective.Details)
+                .ToList();
+
+            if (subObjectives.Count == 0)
+                return subObjectives;
+
+            subObjectives.ForEach(subObjective => {
+                subObjective = new SubObjectiveHelper()
+                    .GetSubObjectiveChildren(_databaseContext, subObjective);
+            });
+            return subObjectives;
         }
     }
 }

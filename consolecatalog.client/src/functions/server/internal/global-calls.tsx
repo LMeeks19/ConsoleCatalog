@@ -57,7 +57,7 @@ export async function putSubObjective(subObjective: SubObjective): Promise<SubOb
   return await response.json();
 }
 
-export async function deleteSubObjective(subObjective: SubObjective): Promise<string> {
+export async function deleteSubObjective(subObjective: SubObjective): Promise<SubObjective[]> {
   const response = await fetch(
     `/SubObjectives/DeleteSubObjective/${subObjective.id}`,
     {

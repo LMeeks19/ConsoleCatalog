@@ -28,7 +28,6 @@ import SearchBar from "../../components/site/search-bar";
 import { BeatLoader } from "react-spinners";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { SubObjectivePlatform } from "../../functions/enums";
-import SubObjectiveRecurser from "../../components/site/sub-objective-recurser";
 
 function PlaystationSelectedTrophy() {
   const isSidebarActive = useRecoilValue(sidebarState);
@@ -60,14 +59,10 @@ function PlaystationSelectedTrophy() {
     }
     fetchSubObjectives();
   }, []);
-  
+
   async function removeSubObjective(subObjective: SubObjective) {
-    const deletedSubObjectiveId = await deleteSubObjective(subObjective);
-    setSubObjectives(
-      subObjectives.filter(
-        (subObjective) => subObjective.id !== deletedSubObjectiveId
-      )
-    );
+    const remainingSubObjectives = await deleteSubObjective(subObjective);
+    setSubObjectives(remainingSubObjectives);
   }
 
   async function updateSubObjective(subObjective: SubObjective) {
@@ -79,6 +74,7 @@ function PlaystationSelectedTrophy() {
     });
     setSubObjectives(updatedSubObjectives);
   }
+
   function sortedSubObjectives(): SubObjective[] {
     let subObjs = subObjectives.map((subObjecitve) => {
       return subObjecitve;
@@ -97,6 +93,61 @@ function PlaystationSelectedTrophy() {
         a.details?.localeCompare(b.details)
       );
     return subObjs;
+  }
+
+  function subObjectiveRecurser(subObjs: SubObjective[]) {
+    return subObjs?.map((subObjective) => {
+      return (
+        <div
+          key={subObjective.id}
+          style={{
+            marginTop: "10px",
+            marginLeft: "50px",
+          }}
+        >
+          <div
+            className={`sub-objective ${Conditional({
+              Condition: subObjective.isComplete,
+              If: "complete",
+            })}`}
+            key={subObjective.id}
+          >
+            <div className="checkbox-container">
+              <input
+                onClick={() => updateSubObjective(subObjective)}
+                defaultChecked={subObjective.isComplete}
+                className="input-checkbox"
+                id={subObjective.id}
+                type="checkbox"
+                style={{ display: "none" }}
+              />
+              <label className="checkbox" htmlFor={subObjective.id}>
+                <span>
+                  <svg width="12px" height="9px" viewBox="0 0 12 9">
+                    <polyline points="1 5 4 8 11 1"></polyline>
+                  </svg>
+                </span>
+              </label>
+            </div>
+            <div className="text">{subObjective.details}</div>
+            <div className="icon-container">
+              <i
+                className="fa-solid fa-plus add-icon"
+                onClick={() => {
+                  setSubObjectiveParentId(subObjective.id!);
+                  setIsAddSubObjectiveModalActive(true);
+                }}
+              ></i>
+              <i
+                className="fa-solid fa-trash-can delete-icon"
+                onClick={() => removeSubObjective(subObjective)}
+              ></i>
+            </div>
+          </div>
+          {subObjectiveRecurser(subObjective.children!)}
+        </div>
+      );
+    });
   }
 
   return (
@@ -298,9 +349,7 @@ function PlaystationSelectedTrophy() {
                               ></i>
                             </div>
                           </div>
-                          <SubObjectiveRecurser
-                            subObjectives={subObjective.children}
-                          />
+                          {subObjectiveRecurser(subObjective.children!)}
                         </div>
                       );
                     })}
