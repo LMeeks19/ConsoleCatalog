@@ -1,9 +1,10 @@
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Conditional from "../../components/site/if-then-else";
 import {
   addSubObjectiveModalState,
   searchModalState,
   sidebarState,
+  subObjectiveParentIdState,
 } from "../../functions/state";
 import { useLocation } from "react-router-dom";
 import { FormatStringDate, getProgressColour } from "../../functions/methods";
@@ -37,13 +38,12 @@ function XboxSelectedAchievement() {
   );
   const [isAddSubObjectiveModalActive, setIsAddSubObjectiveModalActive] =
     useRecoilState(addSubObjectiveModalState);
+  const setSubObjectiveParentId = useSetRecoilState(subObjectiveParentIdState);
+
   const isSearchModalActive = useRecoilValue(searchModalState);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [sortBy, setSortBy] = useState<number>(0);
-  const [subObjectiveId, setSubObjectiveId] = useState<string | undefined>(
-    undefined
-  );
 
   useEffect(() => {
     async function fetchSubObjectives() {
@@ -61,12 +61,8 @@ function XboxSelectedAchievement() {
   }, []);
 
   async function removeSubObjective(subObjective: SubObjective) {
-    const deletedSubObjectiveId = await deleteSubObjective(subObjective);
-    setSubObjectives(
-      subObjectives.filter(
-        (subObjective) => subObjective.id !== deletedSubObjectiveId
-      )
-    );
+    const remainingSubObjectives = await deleteSubObjective(subObjective);
+    setSubObjectives(remainingSubObjectives);
   }
 
   async function updateSubObjective(subObjective: SubObjective) {
@@ -99,6 +95,61 @@ function XboxSelectedAchievement() {
     return subObjs;
   }
 
+  function subObjectiveRecurser(subObjs: SubObjective[]) {
+    return subObjs?.map((subObjective) => {
+      return (
+        <div
+          key={subObjective.id}
+          style={{
+            marginTop: "10px",
+            marginLeft: "50px",
+          }}
+        >
+          <div
+            className={`sub-objective ${Conditional({
+              Condition: subObjective.isComplete,
+              If: "complete",
+            })}`}
+            key={subObjective.id}
+          >
+            <div className="checkbox-container">
+              <input
+                onClick={() => updateSubObjective(subObjective)}
+                defaultChecked={subObjective.isComplete}
+                className="input-checkbox"
+                id={subObjective.id}
+                type="checkbox"
+                style={{ display: "none" }}
+              />
+              <label className="checkbox" htmlFor={subObjective.id}>
+                <span>
+                  <svg width="12px" height="9px" viewBox="0 0 12 9">
+                    <polyline points="1 5 4 8 11 1"></polyline>
+                  </svg>
+                </span>
+              </label>
+            </div>
+            <div className="text">{subObjective.details}</div>
+            <div className="icon-container">
+              <i
+                className="fa-solid fa-plus add-icon"
+                onClick={() => {
+                  setSubObjectiveParentId(subObjective.id!);
+                  setIsAddSubObjectiveModalActive(true);
+                }}
+              ></i>
+              <i
+                className="fa-solid fa-trash-can delete-icon"
+                onClick={() => removeSubObjective(subObjective)}
+              ></i>
+            </div>
+          </div>
+          {subObjectiveRecurser(subObjective.children!)}
+        </div>
+      );
+    });
+  }
+
   return (
     <>
       <Xbox />
@@ -110,8 +161,6 @@ function XboxSelectedAchievement() {
               <AddSubObjectiveModal
                 userId={location.state.userId}
                 titleId={location.state?.titleId.toString()}
-                subObjectiveId={subObjectiveId}
-                setSubObjectiveId={setSubObjectiveId}
                 achievementId={achievement?.id}
                 platform={SubObjectivePlatform.XBX}
                 setSubObjectives={setSubObjectives}
@@ -299,7 +348,7 @@ function XboxSelectedAchievement() {
                             <i
                               className="fa-solid fa-plus add-icon"
                               onClick={() => {
-                                setSubObjectiveId(subObjective.id);
+                                setSubObjectiveParentId(subObjective.id!);
                                 setIsAddSubObjectiveModalActive(true);
                               }}
                             ></i>
@@ -308,6 +357,7 @@ function XboxSelectedAchievement() {
                               onClick={() => removeSubObjective(subObjective)}
                             ></i>
                           </div>
+                          {subObjectiveRecurser(subObjective.children!)}
                         </div>
                       );
                     })}

@@ -39,7 +39,6 @@ function PlaystationSelectedTrophy() {
   const [isAddSubObjectiveModalActive, setIsAddSubObjectiveModalActive] =
     useRecoilState(addSubObjectiveModalState);
   const setSubObjectiveParentId = useSetRecoilState(subObjectiveParentIdState);
-
   const isSearchModalActive = useRecoilValue(searchModalState);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -209,15 +208,6 @@ function PlaystationSelectedTrophy() {
               Condition={!trophy?.earned && trophy?.progress !== null}
               If={
                 <div className="progress">
-                  <Conditional
-                    Condition={trophy?.progressedDateTime !== null}
-                    If={
-                      <div className="progress-text">
-                        <div>Last Progressed:</div>
-                        {FormatStringDate(trophy?.progressedDateTime)}
-                      </div>
-                    }
-                  />
                   <div className="progress-value">
                     <div>
                       {trophy?.progress}/{trophy?.trophyProgressTargetValue}

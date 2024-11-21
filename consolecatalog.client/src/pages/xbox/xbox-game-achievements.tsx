@@ -214,18 +214,28 @@ function XboxGameAchievements() {
 
                 <Conditional
                   Condition={
-                    sortedAchievements().filter((achievement) =>
-                      achievement.name.includes(searchTerm)
+                    sortedAchievements().filter(
+                      (achievement) =>
+                        achievement.name
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase()) ||
+                        achievement.description
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase())
                     ).length === 0
                   }
                   If={<div className="empty">No Trophies</div>}
                   Else={
                     <>
                       {sortedAchievements()
-                        .filter((achievement) =>
-                          achievement.name
-                            .toLowerCase()
-                            .includes(searchTerm.toLowerCase())
+                        .filter(
+                          (achievement) =>
+                            achievement.name
+                              .toLowerCase()
+                              .includes(searchTerm.toLowerCase()) ||
+                            achievement.description
+                              .toLowerCase()
+                              .includes(searchTerm.toLowerCase())
                         )
                         .map((achievement) => {
                           return (
