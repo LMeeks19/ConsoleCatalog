@@ -1,7 +1,5 @@
 using ConsoleCatalog.Internal_Server.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.JSInterop;
 
 var builder = WebApplication.CreateBuilder(args);
 
