@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { Game, PSNProfile, User } from "./interfaces";
+import { SubObjective, User } from "./interfaces/interfaces";
 import { Pages } from "./enums";
 
 export const userState = atom({
@@ -12,10 +12,20 @@ export const sidebarState = atom({
   default: false,
 });
 
-export const gameSearchModalState = atom({
-  key: "gameSearchmodalState",
+export const searchModalState = atom({
+  key: "searchmodalState",
   default: false,
 });
+
+export const addSubObjectiveModalState = atom({
+  key: "addSubObjectiveModalState",
+  default: false,
+});
+
+export const subObjectiveParentIdState = atom({
+  key: "subObjectiveParentIdState",
+  default: "",
+})
 
 export const activePageState = atom({
   key: "activePageState",

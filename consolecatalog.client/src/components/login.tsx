@@ -1,5 +1,5 @@
 import { MouseEvent, useEffect, useState } from "react";
-import "../styling/login.css";
+import "../style/login.css";
 import Background from "./site/background";
 import { useNavigate } from "react-router-dom";
 import {
@@ -7,21 +7,29 @@ import {
   LoginDetails,
   RegisterDetails,
   User,
-} from "../functions/interfaces";
+} from "../functions/interfaces/interfaces";
 import {
   validateUserLogin,
   validateUserRegistrationPassword,
 } from "../functions/validation";
-import { getUserByUsername, putUser } from "../functions/server";
+import {
+  getUserByUsername,
+  postUser,
+} from "../functions/server/internal/global-calls";
 import { useSetRecoilState } from "recoil";
 import { userState } from "../functions/state";
 import { ActiveLoginTab } from "../functions/enums";
 import Conditional from "./site/if-then-else";
+import {
+  deleteCookiesByAuthId,
+  createCookies,
+} from "../functions/auth";
 
 function Login() {
   useEffect(() => {
-    function resetUser() {
+    async function resetUser() {
       setUser({} as User);
+      await deleteCookiesByAuthId();
     }
     resetUser();
   }, []);
@@ -42,6 +50,9 @@ function Login() {
     password: null,
     confirm_password: null,
   });
+
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
+
   const [showLoginErrorMessage, setShowLoginErrorMessage] = useState(false);
   const [registerUsernameError, setRegisterUsernameError] = useState("");
   const [registerPasswordError, setRegisterPasswordError] = useState("");
@@ -70,7 +81,12 @@ function Login() {
     if (validateUserLogin(user, loginDetails)) {
       setUser(user);
       setShowLoginErrorMessage(false);
-      navigate(`/${user.id}`);
+      if (rememberMe) {
+        await createCookies(user.id, 30);
+      } else {
+        await createCookies(user.id);
+      }
+      navigate("/");
     } else {
       setShowLoginErrorMessage(true);
     }
@@ -89,9 +105,14 @@ function Login() {
 
     if (registrationErrors.length === 0) {
       try {
-        const user = await putUser(registerDetails);
+        const user = await postUser(registerDetails);
         setUser(user);
-        navigate(`/${user.id}`);
+        if (rememberMe) {
+          await createCookies(user.id, 30);
+        } else {
+          await createCookies(user.id);
+        }
+        navigate("/");
       } catch (error) {
         setRegisterUsernameError("Username already exists");
       }
@@ -163,7 +184,7 @@ function Login() {
                     })
                   }
                   required
-                ></input>
+                />
 
                 <div className="text">
                   <label>Password:</label>
@@ -180,8 +201,20 @@ function Login() {
                     })
                   }
                   required
-                ></input>
+                />
 
+                <div className="remember-me">
+                  <div className="text">
+                    <label>Remember Me:</label>
+                  </div>
+                  <input
+                    id="remember"
+                    name="remember"
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={() => setRememberMe(!rememberMe)}
+                  />
+                </div>
                 <button
                   type="submit"
                   onClick={(event) => loginUser(event)}

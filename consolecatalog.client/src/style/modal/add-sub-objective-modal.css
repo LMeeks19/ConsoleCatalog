@@ -1,0 +1,109 @@
+.add-container {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #202020;
+    min-height: 58px;
+
+    .add-input {
+        display: flex;
+        width: 90%;
+        background-color: #262626;
+        padding: 10px 20px 10px 20px;
+        border-radius: 10px;
+        min-height: 38px;
+        max-height: 400px;
+        width: 100%;
+
+        textarea {
+            border: none !important;
+            padding: 0;
+            outline: none;
+            background-color: transparent;
+            font-size: 20px;
+            line-height: 32px;
+            width: 100%;
+            overflow: auto;
+            resize: vertical;
+            margin: auto 0 auto 0;
+            max-height: 400px;
+            min-height: 32px;
+            font-family: inherit;
+        }
+    }
+
+    .add-input:focus-within {
+        background-color: #363636;
+    }
+
+    .close {
+        margin-left: 10px;
+        padding: 15px;
+        cursor: pointer;
+        border-radius: 10px;
+        background-color: #262626;
+        font-size: 16px;
+        border: 1px solid #262626;
+        height: fit-content;
+    }
+
+    .close:hover {
+        background-color: #363636;
+    }
+}
+
+.paste-text {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+.confirm-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+
+    .checkbox-container {
+        display: flex;
+
+        .checkbox {
+            height: 20px;
+            width: 20px;
+            margin: auto;
+            cursor: pointer;
+        }
+
+        .checkbox:disabled {
+            cursor: not-allowed;
+            opacity: 50%;
+        }
+
+        .checkbox:checked {
+            accent-color: #1e5ddb;
+        }
+
+        .label {
+            margin: auto;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+    }
+
+    .add {
+        margin-left: 10px;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 10px;
+        background-color: #262626;
+        font-size: 16px;
+        border: 1px solid #262626;
+        height: fit-content;
+    }
+
+    .add:not(:disabled):hover {
+        background-color: #363636;
+    }
+
+    .add:disabled {
+        cursor: not-allowed;
+    }
+}

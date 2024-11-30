@@ -2,35 +2,37 @@ import playstation_icon from "../../images/playstation_icon.png";
 import xbox_icon from "../../images/xbox_icon.png";
 import TopBar from "../../components/site/topbar";
 import SideBar from "../../components/site/sidebar";
-import GamesSearchModal from "../../components/modal/game-search-modal";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import PlaystationGlobalSearchModal from "../../components/modal/playstation/playstation-global-search-modal";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   activePageState,
-  gameSearchModalState,
+  searchModalState,
   userState,
 } from "../../functions/state";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Pages } from "../../functions/enums";
-import "../../styling/site/page.css";
-import { getUserById } from "../../functions/server";
+import "../../style/site/page.css";
 import Conditional from "../../components/site/if-then-else";
 import Modal from "../../components/modal/modal";
+import { getCookies } from "../../functions/auth";
+import { getUserById } from "../../functions/server/internal/global-calls";
 
 function Playstation() {
-  const [isGameSearchModalActive, setIsGameSearchModalActive] =
-    useRecoilState(gameSearchModalState);
+  const [isSearchModalActive, setIsSearchModalActive] =
+    useRecoilState(searchModalState);
   const setActivePage = useSetRecoilState(activePageState);
-  const [user, setUser] = useRecoilState(userState);
+  const user = useRecoilValue(userState);
   const location = useLocation();
+  const setUser = useSetRecoilState(userState);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchUser() {
-      if (user.id === undefined) {
-        let userId = location.pathname.slice(1, 37);
-        const userDetails = await getUserById(userId);
-        setUser(userDetails);
-      }
+        const cookie = await getCookies();
+        if (cookie !== null)
+          setUser(await getUserById(cookie.userId));
+        else navigate("/login");
     }
     fetchUser();
   }, []);
@@ -50,17 +52,17 @@ function Playstation() {
       else setActivePage(Pages.Home);
     }
     function resetModal() {
-      setIsGameSearchModalActive(false);
+      setIsSearchModalActive(false);
     }
     setCurrentPage();
     resetModal();
-  }, []);
+  }, [location.pathname]);
 
   return (
     <>
       <Conditional
-        Condition={isGameSearchModalActive}
-        If={<Modal component={<GamesSearchModal />} />}
+        Condition={isSearchModalActive}
+        If={<Modal component={<PlaystationGlobalSearchModal />} />}
       />
       <TopBar page="playstation" icon={playstation_icon} />
       <SideBar page="playstation" icon={xbox_icon} />

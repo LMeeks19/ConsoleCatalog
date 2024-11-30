@@ -1,0 +1,199 @@
+.trophy-group-object-container {
+
+    .trophy-group-object {
+        background-color: #262626;
+        border-radius: 15px;
+        display: flex;
+
+        .trophy-group-object-image {
+            width: 300px;
+            height: 300px;
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+
+        .trophy-group-object-details {
+            padding: 40px;
+            width: calc(100% - 400px);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: space-between;
+            text-wrap: nowrap;
+
+            .trophy-group-object-name {
+                font-size: 35px;
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+
+                .date-container {
+                    display: flex;
+                    gap: 20px;
+
+                    .date {
+                        font-size: 20px;
+                        padding: 10.5px 15px 10.5px 15px;
+                        background-color: #161616;
+                        border-radius: 25px;
+                        margin: auto 0 auto 0;
+                    }
+
+
+                    .update-button {
+                        background-color: #161616;
+                        padding: 0 12.5px 0 12.5px;
+                        font-size: 20px;
+                        border-radius: 25px;
+                        border-color: transparent;
+                    }
+
+                    .update-button:hover {
+                        background-color: #363636;
+                    }
+
+                    .update-button:focus,
+                    .update-button:focus-visible {
+                        outline: transparent;
+                    }
+
+                    .update-button:active {
+                        border-color: black;
+                    }
+                }
+            }
+
+            .trophy-group-object-progress {
+                width: 100%;
+            }
+
+            .trophy-group-object-trophies {
+                display: flex;
+                justify-content: space-between;
+                gap: 20px;
+
+                .trophy-group-object-trophies-platinum,
+                .trophy-group-object-trophies-gold,
+                .trophy-group-object-trophies-silver,
+                .trophy-group-object-trophies-bronze {
+                    display: flex;
+                    gap: 10px;
+
+                    .trophies-text {
+                        font-size: 20px;
+                        margin: auto;
+                    }
+
+                    .trophies-icon {
+                        width: 50px;
+                        height: 50px;
+                    }
+                }
+            }
+        }
+    }
+
+    .trophy-groups-heading {
+        padding-top: 40px;
+        font-size: 35px;
+        border-bottom: 1px solid #404040;
+    }
+
+    .trophy-groups {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding-top: 40px;
+
+        .trophy-group {
+            background-color: #262626;
+            border-radius: 15px;
+            display: flex;
+            border: 2px solid #161616;
+            transition: border-color .5s ease-in-out;
+
+            .trophy-group-image {
+                width: 300px;
+                height: 300px;
+                border-top-left-radius: 15px;
+                border-bottom-left-radius: 15px;
+            }
+
+            .trophy-group-details {
+                padding: 40px;
+                width: calc(100% - 400px);
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                justify-content: space-between;
+                text-wrap: nowrap;
+
+                .trophy-group-name {
+                    display: flex;
+                    font-size: 30px;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+
+                    .name-group-id {
+                        display: flex;
+                        gap: 20px;
+                        font-size: 35px;
+
+                        .group-id {
+                            font-size: 20px;
+                            padding: 10.5px 15px 10.5px 15px;
+                            background-color: #161616;
+                            border-radius: 25px;
+                            margin: auto;
+                        }
+                    }
+
+                    .date {
+                        font-size: 20px;
+                        padding: 10.5px 15px 10.5px 15px;
+                        background-color: #161616;
+                        border-radius: 25px;
+                        margin: auto 0 auto 0;
+                    }
+
+                }
+
+                .trophy-group-progress {
+                    width: 100%;
+                }
+
+                .trophy-group-trophies {
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 20px;
+
+                    .trophy-group-trophies-platinum,
+                    .trophy-group-trophies-gold,
+                    .trophy-group-trophies-silver,
+                    .trophy-group-trophies-bronze {
+                        display: flex;
+                        gap: 10px;
+
+                        .trophies-text {
+                            font-size: 20px;
+                            margin: auto;
+                        }
+
+                        .trophies-icon {
+                            width: 50px;
+                            height: 50px;
+                        }
+                    }
+
+                }
+
+            }
+
+        }
+
+        .trophy-group:hover {
+            border-color: white;
+            cursor: pointer;
+        }
+    }
+}

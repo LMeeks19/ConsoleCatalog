@@ -1,0 +1,163 @@
+@ConsoleCatalog.Internal_Server_HostAddress = http://localhost:5162
+
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/Cookie/GetCookieByAuthId/
+Accept: application/json
+
+###
+
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/Cookie/PostCookie
+Accept: application/json
+
+###
+
+DELETE {{ConsoleCatalog.Internal_Server_HostAddress}}/Cookie/DeleteCookieByUserId/
+Accept: application/json
+
+###
+
+DELETE {{ConsoleCatalog.Internal_Server_HostAddress}}/Cookie/DeleteCookieByAuthId/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/User/GetUserByUsername/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/User/GetUserById/
+Accept: application/json
+
+###
+
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/User/PostUser
+Accept: application/json
+
+###
+
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/SubObjectives/PostSubObjective/
+Accept: application/json
+
+###
+
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/SubObjectives/PostSubObjectives/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/SubObjectives/GetSubObjective/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/SubObjectives/GetSubObjectives/
+Accept: application/json
+
+###
+
+DELETE {{ConsoleCatalog.Internal_Server_HostAddress}}/SubObjectives/DeleteSubObjective/
+Accept: application/json
+
+###
+
+DELETE {{ConsoleCatalog.Internal_Server_HostAddress}}/SubObjectives/DeleteSubObjectives/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/GetProfileByOnlineId/
+Accept: application/json
+
+###
+
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PostProfile/
+Accept: application/json
+
+###
+
+PUT {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PutProfile/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/GetProfileTitles/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/GetTitleTrophies/
+Accept: application/json
+
+###
+
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PostTitleTrophies/
+Accept: application/json
+
+###
+
+PUT {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PutTitleTrophies/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/GetEarnedTitleTrophies/
+Accept: application/json
+
+###
+
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PostEarnedTitleTrophies/
+Accept: application/json
+
+###
+
+PUT {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PutEarnedTitleTrophies/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/GetDefinedTrophyGroupObject/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/GetEarnedTrophyGroupObject/
+Accept: application/json
+
+###
+
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PostDefinedTrophyGroupObject/
+Accept: application/json
+
+###
+
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PostEarnedTrophyGroupObject/
+Accept: application/json
+
+###
+
+PUT {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PutDefinedTrophyGroupObject/
+Accept: application/json
+
+###
+
+PUT {{ConsoleCatalog.Internal_Server_HostAddress}}/PSN/PutEarnedTrophyGroupObject/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/XBX/GetXBXProfileByGamertag/
+Accept: application/json
+
+###
+
+POST {{ConsoleCatalog.Internal_Server_HostAddress}}/XBX/PostXBXProfile/
+Accept: application/json
+
+###
+
+PUT {{ConsoleCatalog.Internal_Server_HostAddress}}/XBX/PutXBXProfile/
+Accept: application/json
+
+###
+
+GET {{ConsoleCatalog.Internal_Server_HostAddress}}/XBX/GetXBXProfileTitles/

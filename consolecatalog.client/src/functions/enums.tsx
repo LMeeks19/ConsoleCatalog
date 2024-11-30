@@ -11,6 +11,11 @@ export enum Pages {
   Account
 }
 
+export enum GlobalSearchTab {
+  Games,
+  Profiles
+}
+
 export enum Platforms {
   PS1 = "PS1",
   PS2 = "PS2",
@@ -57,4 +62,15 @@ export enum TrophyTypeNumber {
   Gold = 1,
   Silver = 2,
   Bronze = 3
+}
+
+export enum XBXAchievementState {
+  NotStarted = "NotStarted",
+  InProgress = "InProgress",
+  Achieved = "Achieved"
+}
+
+export enum SubObjectivePlatform {
+  XBX,
+  PSN
 }

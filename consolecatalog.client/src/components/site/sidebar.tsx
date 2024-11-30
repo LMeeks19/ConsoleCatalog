@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   activePageState,
@@ -6,8 +6,8 @@ import {
   userState,
 } from "../../functions/state";
 import { Pages } from "../../functions/enums";
-import { BarProps } from "../../functions/interfaces";
-import "../../styling/site/sidebar.css";
+import { BarProps } from "../../functions/interfaces/interfaces";
+import "../../style/site/sidebar.css";
 import Conditional from "./if-then-else";
 
 function SideBar(props: BarProps) {
@@ -32,7 +32,7 @@ function SideBar(props: BarProps) {
           onClick={() => {
             setActivePage(Pages.Home);
             setIsSidebarActive(!isSidebarActive);
-            navigate(`/${user.id}/${props.page}`);
+            navigate(`/${props.page}`);
           }}
         >
           <p className="side-bar-item-text">HOME</p>
@@ -48,7 +48,7 @@ function SideBar(props: BarProps) {
           onClick={() => {
             setActivePage(Pages.Games);
             setIsSidebarActive(!isSidebarActive);
-            navigate(`/${user.id}/${props.page}/games/browse`);
+            navigate(`/${props.page}/games`);
           }}
         >
           <p className="side-bar-item-text">GAMES</p>
@@ -64,7 +64,7 @@ function SideBar(props: BarProps) {
           onClick={() => {
             setActivePage(Pages.Profiles);
             setIsSidebarActive(!isSidebarActive);
-            navigate(`/${user.id}/${props.page}/profiles/browse`);
+            navigate(`/${props.page}/profiles`);
           }}
         >
           <p className="side-bar-item-text">PROFILES</p>
@@ -83,15 +83,31 @@ function SideBar(props: BarProps) {
             setActivePage(Pages.MyProfile);
             setIsSidebarActive(!isSidebarActive);
             navigate(
-              `/${user.id}/${props.page}/profiles/${Conditional({
+              `/${props.page}/profiles/${Conditional({
                 Condition: props.page === "xbox",
                 If: user.xboxGamertag,
                 Else: user.playstationGamertag,
-              })}`
+              })}`,
+              {
+                state: {
+                  userId: user.id,
+                  username: Conditional({
+                    Condition: props.page === "xbox",
+                    If: user.xboxGamertag,
+                    Else: user.playstationGamertag,
+                  }),
+                },
+              }
             );
           }}
         >
-          <p className="side-bar-item-text">PSN PROFILE</p>
+          <p className="side-bar-item-text">
+            <Conditional
+              Condition={props.page === "xbox"}
+              If={"XBX PROFILE"}
+              Else={"PSN PROFILE"}
+            />
+          </p>
           <div className="side-bar-item-icon">
             <i className="fa-solid fa-user fa-2xl" />
           </div>
@@ -117,7 +133,7 @@ function SideBar(props: BarProps) {
             setActivePage(Pages.Home);
             setIsSidebarActive(!isSidebarActive);
             navigate(
-              `/${user.id}/${Conditional({
+              `/${Conditional({
                 Condition: props.page === "xbox",
                 If: "playstation",
                 Else: "xbox",
@@ -146,12 +162,24 @@ function SideBar(props: BarProps) {
           onClick={() => {
             setActivePage(Pages.Home);
             setIsSidebarActive(!isSidebarActive);
-            navigate(`/${user.id}`);
+            navigate("/");
           }}
         >
           <p className="side-bar-item-text">RETURN</p>
           <div className="side-bar-item-icon">
             <i className="fa-solid fa-circle-arrow-right fa-2xl" />
+          </div>
+        </div>
+        <div
+          className={`side-bar-item`}
+          onClick={() => {
+            setIsSidebarActive(!isSidebarActive);
+            navigate("/login");
+          }}
+        >
+          <p className="side-bar-item-text">LOGOUT</p>
+          <div className="side-bar-item-icon">
+            <i className="fa-solid fa-right-from-bracket fa-2xl"></i>{" "}
           </div>
         </div>
       </div>

@@ -1,6 +1,21 @@
 import { format } from "date-fns";
-import { Platforms } from "./enums";
+import { Platforms, TrophyTypeNumber, TrophyTypeString } from "./enums";
 import { COVER_BIG_URL, COVER_SMALL } from "./utils";
+import platinum_icon from "../images/psn-trophy-platinum.png";
+import gold_icon from "../images/psn-trophy-gold.png";
+import silver_icon from "../images/psn-trophy-silver.png";
+import bronze_icon from "../images/psn-trophy-bronze.png";
+import {
+  DefinedTrophyGroup,
+  DefinedTrophyGroupObject,
+  EarnedTitleTrophy,
+  EarnedTrophyGroup,
+  EarnedTrophyGroupObject,
+  TitleTrophy,
+  Trophy,
+  TrophyGroup,
+  TrophyGroupObject,
+} from "./interfaces/playstation/profile-interfaces";
 
 export function getFullCardImageUrl(imageId: string) {
   return `${COVER_BIG_URL}/${imageId}.jpg`;
@@ -26,7 +41,7 @@ export function getProgressColour(rating: number): string {
   return "#f11528";
 }
 
-export function isPSTitle(abbreviation: string): boolean {
+export function isPSNTitle(abbreviation: string): boolean {
   return (
     abbreviation === Platforms.PS1 ||
     abbreviation === Platforms.PS2 ||
@@ -36,8 +51,114 @@ export function isPSTitle(abbreviation: string): boolean {
   );
 }
 
-export function FormatDate(date: number | undefined) {
-  if (date !== undefined) return format(date * 1000, "do MMMM yyyy");
+export function isXBXTitle(abbreviation: string): boolean {
+  return (
+    abbreviation === Platforms.X360 ||
+    abbreviation === Platforms.XONE ||
+    abbreviation === Platforms.XSXS
+  );
+}
+
+export function getTrophyTypeIcon(type: string) {
+  if (type === TrophyTypeString.Platinum) return platinum_icon;
+  else if (type === TrophyTypeString.Gold) return gold_icon;
+  else if (type === TrophyTypeString.Silver) return silver_icon;
+  return bronze_icon;
+}
+
+export function getTrophyType(type: string): TrophyTypeNumber {
+  if (type === TrophyTypeString.Platinum) return TrophyTypeNumber.Platinum;
+  else if (type === TrophyTypeString.Gold) return TrophyTypeNumber.Gold;
+  else if (type === TrophyTypeString.Silver) return TrophyTypeNumber.Silver;
+  return TrophyTypeNumber.Bronze;
+}
+
+export function getTrophyRarity(rarity: number) {
+  if (rarity === 0) return "Ultra Rare";
+  else if (rarity === 1) return "Very Rare";
+  else if (rarity === 2) return "Rare";
+  return "Common";
+}
+
+export function FormatNumberDate(date: number | null | undefined): string {
+  if (date !== null && date !== undefined)
+    return format(date * 1000, "do MMMM yyyy");
+  return "";
+}
+
+export function FormatStringDate(date: string | null | undefined): string {
+  if (date !== null && date !== undefined) return format(date, "do MMMM yyyy");
+  return "";
+}
+
+export function GetTrophyGroupName(trophyGroupId: string) {
+  if (trophyGroupId === "default") return "Base Game";
+  return `DLC ${Number(trophyGroupId)}`;
+}
+
+export function mergeTrophyArrays(
+  titleTrophies: TitleTrophy[],
+  earnedTrophies: EarnedTitleTrophy[],
+  psnProfileId: number,
+  titleId: string
+): Trophy[] {
+  let mergedArray = new Array<Trophy>();
+
+  if (earnedTrophies.length === 0) return titleTrophies as Trophy[];
+
+  mergedArray = titleTrophies?.map((titleTrophy) => {
+    let earnedTitleTrophy = earnedTrophies!.find(
+      (earnedTitleTrophy) => earnedTitleTrophy.trophyId === titleTrophy.trophyId
+    );
+    return {
+      ...titleTrophy!,
+      psnProfileId: psnProfileId,
+      titleId: titleId,
+      earned: earnedTitleTrophy?.earned ?? false,
+      earnedDateTime: earnedTitleTrophy?.earnedDateTime ?? null,
+      trophyEarnedRate: earnedTitleTrophy?.trophyEarnedRate ?? null,
+      trophyRare: earnedTitleTrophy?.trophyRare ?? null,
+      progress: earnedTitleTrophy?.progress ?? null,
+      progressRate: earnedTitleTrophy?.progressRate ?? null,
+      progressedDateTime: earnedTitleTrophy?.progressedDateTime ?? null,
+    } as Trophy;
+  });
+  return mergedArray;
+}
+
+export function mergeTrophyGroupObjects(
+  definedTrophyGroupObject: DefinedTrophyGroupObject,
+  earnedTrophyGroupObject: EarnedTrophyGroupObject
+) {
+  let mergedTrophyGroupObject = {
+    ...definedTrophyGroupObject,
+    lastUpdatedDateTime: earnedTrophyGroupObject.lastUpdatedDateTime,
+    progress: earnedTrophyGroupObject.progress,
+    earnedTrophies: earnedTrophyGroupObject.earnedTrophies,
+    trophyGroups: mergeTrophyGroups(
+      definedTrophyGroupObject.trophyGroups,
+      earnedTrophyGroupObject.trophyGroups
+    ),
+  } as TrophyGroupObject;
+  return mergedTrophyGroupObject;
+}
+
+export function mergeTrophyGroups(
+  definedTrophyGroups: DefinedTrophyGroup[],
+  earnedTrophyGroups: EarnedTrophyGroup[]
+): TrophyGroup[] {
+  let mergedTrophyGroups = definedTrophyGroups.map((trophyGroup) => {
+    let earnedTrophyGroup = earnedTrophyGroups.find(
+      (etg) => etg.trophyGroupId === trophyGroup.trophyGroupId
+    );
+    return {
+      ...trophyGroup,
+      earnedTrophies: earnedTrophyGroup?.earnedTrophies,
+      lastUpdatedDateTime: earnedTrophyGroup?.lastUpdatedDateTime,
+      progress: earnedTrophyGroup?.progress,
+    } as TrophyGroup;
+  });
+  return mergedTrophyGroups;
 }
 
 var LANGUAGE_BY_LOCALE = {
@@ -476,8 +597,8 @@ var LANGUAGE_BY_LOCALE = {
   yo_NG: "Yoruba (Nigeria)",
   yo: "Yoruba",
   zu_ZA: "Zulu (South Africa)",
-  zu: "Zulu"
-}
+  zu: "Zulu",
+};
 
 export const languagesArray = Object.entries(LANGUAGE_BY_LOCALE).map((key) => {
   return { countryCode: key[0].replace("_", "-"), fullName: key[1] };

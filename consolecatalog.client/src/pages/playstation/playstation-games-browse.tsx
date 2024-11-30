@@ -1,23 +1,25 @@
 import Playstation from "./playstation";
 import { useEffect, useState } from "react";
-import { GameSummary, SelectedDate } from "../../functions/interfaces";
+import {
+  GameSummariesObject,
+  GameSummary,
+  SelectedDate,
+} from "../../functions/interfaces/interfaces";
 import { useRecoilValue } from "recoil";
-import { gameSearchModalState, sidebarState } from "../../functions/state";
-import GameCard from "../../components/games/game-card";
+import { searchModalState, sidebarState } from "../../functions/state";
 import { AutoTextSize } from "auto-text-size";
 import { Month, Year } from "../../functions/enums";
 import GameCardBlankCollection from "../../components/games/game-card-blank";
-import "../../styling/playstation/playstation-games-browse.css";
+import "../../style/game/games-browse.css";
 import Conditional from "../../components/site/if-then-else";
+import PlaystationGameCard from "../../components/games/playstation-game-card";
 
 function PlaystationGamesBrowse() {
   const isSidebarActive = useRecoilValue(sidebarState);
-  const isGameSearchModalActive = useRecoilValue(gameSearchModalState);
-  const [upcomingTitles, setUpcomingTitles] = useState<GameSummary[]>(
-    [] as GameSummary[]
-  );
-  const [recentTitles, setRecentTitles] = useState<GameSummary[]>(
-    [] as GameSummary[]
+  const isSearchModalActive = useRecoilValue(searchModalState);
+
+  const [browseTitles, setBrowseTitles] = useState<GameSummariesObject>(
+    {} as GameSummariesObject
   );
 
   const currentDate = new Date();
@@ -28,47 +30,98 @@ function PlaystationGamesBrowse() {
 
   const [isLoadingUpcoming, setIsLoadingUpcoming] = useState<boolean>(true);
   const [isLoadingRecent, setIsLoadingRecent] = useState<boolean>(true);
+  const [isLoadingAcclaimed, setIsLoadingAcclaimed] = useState<boolean>(true);
+
+  const [recentPage, setRecentPage] = useState<number>(1);
+  const [acclaimedPage, setAcclaimedPage] = useState<number>(1);
+
   useEffect(() => {
-    setIsLoadingUpcoming(true);
-    const timeout = setTimeout(async () => {
-      if (
-        selectedDate.year === currentDate.getFullYear() &&
-        selectedDate.month < currentDate.getMonth()
-      )
-        setSelectedDate({ ...selectedDate, month: currentDate.getMonth() });
-      else {
-        const upcomingTitles = await getUpcomingPSNTitles(selectedDate);
-        setUpcomingTitles(upcomingTitles);
-      }
+    async function getBrowseTitles() {
+      setIsLoadingUpcoming(true);
+      setIsLoadingRecent(true);
+      setIsLoadingAcclaimed(true);
+
+      const newBrowseTitles = await getBrowsePSNTitles();
+      setBrowseTitles(newBrowseTitles);
+
       setIsLoadingUpcoming(false);
-    }, 2000);
+      setIsLoadingRecent(false);
+      setIsLoadingAcclaimed(false);
+    }
+    getBrowseTitles();
+  }, []);
 
-    return () => clearTimeout(timeout);
-  }, [selectedDate]);
-
-  const [page, setPage] = useState(1);
+  async function getUpcomingTitles(month: number, year: number) {
+    setIsLoadingUpcoming(true);
+    setSelectedDate({ month: month, year: year });
+    const upcomingTitles = await getUpcomingPSNTitles({
+      month: month,
+      year: year,
+    });
+    setBrowseTitles({ ...browseTitles, upcomingTitles: upcomingTitles });
+    setIsLoadingUpcoming(false);
+  }
 
   useEffect(() => {
-    setIsLoadingRecent(true);
-    const timeout = setTimeout(async () => {
-      const newRecentTitles = await getRecentPSNTitles(recentTitles.length);
-      setRecentTitles([...recentTitles, ...newRecentTitles]);
+    async function getRecentTitles() {
+      setIsLoadingRecent(true);
+      const newRecentTitles = await getRecentPSNTitles(
+        browseTitles.recentTitles.length
+      );
+      setBrowseTitles({
+        ...browseTitles,
+        recentTitles: [...browseTitles.recentTitles, ...newRecentTitles],
+      });
       setIsLoadingRecent(false);
-    }, 2000);
+    }
 
-    return () => clearTimeout(timeout);
-  }, [page]);
+    getRecentTitles();
+  }, [recentPage]);
+
+  useEffect(() => {
+    async function getAcclaimedTitles() {
+      setIsLoadingAcclaimed(true);
+      const newAcclaimedTitles = await getAcclaimedPSNTitles(
+        browseTitles.acclaimedTitles.length
+      );
+      setBrowseTitles({
+        ...browseTitles,
+        acclaimedTitles: [
+          ...browseTitles.acclaimedTitles,
+          ...newAcclaimedTitles,
+        ],
+      });
+      setIsLoadingAcclaimed(false);
+    }
+
+    getAcclaimedTitles();
+  }, [acclaimedPage]);
 
   useEffect(() => {
     function handleScroll(event: any) {
       const { scrollLeft, clientWidth, scrollWidth } = event.target;
 
-      if (scrollWidth - scrollLeft === clientWidth) {
-        setPage((oldPage) => oldPage + 1);
-      }
+      if (scrollWidth - scrollLeft === clientWidth)
+        setRecentPage((oldPage) => oldPage + 1);
     }
 
     const element = document.getElementById("recent-games");
+    element!.addEventListener("scroll", handleScroll);
+
+    return () => {
+      element!.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    function handleScroll(event: any) {
+      const { scrollLeft, clientWidth, scrollWidth } = event.target;
+
+      if (scrollWidth - scrollLeft === clientWidth)
+        setAcclaimedPage((oldPage) => oldPage + 1);
+    }
+
+    const element = document.getElementById("acclaimed-games");
     element!.addEventListener("scroll", handleScroll);
 
     return () => {
@@ -81,7 +134,7 @@ function PlaystationGamesBrowse() {
       <Playstation />
       <div
         className={`content ${Conditional({
-          Condition: isSidebarActive || isGameSearchModalActive,
+          Condition: isSidebarActive || isSearchModalActive,
           If: "disabled",
         })}`}
       >
@@ -99,10 +152,10 @@ function PlaystationGamesBrowse() {
           >
             <button
               onClick={() =>
-                setSelectedDate({
-                  month: currentDate.getMonth(),
-                  year: currentDate.getFullYear(),
-                })
+                getUpcomingTitles(
+                  currentDate.getMonth(),
+                  currentDate.getFullYear()
+                )
               }
             >
               <i className="fa-solid fa-rotate-left"></i>
@@ -116,10 +169,7 @@ function PlaystationGamesBrowse() {
               <select
                 value={selectedDate.month}
                 onChange={(e) =>
-                  setSelectedDate({
-                    ...selectedDate,
-                    month: Number(e.target.value),
-                  })
+                  getUpcomingTitles(Number(e.target.value), selectedDate.year)
                 }
               >
                 {Object.keys(Month)
@@ -146,12 +196,9 @@ function PlaystationGamesBrowse() {
             >
               <select
                 value={selectedDate.year}
-                onChange={(e) =>
-                  setSelectedDate({
-                    ...selectedDate,
-                    year: Number(e.target.value),
-                  })
-                }
+                onChange={(e) => {
+                  getUpcomingTitles(selectedDate.month, Number(e.target.value));
+                }}
               >
                 {Object.values(Year).map((value) => {
                   return (
@@ -168,20 +215,16 @@ function PlaystationGamesBrowse() {
         <div className="cards-container">
           <Conditional
             Condition={isLoadingUpcoming}
-            If={<GameCardBlankCollection number={20} />}
-            Else={
-              <>
-                {upcomingTitles.map((upcomingTitle) => {
-                  return (
-                    <GameCard
-                      key={upcomingTitle.id}
-                      game={upcomingTitle}
-                      blank={false}
-                    />
-                  );
-                })}
-              </>
-            }
+            If={<GameCardBlankCollection number={10} />}
+            Else={browseTitles.upcomingTitles?.map((upcomingTitle) => {
+              return (
+                <PlaystationGameCard
+                  key={upcomingTitle.id}
+                  game={upcomingTitle}
+                  blank={false}
+                />
+              );
+            })}
           />
         </div>
 
@@ -196,20 +239,40 @@ function PlaystationGamesBrowse() {
         <div id="recent-games" className="cards-container">
           <Conditional
             Condition={isLoadingRecent}
-            If={<GameCardBlankCollection number={20} />}
-            Else={
-              <>
-                {recentTitles.map((recentTitle) => {
-                  return (
-                    <GameCard
-                      key={recentTitle.id}
-                      game={recentTitle}
-                      blank={false}
-                    />
-                  );
-                })}
-              </>
-            }
+            If={<GameCardBlankCollection number={10} />}
+            Else={browseTitles.recentTitles?.map((recentTitle) => {
+              return (
+                <PlaystationGameCard
+                  key={recentTitle.id}
+                  game={recentTitle}
+                  blank={false}
+                />
+              );
+            })}
+          />
+        </div>
+
+        <div className="section-header">
+          <div className="text">
+            <AutoTextSize maxFontSizePx={28} minFontSizePx={16}>
+              CRITICALLY ACCLAIMED EXCLISIVES
+            </AutoTextSize>
+          </div>
+        </div>
+
+        <div id="acclaimed-games" className="cards-container">
+          <Conditional
+            Condition={isLoadingAcclaimed}
+            If={<GameCardBlankCollection number={10} />}
+            Else={browseTitles.acclaimedTitles?.map((acclaimedTitle) => {
+              return (
+                <PlaystationGameCard
+                  key={acclaimedTitle.id}
+                  game={acclaimedTitle}
+                  blank={false}
+                />
+              );
+            })}
           />
         </div>
       </div>
@@ -218,6 +281,13 @@ function PlaystationGamesBrowse() {
 }
 
 export default PlaystationGamesBrowse;
+
+async function getBrowsePSNTitles(): Promise<GameSummariesObject> {
+  const response = await fetch(
+    `http://localhost:3000/playstation/titles/browse`
+  );
+  return response.json();
+}
 
 async function getUpcomingPSNTitles(
   selectedDate: SelectedDate
@@ -231,6 +301,13 @@ async function getUpcomingPSNTitles(
 async function getRecentPSNTitles(offset: number): Promise<GameSummary[]> {
   const response = await fetch(
     `http://localhost:3000/playstation/titles/recent/${offset}`
+  );
+  return response.json();
+}
+
+async function getAcclaimedPSNTitles(offset: number): Promise<GameSummary[]> {
+  const response = await fetch(
+    `http://localhost:3000/playstation/titles/acclaimed/${offset}`
   );
   return response.json();
 }

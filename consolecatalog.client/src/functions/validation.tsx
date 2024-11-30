@@ -1,4 +1,4 @@
-import { LoginDetails, RegisterDetails, User, FormError } from "./interfaces";
+import { LoginDetails, RegisterDetails, User, FormError } from "./interfaces/interfaces";
 
 export function validateUserLogin(user: User, loginDetails: LoginDetails) {
   if (loginDetails.username !== user.username) return false;

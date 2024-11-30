@@ -3,13 +3,17 @@ import { sidebarState } from "../../functions/state";
 import Playstation from "./playstation";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getTitleById } from "../../functions/external-server";
+import { getPSNTitleById } from "../../functions/server/external/playstation-calls";
 import { COVER_BIG_URL, SCREENSHOT_MED_URL } from "../../functions/utils";
 import "react-multi-carousel/lib/styles.css";
-import "../../styling/playstation/playstation-games-selected.css";
-import { FormatDate, getRatingColour } from "../../functions/methods";
+import "../../style/game/games-selected.css";
+import {
+  FormatNumberDate,
+  getRatingColour,
+  isPSNTitle,
+} from "../../functions/methods";
 import { BeatLoader } from "react-spinners";
-import { Game } from "../../functions/interfaces";
+import { Game } from "../../functions/interfaces/interfaces";
 import Conditional from "../../components/site/if-then-else";
 
 function PlaystationGamesSelected() {
@@ -22,13 +26,12 @@ function PlaystationGamesSelected() {
   useEffect(() => {
     async function fetchSelectedGame() {
       setIsLoading(true);
-      var gameId = location.pathname.slice(56, 62);
-      const game = await getTitleById(gameId);
+      const game = await getPSNTitleById(location.state.gameId);
       setSelectedGame(game[0]);
       setIsLoading(false);
     }
     fetchSelectedGame();
-  }, [location.pathname]);
+  }, []);
 
   function getAgeRatingTags() {
     const unique_tags = new Array<string>();
@@ -106,7 +109,7 @@ function PlaystationGamesSelected() {
                       Condition={selectedGame.first_release_date !== undefined}
                       If={
                         <div className="info-release-date">
-                          {FormatDate(selectedGame.first_release_date)}
+                          {FormatNumberDate(selectedGame.first_release_date)}
                         </div>
                       }
                       Else={<div className="info-release-date">Unknown</div>}
@@ -166,13 +169,17 @@ function PlaystationGamesSelected() {
                     Condition={selectedGame.platforms !== undefined}
                     If={
                       <div className="info-platforms">
-                        {selectedGame.platforms?.map((platform) => {
-                          return (
-                            <div key={platform.id} className="info-platform">
-                              {platform.name}
-                            </div>
-                          );
-                        })}
+                        {selectedGame.platforms
+                          ?.filter((platform) =>
+                            isPSNTitle(platform.abbreviation)
+                          )
+                          .map((platform) => {
+                            return (
+                              <div key={platform.id} className="info-platform">
+                                {platform.name}
+                              </div>
+                            );
+                          })}
                       </div>
                     }
                     Else={

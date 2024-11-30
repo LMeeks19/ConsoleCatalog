@@ -1,0 +1,120 @@
+.top-bar {
+    background-color: #181818;
+    width: 100%;
+    height: 70px;
+    z-index: 3;
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+
+    &.disabled {
+        pointer-events: none;
+    }
+
+    &.playstation {
+        border-bottom: 1px solid #1e5ddb;
+    }
+
+    &.xbox {
+        border-bottom: 1px solid #018800;
+
+    }
+
+    .top-bar-title {
+        margin: auto 0 auto 0;
+        font-size: larger;
+        font-weight: 500;
+        cursor: pointer;
+        padding: 5px 10px 5px 10px;
+        margin-left: 40px;
+        border-radius: 5px;
+
+    }
+
+    .top-bar-title:hover {
+        background-color: #363636;
+    }
+
+    .top-bar-end {
+        padding-right: 50px;
+        display: flex;
+        align-items: center;
+
+        .top-bar-icon {
+            &.xbox {
+                width: 35px;
+                height: 35px;
+                mix-blend-mode: lighten;
+            }
+
+            &.playstation {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        .top-bar-text {
+            font-weight: 500;
+            font-size: larger;
+            margin-right: 10px;
+        }
+
+        .top-bar-menu {
+            margin-left: 40px;
+            padding: 7.5px 10px 7.5px 10px;
+            margin-top: auto;
+            margin-bottom: auto;
+            cursor: pointer;
+            border-radius: 5px;
+            pointer-events: all !important;
+
+            &.disabled {
+                pointer-events: none !important;
+            }
+
+            i {
+                width: 35px;
+                height: 35px;
+                font-size: 32.5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        .top-bar-menu:hover {
+            background-color: #363636;
+        }
+    }
+}
+
+@media screen and (max-width: 490px) {
+    .top-bar {
+        .top-bar-title {
+            margin-left: 0 !important;
+            padding-left: 20px;
+        }
+
+        .top-bar-logo {
+            padding-right: 20px;
+
+            .top-bar-icon {
+                &.xbox {
+                    width: 25px;
+                    height: 25px;
+                }
+
+                &.playstation {
+                    width: 30px;
+                    height: 30px;
+                }
+            }
+
+            .top-bar-menu {
+                margin-left: 5px !important;
+                font-size: smaller;
+            }
+        }
+    }
+}
