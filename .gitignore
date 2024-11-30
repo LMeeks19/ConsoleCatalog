@@ -362,6 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-ConsoleCatalog.External_Server/requests/games/utils.js
-ConsoleCatalog.External_Server/requests/playstation/auth.js
-ConsoleCatalog.External_Server/requests/xbox/user.js
+/ConsoleCatalog.External_Server/dev.env

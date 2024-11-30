@@ -1,8 +1,7 @@
 import fetch from "isomorphic-unfetch";
 import { AUTH_BASE_URL } from "./utils.js";
 
-export const NPSSO =
-  "bURblvYyXPMn7I2r8BiCunV1Yf0P9J12T9F3QyHHcnPHIfMgivCAamCkKNn2QQdm";
+export const NPSSO = process.env.NPSSO;
 
 export async function authenticatePSN() {
   const accessCode = await exchangeNpssoForCode(NPSSO);
