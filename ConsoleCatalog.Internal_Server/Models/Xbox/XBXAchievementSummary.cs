@@ -1,6 +1,6 @@
 ﻿namespace ConsoleCatalog.Internal_Server.Models.Xbox
 {
-    public class XBXAchievement
+    public class XBXAchievementSummary
     {
         public int Id { get; set; }
         public int CurrentAchievements { get; set; }

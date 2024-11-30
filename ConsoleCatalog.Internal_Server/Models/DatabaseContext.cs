@@ -29,7 +29,7 @@ namespace ConsoleCatalog.Internal_Server.Models
         public DbSet<XBXDetail> XBXDetails { get; set; }
         public DbSet<XBXTitleHistory> XBXTitleHistories { get; set; }
         public DbSet<XBXTitle> XBXTitles { get; set; }
-        public DbSet<XBXAchievement> XBXAchievements { get; set; }
+        public DbSet<XBXAchievementSummary> XBXAchievements { get; set; }
 
         public DatabaseContext(DbContextOptions options) : base(options) { }
     }

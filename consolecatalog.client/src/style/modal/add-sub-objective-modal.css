@@ -11,7 +11,8 @@
         padding: 10px 20px 10px 20px;
         border-radius: 10px;
         min-height: 38px;
-        max-height: 610px;
+        max-height: 400px;
+        width: 100%;
 
         textarea {
             border: none !important;
@@ -24,7 +25,7 @@
             overflow: auto;
             resize: vertical;
             margin: auto 0 auto 0;
-            max-height: 565px;
+            max-height: 400px;
             min-height: 32px;
             font-family: inherit;
         }

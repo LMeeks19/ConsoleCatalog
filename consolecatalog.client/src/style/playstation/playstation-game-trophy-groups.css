@@ -8,8 +8,8 @@
         .trophy-group-object-image {
             width: 300px;
             height: 300px;
-            border-top-left-radius: 25px;
-            border-bottom-left-radius: 25px;
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
         }
 
         .trophy-group-object-details {
@@ -25,6 +25,7 @@
                 font-size: 35px;
                 display: flex;
                 justify-content: space-between;
+                flex-wrap: wrap;
 
                 .date-container {
                     display: flex;
@@ -131,6 +132,7 @@
                     display: flex;
                     font-size: 30px;
                     justify-content: space-between;
+                    flex-wrap: wrap;
 
                     .name-group-id {
                         display: flex;

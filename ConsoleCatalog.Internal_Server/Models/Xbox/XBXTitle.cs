@@ -11,7 +11,7 @@
         public bool IsBundle { get; set; }
         public int TitleHistoryId { get; set; }
         public virtual XBXTitleHistory TitleHistory { get; set; }
-        public int AchievementId { get; set; }
-        public virtual XBXAchievement Achievement { get; set; }
+        public int AchievementSummaryId { get; set; }
+        public virtual XBXAchievementSummary AchievementSummary { get; set; }
     }
 }

@@ -32,7 +32,7 @@ import {
 } from "./requests/games/psn-search.js";
 import { getGameInfo } from "./requests/playstation/games/info.js";
 import { getGamesSummaries } from "./requests/playstation/games/summaries.js";
-import { getXBXUserBySearch, getXBXUserSummary, getXBXUserTitleHistory } from "./requests/xbox/user.js";
+import { getXBXUserBySearch, getXBXUserSummary, getXBXUserTitleAchieveents, getXBXUserTitleHistory } from "./requests/xbox/user.js";
 import {
   getXBXAcclaimedTitles,
   getXBXRecentTitles,
@@ -359,8 +359,13 @@ app.get("/xbox/profiles/summary/:xuid", async (req, res) => {
   res.send(user);
 });
 
-app.get("/xbox/profiles/titles/:xuid", async (req, res) => {
+app.get("/xbox/profiles/:xuid/titles", async (req, res) => {
   const user = await getXBXUserTitleHistory(req.params.xuid);
+  res.send(user);
+});
+
+app.get("/xbox/profiles/:xuid/titles/:titleId/achievements", async (req, res) => {
+  const user = await getXBXUserTitleAchieveents(req.params.xuid, req.params.titleId);
   res.send(user);
 });
 

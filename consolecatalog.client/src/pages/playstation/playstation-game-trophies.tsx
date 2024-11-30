@@ -20,7 +20,10 @@ import {
   getProfileTitleTrophies,
   putTitleTrophies,
 } from "../../functions/server/internal/playstation-calls";
-import { Trophy, TrophyGroup } from "../../functions/interfaces/playstation/profile-interfaces";
+import {
+  Trophy,
+  TrophyGroup,
+} from "../../functions/interfaces/playstation/profile-interfaces";
 import platinum_icon from "../../images/psn-trophy-platinum.png";
 import gold_icon from "../../images/psn-trophy-gold.png";
 import silver_icon from "../../images/psn-trophy-silver.png";
@@ -73,12 +76,16 @@ function PlaystationGameTrophies() {
       trophies = trophies.sort((a, b) =>
         a.trophyName.localeCompare(b.trophyName)
       );
-
     if (sortBy === 3)
       trophies = trophies.sort((a, b) => Number(b.earned) - Number(a.earned));
 
     if (sortBy === 4)
       trophies = trophies.sort((a, b) => Number(a.earned) - Number(b.earned));
+    if (sortBy === 5)
+      trophies = trophies.sort(
+        (a, b) => Number(a.trophyEarnedRate) - Number(b.trophyEarnedRate)
+      );
+
     return trophies;
   }
 
@@ -225,7 +232,6 @@ function PlaystationGameTrophies() {
                       searchTerm={searchTerm}
                       setSearchTerm={setSearchTerm}
                       placeholder="Search Trophies..."
-                      width="600"
                       disabled={isLoading}
                     />
                     <div className="custom-select">
@@ -236,9 +242,10 @@ function PlaystationGameTrophies() {
                       >
                         <option value={0}>None</option>
                         <option value={1}>Type</option>
+                        <option value={5}>Rarity</option>
                         <option value={2}>Alphabetical</option>
-                        <option value={3}>Completed</option>
-                        <option value={4}>Uncompleted</option>
+                        <option value={3}>Earned</option>
+                        <option value={4}>Not Earned</option>
                       </select>
                     </div>
                     <button
@@ -252,18 +259,28 @@ function PlaystationGameTrophies() {
 
                 <Conditional
                   Condition={
-                    sortedTrophies().filter((trophy) =>
-                      trophy.trophyName.includes(searchTerm)
+                    sortedTrophies().filter(
+                      (trophy) =>
+                        trophy.trophyName
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase()) ||
+                        trophy.trophyDetail
+                          ?.toLowerCase()
+                          .includes(searchTerm.toLowerCase())
                     ).length === 0
                   }
                   If={<div className="empty">No Trophies</div>}
                   Else={
                     <>
                       {sortedTrophies()
-                        .filter((trophy) =>
-                          trophy.trophyName
-                            .toLowerCase()
-                            .includes(searchTerm.toLowerCase())
+                        .filter(
+                          (trophy) =>
+                            trophy.trophyName
+                              .toLowerCase()
+                              .includes(searchTerm.toLowerCase()) ||
+                            trophy.trophyDetail
+                              ?.toLowerCase()
+                              .includes(searchTerm.toLowerCase())
                         )
                         .map((trophy) => {
                           return (

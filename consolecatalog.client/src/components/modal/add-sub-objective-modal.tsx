@@ -1,10 +1,14 @@
-import { SetterOrUpdater, useSetRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilState, useSetRecoilState } from "recoil";
 import "../../style/modal/add-sub-objective-modal.css";
-import { addSubObjectiveModalState } from "../../functions/state";
+import {
+  addSubObjectiveModalState,
+  subObjectiveParentIdState,
+} from "../../functions/state";
 import { useEffect, useState } from "react";
 import Conditional from "../site/if-then-else";
 import { SubObjective } from "../../functions/interfaces/interfaces";
 import { postSubObjectives } from "../../functions/server/internal/global-calls";
+import { SubObjectivePlatform } from "../../functions/enums";
 
 function AddSubObjectiveModal(props: AddSubObjectiveModalProps) {
   const setIsAddSubObjectiveModalActive = useSetRecoilState(
@@ -17,6 +21,9 @@ function AddSubObjectiveModal(props: AddSubObjectiveModalProps) {
     useState<boolean>(false);
   const [text, setText] = useState<string>("");
   const [isPasted, setIsPasted] = useState<boolean>(false);
+  const [subObjectiveParentId, setSubObjectiveParentId] = useRecoilState(
+    subObjectiveParentIdState
+  );
 
   useEffect(() => {
     function setTaskCreationCount() {
@@ -26,9 +33,14 @@ function AddSubObjectiveModal(props: AddSubObjectiveModalProps) {
             {
               userId: props.userId,
               titleId: props.titleId,
-              trophyId: props.trophyId,
+              subObjectiveId:
+                subObjectiveParentId === "" ? undefined : subObjectiveParentId,
+              trophyId: props?.trophyId,
+              achievementId: props?.achievementId,
               details: text,
+              createdDate: new Date(),
               isComplete: false,
+              platform: props.platform,
             },
           ]);
         } else {
@@ -38,23 +50,29 @@ function AddSubObjectiveModal(props: AddSubObjectiveModalProps) {
               return {
                 userId: props.userId,
                 titleId: props.titleId,
-                trophyId: props.trophyId,
+                subObjectiveId:
+                  subObjectiveParentId === ""
+                    ? undefined
+                    : subObjectiveParentId,
+                trophyId: props?.trophyId,
+                achievementId: props?.achievementId,
                 details: text,
+                createdDate: new Date(),
                 isComplete: false,
+                platform: props.platform,
               };
             })
           );
         }
-      }
-      else 
-        setMergeIntoSingleTask(false);
+      } else setMergeIntoSingleTask(false);
     }
     setTaskCreationCount();
   }, [text, setText, mergeIntoSingleTask, setMergeIntoSingleTask]);
 
   async function createSubObjectives() {
-    const createdSubObjectives = await postSubObjectives(subObjectives);
-    props.setSubObjectives([...createdSubObjectives]);
+    const createdSubObjective = await postSubObjectives(subObjectives);
+    props.setSubObjectives(createdSubObjective);
+    setSubObjectiveParentId("");
     setIsAddSubObjectiveModalActive(false);
   }
 
@@ -89,7 +107,10 @@ function AddSubObjectiveModal(props: AddSubObjectiveModalProps) {
         </div>
         <div
           className="close"
-          onClick={() => setIsAddSubObjectiveModalActive(false)}
+          onClick={() => {
+            setSubObjectiveParentId("");
+            setIsAddSubObjectiveModalActive(false);
+          }}
         >
           <i className="fa-solid fa-xmark fa-2xl fa-flip-horizontal" />
         </div>
@@ -134,6 +155,8 @@ export default AddSubObjectiveModal;
 interface AddSubObjectiveModalProps {
   userId: string;
   titleId: string;
-  trophyId: number;
+  trophyId?: number;
+  achievementId?: number;
+  platform: SubObjectivePlatform;
   setSubObjectives: SetterOrUpdater<SubObjective[]>;
 }

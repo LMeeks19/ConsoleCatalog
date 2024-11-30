@@ -79,6 +79,74 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.custom-select {
+  position: relative;
+  width: 160px;
+  margin: auto;
+
+  select:disabled {
+      cursor: not-allowed;
+  }
+
+  select:not(:disabled):hover {
+      background-color: #363636;
+  }
+
+  select:active {
+      border: 1px solid black;
+  }
+}
+
+.custom-select:first-child {
+  margin-right: 5px;
+}
+
+.custom-select:last-child {
+  margin-left: 5px;
+}
+
+.custom-select select {
+  appearance: none;
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  font-family: inherit;
+  background-color: #262626;
+  border: 1px solid transparent;
+  border-radius: 7.5px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.25s;
+}
+
+.custom-select::before,
+.custom-select::after {
+  --size: 0.3rem;
+  position: absolute;
+  content: "";
+  right: 1rem;
+  pointer-events: none;
+}
+
+.custom-select::before {
+  border-left: var(--size) solid transparent;
+  border-right: var(--size) solid transparent;
+  border-bottom: var(--size) solid white;
+  top: 40%;
+}
+
+.custom-select::after {
+  border-left: var(--size) solid transparent;
+  border-right: var(--size) solid transparent;
+  border-top: var(--size) solid white;
+  top: 55%;
+}
+
+.custom-select:has(select:disabled) {
+  cursor: not-allowed;
+}
+
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

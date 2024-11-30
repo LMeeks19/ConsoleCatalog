@@ -38,15 +38,15 @@ namespace ConsoleCatalog.Internal_Server.Mappers
                     title.TitleHistoryId = existingTitle.TitleHistoryId;
                     title.TitleHistory = MapTitleHistory(title.TitleHistory, existingTitle.TitleHistory);
 
-                    title.AchievementId = existingTitle.AchievementId;
-                    title.Achievement = MapAchievement(title.Achievement, existingTitle.Achievement);
+                    title.AchievementSummaryId = existingTitle.AchievementSummaryId;
+                    title.AchievementSummary = MapAchievement(title.AchievementSummary, existingTitle.AchievementSummary);
                 }
             });
 
             return updatedTitles;
         }
 
-        public XBXAchievement MapAchievement(XBXAchievement achievement, XBXAchievement existingAchievement)
+        public XBXAchievementSummary MapAchievement(XBXAchievementSummary achievement, XBXAchievementSummary existingAchievement)
         {
             var updatedAchievement = achievement;
             updatedAchievement.Id = existingAchievement.Id;

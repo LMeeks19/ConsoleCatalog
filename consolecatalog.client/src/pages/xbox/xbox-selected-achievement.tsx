@@ -6,19 +6,14 @@ import {
   sidebarState,
   subObjectiveParentIdState,
 } from "../../functions/state";
-import Playstation from "./playstation";
 import { useLocation } from "react-router-dom";
-import {
-  FormatStringDate,
-  getProgressColour,
-  getTrophyRarity,
-  getTrophyTypeIcon,
-} from "../../functions/methods";
-import "../../style/playstation/playstation-selected-trophy.css";
+import { FormatStringDate, getProgressColour } from "../../functions/methods";
+import "../../style/xbox/xbox-game-achievements.css";
 import { useEffect, useState } from "react";
 import { SubObjective } from "../../functions/interfaces/interfaces";
 import {
   deleteSubObjective,
+  deleteSubObjectives,
   getSubObjectives,
   putSubObjective,
 } from "../../functions/server/internal/global-calls";
@@ -27,18 +22,24 @@ import AddSubObjectiveModal from "../../components/modal/add-sub-objective-modal
 import SearchBar from "../../components/site/search-bar";
 import { BeatLoader } from "react-spinners";
 import ProgressBar from "@ramonak/react-progress-bar";
-import { SubObjectivePlatform } from "../../functions/enums";
+import Xbox from "./xbox";
+import {
+  SubObjectivePlatform,
+  XBXAchievementState,
+} from "../../functions/enums";
+import { Achievement } from "../../functions/interfaces/xbox/profile-interfaces";
 
-function PlaystationSelectedTrophy() {
+function XboxSelectedAchievement() {
   const isSidebarActive = useRecoilValue(sidebarState);
   const location = useLocation();
-  const trophy = location.state?.trophy;
+  const achievement = location.state?.achievement as Achievement;
   const [subObjectives, setSubObjectives] = useState<SubObjective[]>(
     [] as SubObjective[]
   );
   const [isAddSubObjectiveModalActive, setIsAddSubObjectiveModalActive] =
     useRecoilState(addSubObjectiveModalState);
   const setSubObjectiveParentId = useSetRecoilState(subObjectiveParentIdState);
+
   const isSearchModalActive = useRecoilValue(searchModalState);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -50,8 +51,8 @@ function PlaystationSelectedTrophy() {
       const fetchedSubObjectives = await getSubObjectives(
         location.state.userId,
         location.state.titleId,
-        trophy?.trophyId,
-        SubObjectivePlatform.PSN
+        achievement?.id,
+        SubObjectivePlatform.XBX
       );
       setSubObjectives(fetchedSubObjectives);
       setIsLoading(false);
@@ -81,7 +82,7 @@ function PlaystationSelectedTrophy() {
 
     if (sortBy === 0)
       subObjs = subObjectives
-        .sort((a, b) => a.details?.localeCompare(b.details))
+        .sort((a, b) => a.details.localeCompare(b.details))
         .sort(
           (a, b) =>
             new Date(a.createdDate).getMilliseconds() -
@@ -89,7 +90,7 @@ function PlaystationSelectedTrophy() {
         );
     if (sortBy === 1)
       subObjs = subObjectives.sort((a, b) =>
-        a.details?.localeCompare(b.details)
+        a.details.localeCompare(b.details)
       );
     return subObjs;
   }
@@ -151,7 +152,7 @@ function PlaystationSelectedTrophy() {
 
   return (
     <>
-      <Playstation />
+      <Xbox />
       <Conditional
         Condition={isAddSubObjectiveModalActive}
         If={
@@ -159,9 +160,9 @@ function PlaystationSelectedTrophy() {
             component={
               <AddSubObjectiveModal
                 userId={location.state.userId}
-                titleId={location.state?.titleId}
-                trophyId={trophy?.trophyId}
-                platform={SubObjectivePlatform.PSN}
+                titleId={location.state?.titleId.toString()}
+                achievementId={achievement?.id}
+                platform={SubObjectivePlatform.XBX}
                 setSubObjectives={setSubObjectives}
               />
             }
@@ -180,22 +181,25 @@ function PlaystationSelectedTrophy() {
         <div className="trophy-container">
           <div
             className={`trophy ${Conditional({
-              Condition: trophy?.earned,
+              Condition:
+                achievement?.progressState === XBXAchievementState.Achieved,
               If: "earned",
             })}`}
           >
-            <img className="image" src={trophy?.trophyIconUrl}></img>
+            <img className="image" src={achievement?.mediaAssets.url}></img>
             <div className="details">
-              <div className="name">{trophy?.trophyName}</div>
-              <div className="description">{trophy?.trophyDetail}</div>
+              <div className="name">{achievement?.name}</div>
+              <div className="description">{achievement?.description}</div>
             </div>
             <Conditional
-              Condition={trophy?.earned}
+              Condition={
+                achievement?.progressState === XBXAchievementState.Achieved
+              }
               If={
                 <div className="earned">
                   <div className="earned-text">
                     <div>Completed:</div>
-                    {FormatStringDate(trophy?.earnedDateTime)}
+                    {FormatStringDate(achievement?.progression.timeUnlocked)}
                   </div>
                   <i
                     className="fa-regular fa-circle-check earned-icon"
@@ -205,31 +209,44 @@ function PlaystationSelectedTrophy() {
               }
             />
             <Conditional
-              Condition={!trophy?.earned && trophy?.progress !== null}
+              Condition={
+                achievement?.progressState !== XBXAchievementState.Achieved
+              }
               If={
                 <div className="progress">
-                  <div className="progress-value">
-                    <div>
-                      {trophy?.progress}/{trophy?.trophyProgressTargetValue}
-                    </div>
-                    <ProgressBar
-                      completed={trophy?.progressRate}
-                      baseBgColor="#161616"
-                      bgColor={getProgressColour(trophy?.progressRate)}
-                      labelAlignment="outside"
-                    />
-                  </div>
+                  <Conditional
+                    Condition={achievement.progression.requirements !== null}
+                    If={
+                      <div className="progress-value">
+                        <div>
+                          {achievement?.progression.requirements?.current}/
+                          {achievement?.progression.requirements?.target}
+                        </div>
+                        <ProgressBar
+                          completed={Number(
+                            achievement?.progression.requirements?.current
+                          )}
+                          baseBgColor="#161616"
+                          bgColor={getProgressColour(
+                            Number(
+                              achievement?.progression.requirements?.current
+                            )
+                          )}
+                          labelAlignment="outside"
+                        />
+                      </div>
+                    }
+                  />
                 </div>
               }
             />
             <div className="rarity">
-              <div>{getTrophyRarity(trophy?.trophyRare)} </div>
+              <div>{achievement.rarity.currentCategory} </div>
               <Conditional
-                Condition={trophy?.trophyEarnedRate !== null}
-                If={<div>{trophy?.trophyEarnedRate}%</div>}
+                Condition={achievement?.rarity.currentPercentage !== null}
+                If={<div>{achievement?.rarity.currentPercentage}%</div>}
               />
             </div>
-            <img className="type" src={getTrophyTypeIcon(trophy?.trophyType)} />
           </div>
           <div className="title">
             <div className="name">Sub Objectives</div>
@@ -253,7 +270,9 @@ function PlaystationSelectedTrophy() {
               <button
                 className="add"
                 onClick={() => setIsAddSubObjectiveModalActive(true)}
-                disabled={trophy?.earned}
+                disabled={
+                  achievement?.progressState === XBXAchievementState.Achieved
+                }
               >
                 <div className="label">Add</div>
                 <i className="fa-solid fa-plus add-icon"></i>
@@ -273,7 +292,7 @@ function PlaystationSelectedTrophy() {
                   Condition:
                     subObjectives.length === 0 ||
                     subObjectives.filter((subObjectives) =>
-                      subObjectives.details?.includes(searchTerm)
+                      subObjectives.details.includes(searchTerm)
                     ).length === 0,
                   If: "empty",
                 })}`}
@@ -282,62 +301,61 @@ function PlaystationSelectedTrophy() {
                   Condition={
                     subObjectives.length === 0 ||
                     subObjectives.filter((subObjectives) =>
-                      subObjectives.details?.includes(searchTerm)
+                      subObjectives.details.includes(searchTerm)
                     ).length === 0
                   }
                   If={<div>No Sub Objectives</div>}
                   Else={sortedSubObjectives()
                     .filter((subObjecitve) =>
-                      subObjecitve.details?.includes(searchTerm)
+                      subObjecitve.details.includes(searchTerm)
                     )
                     .sort((a, b) => Number(a.isComplete) - Number(b.isComplete))
                     .map((subObjective) => {
                       return (
-                        <div key={subObjective.id}>
-                          <div
-                            className={`sub-objective ${Conditional({
-                              Condition: subObjective.isComplete,
-                              If: "complete",
-                            })}`}
-                          >
-                            <div className="checkbox-container">
-                              <input
-                                onClick={() => updateSubObjective(subObjective)}
-                                defaultChecked={subObjective.isComplete}
-                                className="input-checkbox"
-                                id={subObjective.id}
-                                type="checkbox"
-                                style={{ display: "none" }}
-                              />
-                              <label
-                                className="checkbox"
-                                htmlFor={subObjective.id}
-                              >
-                                <span>
-                                  <svg
-                                    width="12px"
-                                    height="9px"
-                                    viewBox="0 0 12 9"
-                                  >
-                                    <polyline points="1 5 4 8 11 1"></polyline>
-                                  </svg>
-                                </span>
-                              </label>
-                            </div>
-                            <div className="text">{subObjective.details}</div>
-                            <div className="icon-container">
-                              <i
-                                className="fa-solid fa-plus add-icon"
-                                onClick={() => {
-                                  setSubObjectiveParentId(subObjective.id!);
-                                  setIsAddSubObjectiveModalActive(true);
-                                }}
-                              ></i>
-                              <i
-                                className="fa-solid fa-trash-can delete-icon"
-                                onClick={() => removeSubObjective(subObjective)}
-                              ></i>
-                            </div>
+                        <div
+                          className={`sub-objective ${Conditional({
+                            Condition: subObjective.isComplete,
+                            If: "complete",
+                          })}`}
+                          key={subObjective.id}
+                        >
+                          <div className="checkbox-container">
+                            <input
+                              onClick={() => updateSubObjective(subObjective)}
+                              defaultChecked={subObjective.isComplete}
+                              className="input-checkbox"
+                              id={subObjective.id}
+                              type="checkbox"
+                              style={{ display: "none" }}
+                            />
+                            <label
+                              className="checkbox"
+                              htmlFor={subObjective.id}
+                            >
+                              <span>
+                                <svg
+                                  width="12px"
+                                  height="9px"
+                                  viewBox="0 0 12 9"
+                                >
+                                  <polyline points="1 5 4 8 11 1"></polyline>
+                                </svg>
+                              </span>
+                            </label>
+                          </div>
+                          <div className="text">{subObjective.details}</div>
+                          <div className="icon-container">
+                            <i
+                              className="fa-solid fa-plus add-icon"
+                              onClick={() => {
+                                setSubObjectiveParentId(subObjective.id!);
+                                setIsAddSubObjectiveModalActive(true);
+                              }}
+                            ></i>
+                            <i
+                              className="fa-solid fa-trash-can delete-icon"
+                              onClick={() => removeSubObjective(subObjective)}
+                            ></i>
                           </div>
                           {subObjectiveRecurser(subObjective.children!)}
                         </div>
@@ -353,4 +371,4 @@ function PlaystationSelectedTrophy() {
   );
 }
 
-export default PlaystationSelectedTrophy;
+export default XboxSelectedAchievement;

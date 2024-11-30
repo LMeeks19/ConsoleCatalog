@@ -1,5 +1,4 @@
 ﻿using ConsoleCatalog.Internal_Server.Mappers;
-using ConsoleCatalog.Internal_Server.Methods;
 using ConsoleCatalog.Internal_Server.Models.Playstation;
 using ConsoleCatalog.Internal_Server.Models;
 using Microsoft.AspNetCore.Mvc;

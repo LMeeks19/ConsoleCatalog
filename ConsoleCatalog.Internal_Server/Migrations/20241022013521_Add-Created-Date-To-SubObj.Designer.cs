@@ -4,6 +4,7 @@ using ConsoleCatalog.Internal_Server.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleCatalog.Internal_Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20241022013521_Add-Created-Date-To-SubObj")]
+    partial class AddCreatedDateToSubObj
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -562,9 +565,6 @@ namespace ConsoleCatalog.Internal_Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("AchievementId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -575,25 +575,17 @@ namespace ConsoleCatalog.Internal_Server.Migrations
                     b.Property<bool>("IsComplete")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Platform")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("SubObjectiveId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("TitleId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TrophyId")
+                    b.Property<int>("TrophyId")
                         .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SubObjectiveId");
 
                     b.ToTable("SubObjectives");
                 });
@@ -623,7 +615,7 @@ namespace ConsoleCatalog.Internal_Server.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Xbox.XBXAchievementSummary", b =>
+            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Xbox.XBXAchievement", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -734,7 +726,7 @@ namespace ConsoleCatalog.Internal_Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AchievementSummaryId")
+                    b.Property<int>("AchievementId")
                         .HasColumnType("int");
 
                     b.Property<string>("Devices")
@@ -764,7 +756,7 @@ namespace ConsoleCatalog.Internal_Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AchievementSummaryId");
+                    b.HasIndex("AchievementId");
 
                     b.HasIndex("TitleHistoryId");
 
@@ -917,13 +909,6 @@ namespace ConsoleCatalog.Internal_Server.Migrations
                     b.Navigation("EarnedTrophies");
                 });
 
-            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.SubObjective", b =>
-                {
-                    b.HasOne("ConsoleCatalog.Internal_Server.Models.SubObjective", null)
-                        .WithMany("Children")
-                        .HasForeignKey("SubObjectiveId");
-                });
-
             modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Xbox.XBXProfile", b =>
                 {
                     b.HasOne("ConsoleCatalog.Internal_Server.Models.Xbox.XBXDetail", "Detail")
@@ -937,9 +922,9 @@ namespace ConsoleCatalog.Internal_Server.Migrations
 
             modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Xbox.XBXTitle", b =>
                 {
-                    b.HasOne("ConsoleCatalog.Internal_Server.Models.Xbox.XBXAchievementSummary", "AchievementSummary")
+                    b.HasOne("ConsoleCatalog.Internal_Server.Models.Xbox.XBXAchievement", "Achievement")
                         .WithMany()
-                        .HasForeignKey("AchievementSummaryId")
+                        .HasForeignKey("AchievementId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -955,7 +940,7 @@ namespace ConsoleCatalog.Internal_Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AchievementSummary");
+                    b.Navigation("Achievement");
 
                     b.Navigation("TitleHistory");
                 });
@@ -978,11 +963,6 @@ namespace ConsoleCatalog.Internal_Server.Migrations
             modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Playstation.TrophyTitleObject", b =>
                 {
                     b.Navigation("TrophyTitles");
-                });
-
-            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.SubObjective", b =>
-                {
-                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Xbox.XBXProfile", b =>

@@ -4,6 +4,7 @@ using ConsoleCatalog.Internal_Server.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleCatalog.Internal_Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20241115203630_add-platform-type-to-subobjective")]
+    partial class addplatformtypetosubobjective
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -578,9 +581,6 @@ namespace ConsoleCatalog.Internal_Server.Migrations
                     b.Property<int>("Platform")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("SubObjectiveId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("TitleId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -592,8 +592,6 @@ namespace ConsoleCatalog.Internal_Server.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SubObjectiveId");
 
                     b.ToTable("SubObjectives");
                 });
@@ -917,13 +915,6 @@ namespace ConsoleCatalog.Internal_Server.Migrations
                     b.Navigation("EarnedTrophies");
                 });
 
-            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.SubObjective", b =>
-                {
-                    b.HasOne("ConsoleCatalog.Internal_Server.Models.SubObjective", null)
-                        .WithMany("Children")
-                        .HasForeignKey("SubObjectiveId");
-                });
-
             modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Xbox.XBXProfile", b =>
                 {
                     b.HasOne("ConsoleCatalog.Internal_Server.Models.Xbox.XBXDetail", "Detail")
@@ -978,11 +969,6 @@ namespace ConsoleCatalog.Internal_Server.Migrations
             modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Playstation.TrophyTitleObject", b =>
                 {
                     b.Navigation("TrophyTitles");
-                });
-
-            modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.SubObjective", b =>
-                {
-                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("ConsoleCatalog.Internal_Server.Models.Xbox.XBXProfile", b =>

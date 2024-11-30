@@ -1,20 +1,17 @@
-.trophy-group {
+.xbx-game {
     background-color: #262626;
     border-radius: 15px;
     display: flex;
-    border: 2px solid #161616;
-    transition: border-color .5s ease-in-out;
     margin-bottom: 20px;
-    overflow: hidden;
 
-    .trophy-group-image {
+    .game-image {
         width: 300px;
         height: 300px;
         border-top-left-radius: 15px;
         border-bottom-left-radius: 15px;
     }
 
-    .trophy-group-details {
+    .game-details {
         padding: 40px;
         width: calc(100% - 400px);
         display: flex;
@@ -23,73 +20,48 @@
         justify-content: space-between;
         text-wrap: nowrap;
 
-        .trophy-group-name {
+        .game-name {
+            font-size: 40px;
+        }
+    }
+
+    .game-progress {
+        width: 100%;
+    }
+
+    .game-achievements {
+        display: flex;
+        justify-content: space-evenly;
+        gap: 20px;
+
+        .achievement-count,
+        .gamerscore-count {
             display: flex;
-            font-size: 30px;
-            justify-content: space-between;
+            justify-content: center;
+            gap: 5px;
 
-            .name-group-id {
+            .icon {
+                fill: white;
+                margin: 8px;
+                font-size: 40px;
+            }
+
+            .text {
                 display: flex;
-                gap: 20px;
-                font-size: 35px;
-
-                .group-id {
-                    font-size: 20px;
-                    padding: 10.5px 15px 10.5px 15px;
-                    background-color: #161616;
-                    border-radius: 25px;
-                    margin: auto;
-                }
+                align-items: center;
+                justify-content: center;
+                font-size: 30px;
             }
-
-            .date {
-                font-size: 20px;
-                padding: 10.5px 15px 10.5px 15px;
-                background-color: #161616;
-                border-radius: 25px;
-                margin: auto 0 auto 0;
-            }
-
         }
-
-        .trophy-group-progress {
-            width: 100%;
-        }
-
-        .trophy-group-trophies {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-
-            .trophy-group-trophies-platinum,
-            .trophy-group-trophies-gold,
-            .trophy-group-trophies-silver,
-            .trophy-group-trophies-bronze {
-                display: flex;
-                gap: 10px;
-
-                .trophies-text {
-                    font-size: 20px;
-                    margin: auto;
-                }
-
-                .trophies-icon {
-                    width: 50px;
-                    height: 50px;
-                }
-            }
-
-        }
-
     }
 
 }
 
-.trophies:has(.loader) {
+.achievements:has(.loader) {
     height: 100%;
 }
 
-.trophies {
+.achievements {
     gap: 10px;
     display: flex;
     flex-direction: column;
@@ -214,7 +186,7 @@
         }
     }
 
-    .trophy {
+    .achievement {
         background-color: #262626;
         border-radius: 15px;
         display: flex;
@@ -288,11 +260,27 @@
             text-wrap: nowrap;
         }
 
-        .type {
-            height: 80px;
-            width: 80px;
-            margin: auto 0 auto 0;
-            padding-right: 20px;
+        .value {
+            padding-right: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+
+            .icon, .text {
+                font-size: 25px;
+            }
+
+            .icon {
+                fill: white;
+                margin: 8px;
+            }
+
+            .text {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
         }
 
         .earned~.rarity,
@@ -301,7 +289,7 @@
         }
     }
 
-    .trophy:hover {
+    .achievement:hover {
         border: 2px solid white;
     }
 }

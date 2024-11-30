@@ -14,6 +14,8 @@ import PlaystationGameTrophyGroups from "../pages/playstation/playstation-game-t
 import XboxProfilesSelected from "../pages/xbox/xbox-profiles-selected";
 import XboxGamesSelected from "../pages/xbox/xbox-games-selected";
 import PlaystationGamesSelected from "../pages/playstation/playstation-games-selected";
+import XboxGameAchievements from "../pages/xbox/xbox-game-achievements";
+import XboxSelectedAchievement from "../pages/xbox/xbox-selected-achievement";
 
 export const router = createBrowserRouter([
   {
@@ -75,5 +77,13 @@ export const router = createBrowserRouter([
   {
     path: "/xbox/profiles/:username",
     element: <XboxProfilesSelected />,
+  },
+  {
+    path: "/xbox/profiles/:username/titles/:titleId/achievements",
+    element: <XboxGameAchievements />,
+  },
+  {
+    path: "/xbox/profiles/:username/titles/:titleId/achievements/:achievementId",
+    element: <XboxSelectedAchievement />,
   },
 ]);

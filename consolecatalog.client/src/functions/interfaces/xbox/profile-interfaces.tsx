@@ -22,8 +22,8 @@ export interface XBXProfile {
   gamertag: string;
   gamerScore: string;
   detail: Detail;
-  titleHistory: TitleHistory
-  titles: XBXTitles[];
+  titleHistory: TitleHistory;
+  titles: XBXTitle[];
   titlesCount: number;
 }
 
@@ -39,30 +39,113 @@ interface Detail {
 
 export interface XBXTitlesObject {
   xuid: string;
-  titles: XBXTitles[];
+  titles: XBXTitleResponse[];
 }
 
-export interface XBXTitles {
+export interface XBXTitle{
   id: number;
   titleId: string;
   name: string;
-  devices: string[]
+  devices: string[];
   displayImage: string;
   modernTitleId: string;
   isBundle: boolean;
-  achievement: Achievement;
+  achievementSummary: OverallAchievement;
 }
 
-interface Achievement {
+export interface XBXTitleResponse {
   id: number;
-  currentAchievements: number,
-  totalAchievements: number,
-  currentGamerscore: number,
-  totalGamerscore: number,
-  progressPercentage: number,
+  titleId: string;
+  name: string;
+  devices: string[];
+  displayImage: string;
+  modernTitleId: string;
+  isBundle: boolean;
+  achievement: OverallAchievement;
+}
+
+interface OverallAchievement {
+  id: number;
+  currentAchievements: number;
+  totalAchievements: number;
+  currentGamerscore: number;
+  totalGamerscore: number;
+  progressPercentage: number;
 }
 
 interface TitleHistory {
   id: number;
   lastPlayedDate: Date;
+}
+
+export interface AchievementResponseObject {
+  achievements: AchievementResponse[];
+  pageInfo: {
+    continuationToken: any;
+    totalRecords: number;
+  };
+}
+
+export interface AchievementResponse {
+  id: number;
+  name: string;
+  titleAssociations: TitleAssociations[];
+  progressState: string;
+  progression: ProgressionResponse;
+  mediaAssets: MediaAssets[];
+  description: string;
+  rewards: Rewards[];
+  rarity: Rarity;
+}
+
+interface TitleAssociations {
+  id: number;
+  name: string;
+}
+
+interface ProgressionResponse {
+  id: number;
+  requirements: Requirement[];
+  timeUnlocked: string;
+}
+
+interface Requirement {
+  id: number;
+  current: string;
+  target: string;
+}
+
+interface MediaAssets {
+  id: number;
+  name: string;
+  url: string;
+}
+
+interface Rewards {
+  id: number;
+  value: string;
+}
+
+interface Rarity {
+  id: number;
+  currentCategory: string;
+  currentPercentage: number;
+}
+
+export interface Achievement {
+  id: number;
+  name: string;
+  titleAssociations: TitleAssociations;
+  progressState: string;
+  progression: Progression;
+  mediaAssets: MediaAssets;
+  description: string;
+  rewards: Rewards;
+  rarity: Rarity;
+}
+
+interface Progression {
+  id: number;
+  requirements: Requirement;
+  timeUnlocked: string;
 }
