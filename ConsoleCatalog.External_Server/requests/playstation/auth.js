@@ -1,5 +1,8 @@
 import fetch from "isomorphic-unfetch";
 import { AUTH_BASE_URL } from "./utils.js";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 export const NPSSO = process.env.NPSSO;
 

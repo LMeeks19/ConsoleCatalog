@@ -1,3 +1,7 @@
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
 const XBX_BASE_URL = "https://xbl.io/api/v2";
 
 const XBX_API_KEY = process.env.XBX_API_KEY;

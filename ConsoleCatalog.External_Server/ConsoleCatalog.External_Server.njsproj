@@ -30,7 +30,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="bin\Microsoft.NodejsTools.WebRole.dll" />
-    <Content Include="dev.env" />
     <Content Include="obj\Debug\ConsoleCatalog.External-Server.njsproj.AssemblyReference.cache" />
     <Content Include="obj\Debug\ConsoleCatalog.External-Server.njsproj.CoreCompileInputs.cache" />
     <Content Include="obj\Debug\ConsoleCatalog.External-Server.njsproj.FileListAbsolute.txt" />
